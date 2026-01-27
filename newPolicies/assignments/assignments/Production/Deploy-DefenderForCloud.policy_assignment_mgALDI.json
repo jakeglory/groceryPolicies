@@ -36,7 +36,7 @@
         "value": "Critical"
       },
       "logAnalytics": {
-        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-an-secops/providers/Microsoft.OperationalInsights/workspaces/la-an-defender"
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourcegroups/rg-logmanagementworkspace-prod/providers/microsoft.operationalinsights/workspaces/log-we-prod-logmanagementworkspace"
       },
       "ascExportResourceGroupName": {
         "value": "rg-asc-export-an"
