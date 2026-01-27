@@ -38,15 +38,6 @@
       "logAnalytics": {
         "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourcegroups/rg-logmanagementworkspace-prod/providers/microsoft.operationalinsights/workspaces/log-we-prod-logmanagementworkspace"
       },
-      "ascExportResourceGroupName": {
-        "value": "rg-asc-export-an"
-      },
-      "ascExportResourceGroupLocation": {
-        "value": "westeurope"
-      },
-      "createResourceGroup": {
-        "value": true
-      },
       "enableAscForCosmosDbs": {
         "value": "DeployIfNotExists"
       },
