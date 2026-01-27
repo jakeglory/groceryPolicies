@@ -1,0 +1,145 @@
+{
+  "name": "DeployDefenderForCloud",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "roleDefinitionIds": [
+    "/providers/microsoft.authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd",
+    "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
+    "/providers/microsoft.authorization/roleDefinitions/ed7f3fbd-7b88-4dd4-9017-9adb7ce333f8",
+    "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+    "/providers/microsoft.authorization/roleDefinitions/18ed5180-3e48-46fd-8541-4ea054d57064",
+    "/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
+    "/providers/microsoft.authorization/roleDefinitions/8bb6f106-b146-4ee6-a3f9-b9c5a96e0ae5",
+    "/providers/microsoft.authorization/roleDefinitions/5e93ba01-8f92-4c7a-b12a-801e3df23824"
+  ],
+  "properties": {
+    "displayName": "Deploy Microsoft Defender for Cloud configuration",
+    "description": "Deploy Microsoft Defender for Cloud configuration across the Aldi Nord Tenant",
+    "scope": "/providers/Microsoft.Management/managementGroups/mg-aldi",
+    "metadata": {
+      "assignedBy": "Policy initiative assigned by Platform Team as part of Q1 2026 defender rollout"
+    },
+    "enforcementMode": "DoNotEnforce",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deploy-DefenderForCloud",
+    "parameters": {
+      "emailSecurityContact": {
+        "value": "cyberdefensecenter@aldi-nord.de"
+      },
+      "minimalSeverity": {
+        "value": "High"
+      },
+      "attackPathSeverity": {
+        "value": "Critical"
+      },
+      "logAnalytics": {
+        "value": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-an-secops/providers/Microsoft.OperationalInsights/workspaces/la-an-defender"
+      },
+      "ascExportResourceGroupName": {
+        "value": "rg-asc-export-an"
+      },
+      "ascExportResourceGroupLocation": {
+        "value": "westeurope"
+      },
+      "createResourceGroup": {
+        "value": true
+      },
+      "enableAscForCosmosDbs": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForSql": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForSqlOnVm": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForArm": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForArmSubPlan": {
+        "value": "PerApiCall"
+      },
+      "enableAscForOssDb": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForAppServices": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForKeyVault": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForKeyVaultSubPlan": {
+        "value": "PerTransaction"
+      },
+      "enableAscForStorage": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForStorageIsOnUploadMalwareScanningEnabled": {
+        "value": "true"
+      },
+      "ascForStorageCapGBPerMonthPerStorageAccount": {
+        "value": 5000
+      },
+      "ascForStorageIsSensitiveDataDiscoveryEnabled": {
+        "value": "true"
+      },
+      "enableAscForContainers": {
+        "value": "DeployIfNotExists"
+      },
+      "enableAscForAI": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForAIIsAIPromptEvidenceEnabled": {
+        "value": "true"
+      },
+      "enableAscForServers": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForServersSubPlan": {
+        "value": "P2"
+      },
+      "ascForServersIsAgentlessVmScanningEnabled": {
+        "value": "true"
+      },
+      "ascForServersIsMdeDesignatedSubscriptionEnabled": {
+        "value": "false"
+      },
+      "enableAscForServersVulnerabilityAssessments": {
+        "value": "DeployIfNotExists"
+      },
+      "vulnerabilityAssessmentProvider": {
+        "value": "mdeTvm"
+      },
+      "enableAscForCspm": {
+        "value": "DeployIfNotExists"
+      },
+      "ascForCspmIsSensitiveDataDiscoveryEnabled": {
+        "value": "true"
+      },
+      "ascForCspmIsContainerRegistriesVulnerabilityAssessmentsEnabled": {
+        "value": "true"
+      },
+      "ascForCspmIsAgentlessDiscoveryForKubernetesEnabled": {
+        "value": "true"
+      },
+      "ascForCspmIsAgentlessVmScanningEnabled": {
+        "value": "true"
+      },
+      "ascForCspmIsEntraPermissionsManagementEnabled": {
+        "value": "true"
+      },
+      "enableTvmCheck": {
+        "value": "DeployIfNotExists"
+      }
+    },
+    "nonComplianceMessages": [
+      {
+        "message": "Microsoft Defender for Cloud baseline must be deployed and configured across this management group."
+      }
+    ],
+    "notScopes": []
+  }
+}
