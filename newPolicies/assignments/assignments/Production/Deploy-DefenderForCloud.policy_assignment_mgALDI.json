@@ -81,10 +81,10 @@
         "value": "DeployIfNotExists"
       },
       "enableAscForAI": {
-        "value": "DeployIfNotExists"
+        "value": "false"
       },
       "ascForAIIsAIPromptEvidenceEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "enableAscForServers": {
         "value": "DeployIfNotExists"
@@ -105,13 +105,13 @@
         "value": "mdeTvm"
       },
       "enableAscForCspm": {
-        "value": "DeployIfNotExists"
+        "value": "false"
       },
       "ascForCspmIsSensitiveDataDiscoveryEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForCspmIsContainerRegistriesVulnerabilityAssessmentsEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForCspmIsAgentlessDiscoveryForKubernetesEnabled": {
         "value": "true"
