@@ -1,0 +1,17 @@
+let ingestionPricePerGB = 2.76;   // West Europe, approx
+Usage
+| where TimeGenerated > ago(30d)
+| where IsBillable == true and Category == "Data ingestion"
+| summarize GB_Ingested = sum(Quantity) / 1024.0 by DataType
+| extend EstimatedIngestionCost = GB_Ingested * ingestionPricePerGB
+| order by EstimatedIngestionCost desc
+
+
+
+let retentionPricePerGBMonth = 0.12;   // West Europe, approx
+Usage
+| where TimeGenerated > ago(30d)
+| where IsBillable == true and Category == "Data retention"
+| summarize GB_Months = sum(Quantity) / 1024.0 by DataType
+| extend EstimatedRetentionCost = GB_Months * retentionPricePerGBMonth
+| order by EstimatedRetentionCost desc
