@@ -15,3 +15,16 @@ Usage
 | summarize GB_Months = sum(Quantity) / 1024.0 by DataType
 | extend EstimatedRetentionCost = GB_Months * retentionPricePerGBMonth
 | order by EstimatedRetentionCost desc
+
+
+let ingestionPricePerGB = 2.76;        // West Europe
+let retentionPricePerGBMonth = 0.12;   // West Europe
+Usage
+| where TimeGenerated > ago(30d)
+| where IsBillable == true and Category in ("Data ingestion", "Data retention")
+| summarize GB = sum(Quantity) / 1024.0 by DataType, Category
+| extend EstimatedCost =
+    case(Category == "Data ingestion", GB * ingestionPricePerGB,
+         Category == "Data retention", GB * retentionPricePerGBMonth,
+         0.0)
+| order by EstimatedCost desc
