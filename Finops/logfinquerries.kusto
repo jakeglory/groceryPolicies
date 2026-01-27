@@ -28,3 +28,12 @@ Usage
          Category == "Data retention", GB * retentionPricePerGBMonth,
          0.0)
 | order by EstimatedCost desc
+
+// Replace 2.76 with your exact West Europe ingestion €/GB
+let pricePerGB = 2.76;
+Usage
+| where TimeGenerated > ago(30d)
+| where IsBillable == true
+| summarize GB_Total = sum(Quantity) / 1024.0 by DataType
+| extend EstimatedCost_EUR = GB_Total * pricePerGB
+| order by EstimatedCost_EUR desc
