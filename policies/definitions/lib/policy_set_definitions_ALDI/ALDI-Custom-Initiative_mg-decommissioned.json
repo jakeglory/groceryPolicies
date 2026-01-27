@@ -1,0 +1,32 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-decommissioned",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-decommissioned",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-decommissioned",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[General] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Not allowed resource types - VirtualNetworkGateway",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749",
+        "parameters": {         
+          "listOfResourceTypesNotAllowed": {
+            "value": [
+              "microsoft.network/virtualnetworkgateways"
+            ]
+          }
+        }
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

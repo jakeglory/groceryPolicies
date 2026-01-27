@@ -1,0 +1,4 @@
+variables:
+  serviceConnection: "serviceconnection-AN-Azure-ControlRepo-prod-mg-aldi"
+  managementGroupId: "mg-aldi"
+  stage: "PRD"

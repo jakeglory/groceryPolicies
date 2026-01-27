@@ -1,0 +1,49 @@
+{
+  "name": "Deploy-privateDnsZoneConfigsNew",
+  "properties": {
+    "description": "Deploy Private DNS Zone Configs New",
+    "displayName": "Deploy Private DNS Zone Configs New",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Configure Azure Machine Learning workspace to use private DNS zones",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ee40564d-486e-4f68-a5ca-7a621edae0fb",
+        "parameters": {
+          "privateDnsZoneId": {
+              "type": "String",
+              "metadata": {
+                  "displayName": "Private DNS Zone id",
+                  "description": "A private DNS zone id to connect to the private endpoint.",
+                  "strongType": "Microsoft.Network/privateDnsZones"
+              }
+          },
+          "secondPrivateDnsZoneId": {
+              "type": "String",
+              "metadata": {
+                  "displayName": "Second Private DNS Zone id",
+                  "description": "A private DNS zone id to connect to the private endpoint.",
+                  "strongType": "Microsoft.Network/privateDnsZones"
+              },
+              "defaultValue": ""
+          },
+          "effect": {
+              "type": "String",
+              "metadata": {
+                  "displayName": "Effect",
+                  "description": "Enable or disable the execution of the policy"
+              },
+              "allowedValues": [
+                  "DeployIfNotExists",
+                  "Disabled"
+              ],
+              "defaultValue": "DeployIfNotExists"
+          }
+      }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

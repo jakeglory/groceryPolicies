@@ -1,0 +1,16 @@
+{
+    "name": "c3be2fc3245f4b86b38df9f1",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "rg-de-ohg-ngw-lenovoblobstorage-prod-008 - ALDI-Custom-Initiative_mg-ALDI - Storage account public access should be disallowed",
+        "description": "Freigegeben durch InfoSec (Dennis Boehl) am 17.03. und 09.06.22",
+        "policyDefinitionReferenceIds": [
+            "[Security] Preview - Storage account public access should be disallowed"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "43ad08bb-af14-4203-8142-5b3c326eca51",
+        "ResourceGroupName": "rg-de-ohg-ngw-lenovoblobstorage-prod-008"
+    }
+}

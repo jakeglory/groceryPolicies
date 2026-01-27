@@ -1,0 +1,22 @@
+{
+  "name": "Deny-Deletion-LAW",
+  "properties": {
+    "description": "This Assignemnt Protects Central Log Analytics Workspace from accidental deletion",
+    "displayName": "Deny deletion of Central Log Analytics",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "resourceType": {
+        "value": "Microsoft.OperationalInsights/workspaces"
+      },
+      "resourceName": {
+        "value": "log-we-prod-logmanagementworkspace"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-ResourceDeletion"
+  },
+  "scope": {
+    "managementGroupId": "platform"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

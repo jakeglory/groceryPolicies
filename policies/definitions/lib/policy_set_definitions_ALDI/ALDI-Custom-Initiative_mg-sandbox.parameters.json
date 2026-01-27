@@ -1,0 +1,11 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Network] Deny vNet peering": {
+    "parameters": {}
+  },
+  "[Network] Deny vNet peering Cross": {
+    "parameters": {}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "Cloud Services (extended support) role instances should have an endpoint protection solution installed": {
+    "parameters": {}
+  },
+  "Microsoft Antimalware for Azure should be configured to automatically update protection signatures": {
+    "parameters": {}
+  },
+  "Microsoft IaaSAntimalware extension should be deployed on Windows servers": {
+    "parameters": {}
+  }
+}

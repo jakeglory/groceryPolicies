@@ -1,0 +1,41 @@
+{
+  "name": "Config-flexibleServerPrivateDNS",
+  "properties": {
+    "displayName": "Configure Private DNS for Flexible Server",
+    "description": "Link Flexible Server private DNS zone to hub network",
+    "metadata": {
+      "category": "Network"
+    },
+    "parameters": {
+      "virtualNetworkResourceId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Virtual Network Resource ID"
+        }
+      },
+      "parentDnsNamespace": {
+        "type": "String",
+        "metadata": {
+          "displayName": "DNS Namespace of Flexible Server"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Configure Private DNS for Flexible Server",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Config-flexibleServerPrivateDNS",
+        "parameters": {
+          "virtualNetworkResourceId": {
+            "type": "String",
+            "value": "[[parameters('virtualNetworkResourceId')]"
+          },
+          "parentDnsNamespace": {
+            "type": "String",
+            "value": "[[parameters('parentDnsNamespace')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

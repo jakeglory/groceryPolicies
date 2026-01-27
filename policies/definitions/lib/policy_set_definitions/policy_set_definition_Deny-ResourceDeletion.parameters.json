@@ -1,0 +1,12 @@
+{
+  "Policy to deny removal of resource": {
+    "parameters": {
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      },
+      "resourceName": {
+        "value": "[[parameters('resourceName')]"
+      }
+    }
+  }
+}

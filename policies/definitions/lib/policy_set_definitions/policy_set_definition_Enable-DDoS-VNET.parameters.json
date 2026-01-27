@@ -1,0 +1,12 @@
+{
+  "Virtual networks should be protected by Azure DDoS Protection Standard": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "ddosPlan": {
+        "value": "[[parameters('ddosPlan')]"
+      }
+    }
+  }
+}

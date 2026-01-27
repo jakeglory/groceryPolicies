@@ -1,0 +1,12 @@
+{
+    "Config-PrivateDNSopenAI": {
+      "parameters": {
+        "defaultPrivateDnsZoneId": {
+          "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.cognitiveservices.azure.com"
+        },
+        "openaiPrivateDnsZoneId": {
+          "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.openai.azure.com"
+        }
+      }
+    }
+}

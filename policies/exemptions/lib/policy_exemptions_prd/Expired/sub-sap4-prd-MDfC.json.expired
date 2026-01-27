@@ -1,0 +1,17 @@
+{
+    "name": "sub-sap4-prd-MDfC",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deploy-MDFC-Config",
+        "displayName": "sub-sap4-prd - Defender for Cloud",
+        "description": "SAP Subscription security logs are sent to Acccenture's Sentinel instead of Aldi Nord Sentinel instance. Ticket ITSMSD-878673",
+        "policyDefinitionReferenceIds": [
+            "ascExport",
+            "Enable Security Center's auto provisioning of the Log Analytics agent on your subscriptions with custom workspace.",
+            "securityEmailContact"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "8db9b021-159e-4a89-87ff-849c55824367"
+    }
+}

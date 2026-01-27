@@ -1,0 +1,33 @@
+{
+  "Deploy a default budget on all subscriptions under the assigned scope": {
+    "parameters": {
+      "amount": {
+        "value": "[[parameters('amount')]"
+      },
+      "budgetName": {
+        "value": "[[parameters('budgetName')]"
+      },
+      "contactEmails": {
+        "value": "[[parameters('contactEmails')]"
+      },
+      "contactGroups": {
+        "value": "[[parameters('contactGroups')]"
+      },
+      "contactRoles": {
+        "value": "[[parameters('contactRoles')]"
+      },
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "firstThreshold": {
+        "value": "[[parameters('firstThreshold')]"
+      },
+      "secondThreshold": {
+        "value": "[[parameters('secondThreshold')]"
+      },
+      "timeGrain": {
+        "value": "[[parameters('timeGrain')]"
+      }
+    }
+  }
+}

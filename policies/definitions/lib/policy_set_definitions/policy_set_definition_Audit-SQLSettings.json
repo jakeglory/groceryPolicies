@@ -1,0 +1,46 @@
+{
+  "name": "Audit-SQLSettings",
+  "properties": {
+    "description": "Audit SQL Database Settings",
+    "displayName": "Audit SQL Database Settings",
+    "metadata": {
+      "category": "SQL"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Azure SQL Database should be running TLS version 1.2 or newer",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/32e6bbec-16b6-44c2-be37-c5b672d103cf",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Azure SQL Database should have Azure Active Directory Only Authentication enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abda6d70-9778-44e7-84a8-06713e6db027",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

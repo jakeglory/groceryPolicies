@@ -1,0 +1,18 @@
+{
+  "name": "Enable-UpdateManagement",
+  "properties": {
+    "description": "Configure Azure Update Management Center",
+    "displayName": "Enable Update Management",
+    "enforcementMode": "DoNotEnforce",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Enable-UpdateManagement",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

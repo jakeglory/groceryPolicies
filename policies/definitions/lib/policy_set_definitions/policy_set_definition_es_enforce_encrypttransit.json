@@ -1,0 +1,887 @@
+{
+  "name": "Enforce-EncryptTransit",
+  "properties": {
+    "description": "Choose either Deploy if not exist and append in combination with audit or Select Deny in the Policy effect. Deny polices shift left. Deploy if not exist and append enforce but can be changed, and because missing exsistense condition require then the combination of Audit. ",
+    "displayName": "Deny or Deploy and append TLS requirements and SSL enforcement on resources without Encryption in transit",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Encryption"
+    },
+    "parameters": {
+      "AADMDTLSEffect": {
+        "metadata": {
+          "displayName": "Azure Active Directory Domain Services managed domains should use TLS 1.2 only mode",
+          "description": "Use TLS 1.2 only mode for your managed domains. By default, Azure AD Domain Services enables the use of ciphers such as NTLM v1 and TLS v1. These ciphers may be required for some legacy applications, but are considered weak and can be disabled if you don't need them. When TLS 1.2 only mode is enabled, any client making a request that is not using TLS 1.2 will fail. Learn more at https://docs.microsoft.com/azure/active-directory-domain-services/secure-your-domain."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "AKSIngressHttpsOnlyEffect": {
+        "metadata": {
+          "displayName": "AKS Service. Enforce HTTPS ingress in Kubernetes cluster",
+          "description": "This policy enforces HTTPS ingress in a Kubernetes cluster. This policy is generally available for Kubernetes Service (AKS), and preview for AKS Engine and Azure Arc enabled Kubernetes. For instructions on using this policy, visit https://aka.ms/kubepolicydoc."
+        },
+        "type": "String",
+        "defaultValue": "deny",
+        "allowedValues": [
+          "audit",
+          "deny",
+          "disabled"
+        ]
+      },
+      "APIAppServiceHttpsEffect": {
+        "metadata": {
+          "displayName": "App Service API App. API App should only be accessible over HTTPS. Choose Deny or Audit in combination with Append policy.",
+          "description": "Choose Deny or Audit in combination with Append policy. Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "APIAppServiceLatestTlsEffect": {
+        "metadata": {
+          "displayName": "[Deprecated]: Latest TLS version should be used in your API App",
+          "description": "App Service API App. Only Audit, deny not possible as it is a related resource.  Upgrade to the latest TLS version."
+        },
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "AppServiceEnvTLSEffect": {
+        "metadata": {
+          "displayName": "App Service Environment should be configured with strongest TLS Cipher suites",
+          "description": "The two most minimal and strongest cipher suites required for App Service Environment to function correctly are : TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 and TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ]
+      },
+      "AppServiceEnvTLSOldTLSdisabledEffect": {
+        "metadata": {
+          "displayName": "App Service Environment should have TLS 1.0 and 1.1 disabled",
+          "description": "TLS 1.0 and 1.1 are out-of-date protocols that do not support modern cryptographic algorithms. Disabling inbound TLS 1.0 and 1.1 traffic helps secure apps in an App Service Environment."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "AppServiceHttpEffect": {
+        "type": "String",
+        "defaultValue": "Append",
+        "allowedValues": [
+          "Append",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "App Service. Appends the AppService sites config WebApp, APIApp, Function App with TLS version selected below",
+          "description": "Append the AppService sites object to ensure that min Tls version is set to required TLS version. Please note Append does not enforce compliance use then deny."
+        }
+      },
+      "AppServiceminTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2",
+          "1.0",
+          "1.1"
+        ],
+        "metadata": {
+          "displayName": "App Service. Select version minimum TLS Web App config",
+          "description": "App Service. Select version  minimum TLS version for a  Web App config to enforce"
+        }
+      },
+      "AppServiceTlsVersionEffect": {
+        "type": "String",
+        "defaultValue": "Append",
+        "allowedValues": [
+          "Append",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "App Service. Appends the AppService WebApp, APIApp, Function App to enable https only",
+          "description": "App Service. Appends the AppService sites object to ensure that  HTTPS only is enabled for  server/service authentication and protects data in transit from network layer eavesdropping attacks. Please note Append does not enforce compliance use then deny."
+        }
+      },
+      "AzFrontDoorPremTLSEffect": {
+        "metadata": {
+          "displayName": "Azure Front Door Standard and Premium should be running minimum TLS version of 1.2",
+          "description": "Setting minimal TLS version to 1.2 improves security by ensuring your custom domains are accessed from clients using TLS 1.2 or newer. Using versions of TLS less than 1.2 is not recommended since they are weak and do not support modern cryptographic algorithms."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "AzFWTLSinspEnabledEffect": {
+        "metadata": {
+          "displayName": "Azure firewall policy should enable TLS inspection within application rules",
+          "description": "Enabling TLS inspection is recommended for all application rules to detect, alert, and mitigate malicious activity in HTTPS. To learn more about TLS inspection with Azure Firewall, visit https://aka.ms/fw-tlsinspect"
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "AzSynapseTLSEffect": {
+        "metadata": {
+          "displayName": "Configure Azure Synapse Workspace Dedicated SQL minimum TLS version",
+          "description": "Customers can raise or lower the minimal TLS version using the API, for both new Synapse workspaces or existing workspaces. So users who need to use a lower client version in the workspaces can connect while users who has security requirement can raise the minimum TLS version. Learn more at: https://docs.microsoft.com/azure/synapse-analytics/security/connectivity-settings."
+        },
+        "type": "String",
+        "defaultValue": "Disabled",
+        "allowedValues": [
+          "Modify",
+          "Disabled"
+        ]
+      },
+      "AzSynapseWorkpaceTLSEffect": {
+        "metadata": {
+          "displayName": "Azure Synapse Workspace SQL Server should be running TLS version 1.2 or newer",
+          "description": "Setting TLS version to 1.2 or newer improves security by ensuring your Azure Synapse workspace SQL server can only be accessed from clients using TLS 1.2 or newer. Using versions of TLS less than 1.2 is not recommended since they have well documented security vulnerabilities."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "FunctionAppLatestTLSEffect": {
+        "metadata": {
+          "displayName": "Configure Function apps to use the latest TLS version",
+          "description": "Periodically, newer versions are released for TLS either due to security flaws, include additional functionality, and enhance speed. Upgrade to the latest TLS version for Function apps to take advantage of security fixes, if any, and/or new functionalities of the latest version."
+        },
+        "type": "String",
+        "defaultValue": "Disabled",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ]
+      },
+      "FunctionLatestTlsEffect": {
+        "metadata": {
+          "displayName": "App Service Function App. Latest TLS version should be used in your Function App",
+          "description": "Only Audit, deny not possible as it is a related resource. Upgrade to the latest TLS version."
+        },
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "FunctionServiceHttpsEffect": {
+        "metadata": {
+          "displayName": "App Service Function App. Function App should only be accessible over HTTPS. Choose Deny or Audit in combination with Append policy.",
+          "description": "App Service Function App. Choose Deny or Audit in combination with Append policy. Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "MySQLEnableSSLDeployEffect": {
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "MySQL database servers. Deploy if not exist set minimum TLS version Azure Database for MySQL server",
+          "description": "Deploy a specific min TLS version requirement and enforce SSL on Azure Database for MySQL server. Enforce the Server to client applications using minimum version of Tls to secure the connection between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        }
+      },
+      "MySQLEnableSSLEffect": {
+        "metadata": {
+          "displayName": "MySQL database servers. Enforce SSL connection should be enabled for MySQL database servers",
+          "description": "Azure Database for MySQL supports connecting your Azure Database for MySQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "MySQLminimalTlsVersion": {
+        "type": "String",
+        "defaultValue": "TLS1_2",
+        "allowedValues": [
+          "TLS1_2",
+          "TLS1_0",
+          "TLS1_1",
+          "TLSEnforcementDisabled"
+        ],
+        "metadata": {
+          "displayName": "MySQL database servers. Select version minimum TLS for MySQL server",
+          "description": "Select version  minimum TLS version Azure Database for MySQL server to enforce"
+        }
+      },
+      "PostgreSQLEnableSSLDeployEffect": {
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "PostgreSQL database servers. Deploy if not exist set minimum TLS version Azure Database for PostgreSQL server",
+          "description": "Deploy a specific min TLS version requirement and enforce SSL on Azure Database for PostgreSQL server. Enforce the Server to client applications using minimum version of Tls to secure the connection between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        }
+      },
+      "PostgreSQLEnableSSLEffect": {
+        "metadata": {
+          "displayName": "PostgreSQL database servers. Enforce SSL connection should be enabled for PostgreSQL database servers",
+          "description": "Azure Database for PostgreSQL supports connecting your Azure Database for PostgreSQL server to client applications using Secure Sockets Layer (SSL). Enforcing SSL connections between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "PostgreSQLminimalTlsVersion": {
+        "type": "String",
+        "defaultValue": "TLS1_2",
+        "allowedValues": [
+          "TLS1_2",
+          "TLS1_0",
+          "TLS1_1",
+          "TLSEnforcementDisabled"
+        ],
+        "metadata": {
+          "displayName": "PostgreSQL database servers. Select version minimum TLS for MySQL server",
+          "description": "PostgreSQL database servers. Select version  minimum TLS version Azure Database for MySQL server to enforce"
+        }
+      },
+      "RedisMinTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2",
+          "1.0",
+          "1.1"
+        ],
+        "metadata": {
+          "displayName": "Azure Cache for Redis.Select version minimum TLS for Azure Cache for Redis",
+          "description": "Select version  minimum TLS version for a Azure Cache for Redis to enforce"
+        }
+      },
+      "RedisTLSDeployEffect": {
+        "type": "String",
+        "defaultValue": "Append",
+        "allowedValues": [
+          "Append",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Azure Cache for Redis. Deploy a specific min TLS version requirement and enforce SSL Azure Cache for Redis",
+          "description": "Deploy a specific min TLS version requirement and enforce SSL on Azure Cache for Redis. Enables secure server to client by enforce  minimal Tls Version to secure the connection between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        }
+      },
+      "RedisTLSEffect": {
+        "metadata": {
+          "displayName": "Azure Cache for Redis. Only secure connections to your Azure Cache for Redis should be enabled",
+          "description": "Azure Cache for Redis. Audit enabling of only connections via SSL to Azure Cache for Redis. Use of secure connections ensures authentication between the server and the service and protects data in transit from network layer attacks such as man-in-the-middle, eavesdropping, and session-hijacking."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "SQLDatabaseTLSEffect": {
+        "metadata": {
+          "displayName": "Azure SQL Database should be running TLS version 1.2 or newer",
+          "description": "Setting TLS version to 1.2 or newer improves security by ensuring your Azure SQL Database can only be accessed from clients using TLS 1.2 or newer. Using versions of TLS less than 1.2 is not recommended since they have well documented security vulnerabilities."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "SQLManagedInstanceMinTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2",
+          "1.0",
+          "1.1"
+        ],
+        "metadata": {
+          "displayName": "Azure Managed Instance.Select version minimum TLS for Azure Managed Instance",
+          "description": "Select version  minimum TLS version for Azure Managed Instanceto to  enforce"
+        }
+      },
+      "SQLManagedInstanceTLSDeployEffect": {
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Azure Managed Instance. Deploy a specific min TLS version requirement and enforce SSL on SQL servers",
+          "description": "Deploy a specific min TLS version requirement and enforce SSL on SQL servers. Enables secure server to client by enforce  minimal Tls Version to secure the connection between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        }
+      },
+      "SQLManagedInstanceTLSEffect": {
+        "metadata": {
+          "displayName": "SQL Managed Instance should have the minimal TLS version of 1.2",
+          "description": "Setting minimal TLS version to 1.2 improves security by ensuring your SQL Managed Instance can only be accessed from clients using TLS 1.2. Using versions of TLS less than 1.2 is not recommended since they have well documented security vulnerabilities."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "SQLMITLSEffect": {
+        "metadata": {
+          "displayName": "SQL Managed Instance should have the minimal TLS version of 1.2",
+          "description": "Setting minimal TLS version to 1.2 improves security by ensuring your SQL Managed Instance can only be accessed from clients using TLS 1.2. Using versions of TLS less than 1.2 is not recommended since they have well documented security vulnerabilities."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "disabled"
+        ]
+      },
+      "SQLServerminTlsVersion": {
+        "type": "String",
+        "defaultValue": "1.2",
+        "allowedValues": [
+          "1.2",
+          "1.0",
+          "1.1"
+        ],
+        "metadata": {
+          "displayName": "Azure SQL Database.Select version minimum TLS for Azure SQL Database",
+          "description": "Select version  minimum TLS version for Azure SQL Database to enforce"
+        }
+      },
+      "SQLServerTLSDeployEffect": {
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Azure SQL Database. Deploy a specific min TLS version requirement and enforce SSL on SQL servers",
+          "description": "Deploy a specific min TLS version requirement and enforce SSL on SQL servers. Enables secure server to client by enforce  minimal Tls Version to secure the connection between your database server and your client applications helps protect against 'man in the middle' attacks by encrypting the data stream between the server and your application. This configuration enforces that SSL is always enabled for accessing your database server."
+        }
+      },
+      "SQLServerTLSEffect": {
+        "metadata": {
+          "displayName": "Azure SQL Database should have the minimal TLS version of 1.2",
+          "description": "Setting minimal TLS version to 1.2 improves security by ensuring your Azure SQL Database can only be accessed from clients using TLS 1.2. Using versions of TLS less than 1.2 is not recommended since they have well documented security vulnerabilities."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "StorageDeployHttpsEnabledEffect": {
+        "metadata": {
+          "displayName": "Azure Storage Account. Deploy Secure transfer to storage accounts should be enabled",
+          "description": "Audit requirement of Secure transfer in your storage account. Secure transfer is an option that forces your storage account to accept requests only from secure connections (HTTPS). Use of HTTPS ensures authentication between the server and the service and protects data in transit from network layer attacks such as man-in-the-middle, eavesdropping, and session-hijacking"
+        },
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ]
+      },
+      "StorageHttpsEnabledEffect": {
+        "metadata": {
+          "displayName": "Azure Storage Account. Secure transfer to storage accounts should be enabled",
+          "description": "Audit requirement of Secure transfer in your storage account. Secure transfer is an option that forces your storage account to accept requests only from secure connections (HTTPS). Use of HTTPS ensures authentication between the server and the service and protects data in transit from network layer attacks such as man-in-the-middle, eavesdropping, and session-hijacking"
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "StorageminimumTlsVersion": {
+        "type": "String",
+        "defaultValue": "TLS1_2",
+        "allowedValues": [
+          "TLS1_2",
+          "TLS1_1",
+          "TLS1_0"
+        ],
+        "metadata": {
+          "displayName": "Storage Account select minimum TLS version",
+          "description": "Select version  minimum TLS version on Azure Storage Account to enforce"
+        }
+      },
+      "WebAppServiceHttpsEffect": {
+        "metadata": {
+          "displayName": "App Service Web App. Web Application should only be accessible over HTTPS. Choose Deny or Audit in combination with Append policy.",
+          "description": "Choose Deny or Audit in combination with Append policy. Use of HTTPS ensures server/service authentication and protects data in transit from network layer eavesdropping attacks."
+        },
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ]
+      },
+      "WebAppServiceLatestTlsEffect": {
+        "metadata": {
+          "displayName": "[Deprecated] App Service Web App. Latest TLS version should be used in your Web App",
+          "description": "Only Audit, deny not possible as it is a related resource. Upgrade to the latest TLS version."
+        },
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      },
+      "WinServerSecureCommTLSEffect": {
+        "metadata": {
+          "displayName": "Configure secure communication protocols(TLS 1.1 or TLS 1.2) on Windows servers",
+          "description": "Creates a Guest Configuration assignment to configure specified secure protocol version(TLS 1.1 or TLS 1.2) on Windows server"
+        },
+        "type": "String",
+        "defaultValue": "Disabled",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ]
+      },
+      "WinWebServerSecureCommEffect": {
+        "metadata": {
+          "displayName": "Windows web servers should be configured to use secure communication protocols",
+          "description": "To protect the privacy of information communicated over the Internet, your web servers should use the latest version of the industry-standard cryptographic protocol, Transport Layer Security (TLS). TLS secures communications over a network by using security certificates to encrypt a connection between machines."
+        },
+        "type": "String",
+        "defaultValue": "AuditIfNotExists",
+        "allowedValues": [
+          "AuditIfNotExists",
+          "Disabled"
+        ]
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "AADMDTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3aa87b5a-7813-4b57-8a43-42dd9df5aaa7",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AADMDTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AKSIngressHttpsOnlyEffect",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1a5b4dca-0b6f-4cf5-907c-56316bc1bf3d",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AKSIngressHttpsOnlyEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "APIAppServiceHttpsEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-AppServiceApiApp-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('APIAppServiceHttpsEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AppServiceEnvTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/817dcf37-e83d-4999-a472-644eada2ea1e",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AppServiceEnvTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AppServiceEnvTLSOldTLSdisabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d6545c6b-dd9d-4265-91e6-0b451e2f1c50",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AppServiceEnvTLSOldTLSdisabledEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AppServiceHttpEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Append-AppService-httpsonly",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AppServiceHttpEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AppServiceminTlsVersion",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Append-AppService-latestTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AppServiceTlsVersionEffect')]"
+          },
+          "minTlsVersion": {
+            "value": "[[parameters('AppServiceminTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzFrontDoorPremTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/679da822-78a7-4eff-8fff-a899454a9970",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AzFrontDoorPremTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzFWTLSinspEnabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a58ac66d-92cb-409c-94b8-8e48d7a96596",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AzFWTLSinspEnabledEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzSynapseTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8b5c654c-fb07-471b-aa8f-15fea733f140",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AzSynapseTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "AzSynapseWorkpaceTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cb3738a6-82a2-4a18-b87b-15217b9deff4",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('AzSynapseWorkpaceTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "DataLakeEncrypt",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a",
+        "parameters": {},
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "FunctionAppLatestTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f01f1c7-539c-49b5-9ef4-d4ffa37d22e0",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('FunctionAppLatestTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "FunctionLatestTlsEffect",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f9d614c5-c173-4d56-95a7-b4437057d193",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('FunctionLatestTlsEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "FunctionServiceHttpsEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-AppServiceFunctionApp-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('FunctionServiceHttpsEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "MySQLEnableSSLDeployEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-MySQL-sslEnforcement",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('MySQLEnableSSLDeployEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('MySQLminimalTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "MySQLEnableSSLEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-MySql-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('MySQLEnableSSLEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('MySQLminimalTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "PostgreSQLEnableSSLDeployEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-PostgreSQL-sslEnforcement",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('PostgreSQLEnableSSLDeployEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('PostgreSQLminimalTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "PostgreSQLEnableSSLEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-PostgreSql-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('PostgreSQLEnableSSLEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('PostgreSQLminimalTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "RedisDenyhttps",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Redis-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('RedisTLSEffect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[[parameters('RedisMinTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "RedisdisableNonSslPort",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Append-Redis-disableNonSslPort",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('RedisTLSDeployEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "RedisTLSDeployEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Append-Redis-sslEnforcement",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('RedisTLSDeployEffect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[[parameters('RedisMinTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLDatabaseTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/32e6bbec-16b6-44c2-be37-c5b672d103cf",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLDatabaseTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLManagedInstanceTLSDeployEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-SqlMi-minTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLManagedInstanceTLSDeployEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('SQLManagedInstanceMinTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLManagedInstanceTLSEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-SqlMi-minTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLManagedInstanceTLSEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('SQLManagedInstanceMinTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLMITLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a8793640-60f7-487c-b5c3-1d37215905c4",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLMITLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLServerTLSDeployEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-SQL-minTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLServerTLSDeployEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('SQLServerminTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "SQLServerTLSEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Sql-minTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('SQLServerTLSEffect')]"
+          },
+          "minimalTlsVersion": {
+            "value": "[[parameters('SQLServerminTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "StorageDeployHttpsEnabledEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-Storage-sslEnforcement",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('StorageDeployHttpsEnabledEffect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[[parameters('StorageMinimumTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "StorageHttpsEnabledEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Storage-minTLS",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('StorageHttpsEnabledEffect')]"
+          },
+          "minimumTlsVersion": {
+            "value": "[[parameters('StorageMinimumTlsVersion')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "WebAppServiceHttpsEffect",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-AppServiceWebApp-http",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('WebAppServiceHttpsEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "WinServerSecureCommTLS",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/828ba269-bf7f-4082-83dd-633417bc391d",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('WinServerSecureCommTLSEffect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "WinWebServerSecureComm",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5752e6d6-1206-46d8-8ab1-ecc2f71a8112",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('WinWebServerSecureCommEffect')]"
+          }
+        },
+        "groupNames": []
+      }
+    ]
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

@@ -1,0 +1,32 @@
+{
+  "name": "Deny-SpecificResourceDeployment",
+  "properties": {
+    "description": "Policy Initiative to deny deployment of specific resource type",
+    "displayName": "Policy Initiative to deny deployment of specific resource type",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "General"
+    },
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "type": "Array",
+        "metadata": {
+          "description": "Resource Type to be restricted",
+          "strongType": "resourceTypes"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "description": "Enable or disable the execution of the policy"
+        }
+      }
+    },
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Not allowed resource types",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749"
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

@@ -1,0 +1,16 @@
+{
+    "name": "sub-mlf-dev-DenyPublicAccessKV",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-mlf-dev - KeyVault deny public access",
+        "description": "ServiceNow Ticket: SCTASK0177392",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "KeyVaultDenyPaasPublicNetwork"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "38513dae-0c2f-476a-b4cc-2d78f5d29b02"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "sub-ccoemgmt-build-DenyPublicAccessContainer",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/build-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-ccoemgmt-build Container deny public access",
+        "description": "ServiceNow Ticket: Temporary Exemption",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "ACRDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "5d6369ec-76ee-42ae-b1fb-cb30bb8196f5"
+    }
+}

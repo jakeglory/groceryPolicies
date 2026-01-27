@@ -1,0 +1,17 @@
+{
+    "name": "sub-dcs-dev-mgon-001-DenyPublicAccessKV",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-dcs-dev-mgon-001 - KeyVault deny public access",
+        "description": "ServiceNow Ticket: SCTASK0177506",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "KeyVaultDenyPaasPublicIP",
+            "KeyVaultDenyPaasPublicNetwork"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "ca37e1c4-f273-4f40-9852-fcfacdc864dd"
+    }
+}

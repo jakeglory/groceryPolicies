@@ -1,0 +1,19 @@
+{
+  "name": "Config-PrivateDNSopenAI",
+  "properties": {
+    "description": "Configure private DNS for OpenAI",
+    "displayName": "Configure private DNS for OpenAI",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Config-PrivateDNSopenAI",
+    "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7",
+      "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

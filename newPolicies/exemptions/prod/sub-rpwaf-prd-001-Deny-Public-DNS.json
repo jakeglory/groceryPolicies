@@ -1,0 +1,17 @@
+{
+    "name": "sub-rpwaf-prd-001-PublicDNS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-corp/providers/microsoft.authorization/policyassignments/deny-public-dns-zones",
+        "displayName": "sub-rpwaf-prd-001 Deny Public DNS Zone",
+        "description": "ServiceNow Ticket: SCTASK0319563. Cyber Defense and InfoSEC approved exemption with no expiration date",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2030-12-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-Public-DNS-Zones"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/e01dbd9f-a487-422a-8d3c-7ab30dc575c1/resourcegroups/rg-rpwf-prd-weu-dns-001"
+    }
+}

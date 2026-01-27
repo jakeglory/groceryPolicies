@@ -1,0 +1,82 @@
+{
+  "API Management services should use a virtual network": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "App Service apps should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "Event Hub should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "Gateway subnets should not be configured with a network security group": {
+    "parameters": {}
+  },
+  "IP firewall rules on Azure Synapse workspaces should be removed": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Key Vault should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "MariaDB server should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "MySQL server should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "Network Watcher flow logs should have traffic analytics enabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "PostgreSQL server should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "SQL Server should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('EffectIfNotExists')]"
+      }
+    }
+  },
+  "Storage Accounts should use a virtual network service endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

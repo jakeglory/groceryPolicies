@@ -1,0 +1,15 @@
+{
+    "name": "sub-zba-prd-Set-StorageSettings",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Set-StorageSettings",
+        "displayName": "sub-zba-prd - Set-StorageSettings",
+        "description": "Mail Approval from InfoSec on 04.05.2022 regarding Backup failures due to Policies \"storage account public access should be disallowed\" and \"storage accounts should have infrastructure encryption\"",
+        "policyDefinitionReferenceIds": [
+            "Storage accounts should have infrastructure encryption"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "b976e8d3-4158-4db9-a29a-2445fe71127b"
+    }
+}

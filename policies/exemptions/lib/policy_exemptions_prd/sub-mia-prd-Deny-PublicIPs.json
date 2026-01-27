@@ -1,0 +1,16 @@
+{
+    "name": "sub-mia-prd-Deny-PublicIPs",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicips-lz",
+        "displayName": "sub-mia-prd - Deny the creation of Public IP",
+        "description": "ServiceNow SCTASK0189776",
+        "expiresOn": "2025-03-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Network interfaces should not have public IPs"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "272a91e2-d3b0-4e22-87f3-8053d6b634be"
+    }
+}

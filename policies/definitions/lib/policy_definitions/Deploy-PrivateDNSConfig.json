@@ -1,0 +1,156 @@
+{
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2020-09-01",
+    "name": "Deploy-privateDnsZoneConfigs",
+    "scope": null,
+    "properties": {
+        "description": "Deploys privateDnsZoneConfigs to private Links",
+        "displayName": "Deploy-privateDnsZoneConfigs",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Network"
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/privateEndpoints"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+                            "where": {
+                                "allOf": [
+                                    {
+                                        "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                                        "like": "[parameters('targetSubResourceType')]"
+                                    },
+                                    {
+                                        "value": "[split(first(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId')),'/')[6]]",
+                                        "like": "[parameters('targetResourceProvider')]"
+                                    }
+
+                                ]
+                            }
+                        },
+                        "greaterOrEquals": 1
+                    }
+                ]
+            },
+            "then": {
+                "effect": "deployIfNotExists",
+                "details": {
+                    "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups/privateDnsZoneConfigs[*].privateDnsZoneId",
+                                "equals": "[parameters('privateDnsZoneId')]"
+                            }
+                        ]
+                    },
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "privateDnsZoneId": {
+                                        "type": "string"
+                                    },
+                                    "privateEndpointName": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "targetResourceProvider":{
+                                        "type": "string"
+                                    },
+                                    "wholeobject":{
+                                        "type": "array"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "name": "[concat(parameters('privateEndpointName'), '/deployedByPolicy')]",
+                                        "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                                        "apiVersion": "2020-03-01",
+                                        "location": "[parameters('location')]",
+                                        "properties": {
+                                            "privateDnsZoneConfigs": [
+                                                {
+                                                    "name": "[concat('centralized-privateDnsZone-',parameters('privateDnsZoneId'))]",
+                                                    "properties": {
+                                                        "privateDnsZoneId": "[parameters('privateDnsZoneId')]"
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ],
+                                "outputs": {
+                                    "targetResourceProvider": {
+                                        "type": "string",
+                                        "value": "[parameters('targetResourceProvider')]"
+
+                                    },
+                                    "wholeobject":{
+                                        "type": "array",
+                                        "value": "[parameters('wholeobject')]"
+                                    }
+                                }
+                            },
+                            "parameters": {
+                                "privateDnsZoneId": {
+                                    "value": "[parameters('privateDnsZoneId')]"
+                                },
+                                "privateEndpointName": {
+                                    "value": "[field('name')]"
+                                },
+                                "location": {
+                                    "value": "[field('location')]"
+                                },
+                                "targetResourceProvider": {
+                                    "value": "[split(first(field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId')),'/')[6]]"
+                                },
+                                "wholeobject":{
+                                    "value": "[field('Microsoft.Network/privateEndpoints/privateLinkServiceConnections')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "parameters": {
+            "privateDnsZoneId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "privateDnsZoneId",
+                    "strongType": "Microsoft.Network/privateDnsZones"
+                }
+            },
+            "targetSubResourceType": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "targetSubResourceType"
+                }
+            },
+            "targetResourceProvider": {
+                "type": "String",
+                "defaultValue": "*",
+                "metadata": {
+                    "displayName": "targetResourceProvider e.g. Microsoft.Storage"
+                }
+            }
+        }
+    }
+}

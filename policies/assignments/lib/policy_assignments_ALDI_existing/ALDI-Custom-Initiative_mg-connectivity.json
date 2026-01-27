@@ -1,0 +1,22 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-connectivity",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-connectivity",
+    "description": "ALDI-Custom Initiative to mg-connectivity",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-connectivity-ID}",
+    "managementGroupId": "connectivity",
+    "notScopes": [],
+    "parameters": {
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+  ]
+}

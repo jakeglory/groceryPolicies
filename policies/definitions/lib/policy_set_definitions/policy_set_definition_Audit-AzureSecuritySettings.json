@@ -1,0 +1,26 @@
+{
+  "name": "Audit-AzureSecuritySettings",
+  "properties": {
+    "description": "Audit Azure Security Settings",
+    "displayName": "Audit Azure Security Settings",
+    "metadata": {
+      "category": "Security Center"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Cloud Services (extended support) role instances should have an endpoint protection solution installed",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e378679-f122-4a96-a739-a7729c46e1aa"
+      },
+      {
+        "policyDefinitionReferenceId": "Microsoft Antimalware for Azure should be configured to automatically update protection signatures",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c43e4a30-77cb-48ab-a4dd-93f175c63b57"
+      },
+      {
+        "policyDefinitionReferenceId": "Microsoft IaaSAntimalware extension should be deployed on Windows servers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9b597639-28e4-48eb-b506-56b05d366257"
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

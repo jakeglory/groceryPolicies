@@ -1,0 +1,82 @@
+{
+  "name": "Configure-Audit-StorageAccountSettings",
+  "properties": {
+    "description": "Configure and Audit Storage Account Settings",
+    "displayName": "Configure and Audit Storage Account Settings",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Storage"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect for all Definitions",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Enable soft-delete on blob-services",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-BlobServicesSoftDelete"
+      },
+      {
+        "policyDefinitionReferenceId": "Enable soft-delete on containers",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-ContainerSoftDelete"
+      },
+      {
+        "policyDefinitionReferenceId": "Secure transfer to storage accounts should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Storage account keys should not be expired",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/044985bb-afe1-42cd-8a36-9d5d42424537",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Storage accounts should be migrated to new Azure Resource Manager resources",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/37e0d2fe-28a5-43d6-a273-67d37d1f5606",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Storage accounts should have infrastructure encryption",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4733ea7b-a883-42fe-8cac-97454c2a9e4a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Storage accounts should prevent shared key access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8c6a50c6-9ffd-4ae7-986f-5fa6111f9a54",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

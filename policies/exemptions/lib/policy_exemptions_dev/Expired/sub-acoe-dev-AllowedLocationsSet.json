@@ -1,0 +1,17 @@
+{
+    "name": "sub-acoe-dev-AllowedLocationsSet",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-acoe-dev - AllowedLocations",
+        "description": "ServiceNow Ticket: SCTASK0147370",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "bf58d209-2344-4a6c-833d-1da4daeca3f3"
+    }
+}

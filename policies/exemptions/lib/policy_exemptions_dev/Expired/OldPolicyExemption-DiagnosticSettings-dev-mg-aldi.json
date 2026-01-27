@@ -1,0 +1,17 @@
+{
+    "name": "OldPolicyExemption-DiagnosticSettings-dev-mg-aldi",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "Old Policy Exemption - Diagnostic Settings dev-mg-aldi",
+        "description": "Exemption for policies which are duplicated within new policy assignment. Expiration is set to infinity, but this exemption will be removed after all new policy sets will be deployed",
+        "policyDefinitionReferenceIds": [
+            "[Security] Deploy Diagnostic Settings for Activity Log to Log Analytics workspace",
+            "[General] Configure diagnostic settings for storage accounts to Log Analytics workspace",
+            "[Security] Deploy Diagnostic Settings for Recovery Service Vault to Log Analytics workspace"
+        ]
+    },
+    "scope": {
+        "managementGroupId": "dev-mg-ALDI"
+    }
+}

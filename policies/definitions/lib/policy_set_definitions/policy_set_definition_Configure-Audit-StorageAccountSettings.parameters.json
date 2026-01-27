@@ -1,0 +1,43 @@
+{
+  "Enable soft-delete on blob-services": {
+    "parameters": {}
+  },
+  "Enable soft-delete on containers": {
+    "parameters": {}
+  },
+  "Secure transfer to storage accounts should be enabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Storage account keys should not be expired": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Storage accounts should be migrated to new Azure Resource Manager resources": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Storage accounts should have infrastructure encryption": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Storage accounts should prevent shared key access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-corp",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-corp",
+    "description": "ALDI-Custom Initiative to mg-corp",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-corp-ID}",
+    "managementGroupId": "corp",
+    "notScopes": [],
+    "parameters": {
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c" //contributor
+  ]
+}

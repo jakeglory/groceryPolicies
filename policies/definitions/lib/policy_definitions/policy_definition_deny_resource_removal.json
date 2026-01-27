@@ -1,0 +1,57 @@
+{
+    "name": "Deny-Resource-Removal",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2023-04-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "displayName": "Policy to deny removal of resource",
+        "description": "This policy denies removal of specific resource type",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Protect"
+        },
+        "parameters": {
+            "resourceType": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Resource Type to be protected",
+                    "description": "Resource Type to be protected"
+                }
+            },
+            "resourceName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Resource Name to be protected",
+                    "description": "Resource Name to be protected"
+                }
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "[parameters('resourceType')]"
+                    },
+                    {
+                        "field": "name",
+                        "equals": "[parameters('resourceName')]"
+                    }
+                ]
+            },
+            "then": {
+                "effect": "denyAction",
+                "details": {
+                    "actionNames": [
+                        "delete"
+                    ],
+                    "cascadeBehaviors": {
+                        "resourceGroup": "deny"
+                    }
+                }
+            }
+        }
+    }
+}

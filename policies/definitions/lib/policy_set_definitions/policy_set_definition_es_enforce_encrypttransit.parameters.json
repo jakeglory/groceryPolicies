@@ -1,0 +1,268 @@
+{
+  "AADMDTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AADMDTLSEffect')]"
+      }
+    }
+  },
+  "AKSIngressHttpsOnlyEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AKSIngressHttpsOnlyEffect')]"
+      }
+    }
+  },
+  "APIAppServiceHttpsEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('APIAppServiceHttpsEffect')]"
+      }
+    }
+  },
+  "AppServiceEnvTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AppServiceEnvTLSEffect')]"
+      }
+    }
+  },
+  "AppServiceEnvTLSOldTLSdisabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AppServiceEnvTLSOldTLSdisabledEffect')]"
+      }
+    }
+  },
+  "AppServiceHttpEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AppServiceHttpEffect')]"
+      }
+    }
+  },
+  "AppServiceminTlsVersion": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AppServiceTlsVersionEffect')]"
+      },
+      "minTlsVersion": {
+        "value": "[[parameters('AppServiceminTlsVersion')]"
+      }
+    }
+  },
+  "AzFrontDoorPremTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AzFrontDoorPremTLSEffect')]"
+      }
+    }
+  },
+  "AzFWTLSinspEnabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AzFWTLSinspEnabledEffect')]"
+      }
+    }
+  },
+  "AzSynapseTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AzSynapseTLSEffect')]"
+      }
+    }
+  },
+  "AzSynapseWorkpaceTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AzSynapseWorkpaceTLSEffect')]"
+      }
+    }
+  },
+  "DataLakeEncrypt": {
+    "parameters": {}
+  },
+  "FunctionAppLatestTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('FunctionAppLatestTLSEffect')]"
+      }
+    }
+  },
+  "FunctionLatestTlsEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('FunctionLatestTlsEffect')]"
+      }
+    }
+  },
+  "FunctionServiceHttpsEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('FunctionServiceHttpsEffect')]"
+      }
+    }
+  },
+  "MySQLEnableSSLDeployEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('MySQLEnableSSLDeployEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('MySQLminimalTlsVersion')]"
+      }
+    }
+  },
+  "MySQLEnableSSLEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('MySQLEnableSSLEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('MySQLminimalTlsVersion')]"
+      }
+    }
+  },
+  "PostgreSQLEnableSSLDeployEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('PostgreSQLEnableSSLDeployEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('PostgreSQLminimalTlsVersion')]"
+      }
+    }
+  },
+  "PostgreSQLEnableSSLEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('PostgreSQLEnableSSLEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('PostgreSQLminimalTlsVersion')]"
+      }
+    }
+  },
+  "RedisDenyhttps": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('RedisTLSEffect')]"
+      },
+      "minimumTlsVersion": {
+        "value": "[[parameters('RedisMinTlsVersion')]"
+      }
+    }
+  },
+  "RedisdisableNonSslPort": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('RedisTLSDeployEffect')]"
+      }
+    }
+  },
+  "RedisTLSDeployEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('RedisTLSDeployEffect')]"
+      },
+      "minimumTlsVersion": {
+        "value": "[[parameters('RedisMinTlsVersion')]"
+      }
+    }
+  },
+  "SQLDatabaseTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLDatabaseTLSEffect')]"
+      }
+    }
+  },
+  "SQLManagedInstanceTLSDeployEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLManagedInstanceTLSDeployEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('SQLManagedInstanceMinTlsVersion')]"
+      }
+    }
+  },
+  "SQLManagedInstanceTLSEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLManagedInstanceTLSEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('SQLManagedInstanceMinTlsVersion')]"
+      }
+    }
+  },
+  "SQLMITLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLMITLSEffect')]"
+      }
+    }
+  },
+  "SQLServerTLSDeployEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLServerTLSDeployEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('SQLServerminTlsVersion')]"
+      }
+    }
+  },
+  "SQLServerTLSEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SQLServerTLSEffect')]"
+      },
+      "minimalTlsVersion": {
+        "value": "[[parameters('SQLServerminTlsVersion')]"
+      }
+    }
+  },
+  "StorageDeployHttpsEnabledEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('StorageDeployHttpsEnabledEffect')]"
+      },
+      "minimumTlsVersion": {
+        "value": "[[parameters('StorageMinimumTlsVersion')]"
+      }
+    }
+  },
+  "StorageHttpsEnabledEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('StorageHttpsEnabledEffect')]"
+      },
+      "minimumTlsVersion": {
+        "value": "[[parameters('StorageMinimumTlsVersion')]"
+      }
+    }
+  },
+  "WebAppServiceHttpsEffect": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('WebAppServiceHttpsEffect')]"
+      }
+    }
+  },
+  "WinServerSecureCommTLS": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('WinServerSecureCommTLSEffect')]"
+      }
+    }
+  },
+  "WinWebServerSecureComm": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('WinWebServerSecureCommEffect')]"
+      }
+    }
+  }
+}

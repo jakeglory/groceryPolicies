@@ -1,0 +1,14 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Network] Not allowed resource types - VirtualNetworkGateway": {
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": [
+          "microsoft.network/virtualnetworkgateways"
+        ]
+      }
+    }
+  }
+}

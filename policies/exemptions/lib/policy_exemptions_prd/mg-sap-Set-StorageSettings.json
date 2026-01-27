@@ -1,0 +1,15 @@
+{
+    "name": "mg-sap-Set-StorageSettings",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Set-StorageSettings",
+        "displayName": "mg-SAP - Set-StorageSettings",
+        "description": " ITSMSD-741606; Needed for SAP migration",
+        "policyDefinitionReferenceIds": [
+            "Secure transfer to storage accounts should be enabled"
+        ]
+    },
+    "scope": {
+        "managementGroupId": "mg-SAP"
+    }
+}

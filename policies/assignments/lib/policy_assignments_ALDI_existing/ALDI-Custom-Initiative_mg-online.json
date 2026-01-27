@@ -1,0 +1,25 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-online",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-online",
+    "description": "ALDI-Custom Initiative to mg-online",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-online-ID}",
+    "managementGroupId": "online",
+    "notScopes": [],
+    "parameters": {
+      "ddosPlan": {
+        "value": "${ddos}"
+      }
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Allowed-Locations",
+  "properties": {
+    "description": "This policy-set enables you to restrict the locations your organization can specify when deploying resources.",
+    "displayName": "Allowed Locations",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Allowed-Locations"
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

@@ -1,0 +1,15 @@
+{
+    "name": "mg-sap-custom-mg-aldi01",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "mg-SAP - ALDI-Custom-Initiative_mg-ALDI",
+        "description": " ITSMSD-741606; Needed for SAP migration",
+        "policyDefinitionReferenceIds": [
+            "[Security] Secure transfer to storage accounts should be enabled"
+        ]
+    },
+    "scope": {
+        "managementGroupId": "mg-SAP"
+    }
+}

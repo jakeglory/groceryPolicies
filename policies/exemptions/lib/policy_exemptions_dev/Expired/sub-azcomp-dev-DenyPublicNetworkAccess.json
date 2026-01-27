@@ -1,0 +1,16 @@
+{
+    "name": "sub-azcomp-dev-DenyPublicNetworkAccess",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicaccess",
+        "displayName": "sub-azcomp-dev - Deny Public Network Access",
+        "description": "One month exemption approved by Cyber Defense",
+        "expiresOn": "2023-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-RDP-From-Internet"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "f001c0f5-2206-4143-a018-1905d406e38c"
+    }
+}

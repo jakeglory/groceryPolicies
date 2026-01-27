@@ -1,0 +1,16 @@
+{
+  "Deny-Private-DNS-Zones": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Deny-PublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

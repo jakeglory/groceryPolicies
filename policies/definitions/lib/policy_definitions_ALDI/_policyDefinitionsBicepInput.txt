@@ -1,0 +1,24 @@
+{
+		name: 'AddOrReplace-Storage-BlobServicesSoftDelete'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/AddOrReplace-Storage-BlobServicesSoftDelete.json'))
+}
+{
+		name: 'AddOrReplace-Storage-ContainerSoftDelete'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/AddOrReplace-Storage-ContainerSoftDelete.json'))
+}
+{
+		name: 'AddOrReplace-Storage-TLS12'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/AddOrReplace-Storage-TLS12.json'))
+}
+{
+		name: 'Deploy-privateDnsZoneConfigs'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/Deploy-PrivateDNSConfig.json'))
+}
+{
+		name: 'Deploy-SecurityCenter'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/Deploy-SecurityCenter.json'))
+}
+{
+		name: 'diag-sub-to-AssignedLAW'
+		libDefinition: json(loadTextContent('lib/policy_definitions_ALDI/diag-sub-to-AssignedLAW.json'))
+}

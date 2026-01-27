@@ -1,0 +1,106 @@
+{
+  "defenderForAppServices": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for App Services')]"
+      }
+    }
+  },
+  "defenderForArm": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Arm')]"
+      }
+    }
+  },
+  "defenderforContainers": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Containers')]"
+      }
+    }
+  },
+  "defenderForCosmosDB": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for CosmosDB')]"
+      }
+    }
+  },
+  "defenderForKeyVaults": {
+    "parameters": {
+      "Effect": {
+        "value": "[[parameters('enable Asc for KeyVault')]"
+      }
+    }
+  },
+  "defenderForOssDb": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for OssDb')]"
+      }
+    }
+  },
+  "defenderForSqlPaas": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Sql')]"
+      }
+    }
+  },
+  "defenderForSqlServerVirtualMachines": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for SQL on VM')]"
+      }
+    }
+  },
+  "defenderForStorageAccounts": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Storage')]"
+      }
+    }
+  },
+  "defenderForVM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Servers')]"
+      }
+    }
+  },
+  "securityEmailContact": {
+    "parameters": {
+      "emailSecurityContact": {
+        "value": "[[parameters('email Security Contact')]"
+      }
+    }
+  },
+  "vulnerabilityForVM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable vulnerability assessmnet solution')]"
+      },
+      "vaType": {
+        "value": "[[parameters('vulnerability for VM va Type')]"
+      }
+    }
+  },
+  "defenderforKubernetes": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Containers')]"
+      },
+      "logAnalyticsWorkspaceResourceId": {
+        "value": "[[parameters('logAnalytics')]"
+      }
+    }
+  },
+  "azurePolicyForKubernetes": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('enable Asc for Containers')]"
+      }
+    }
+  }
+}

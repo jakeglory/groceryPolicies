@@ -1,0 +1,22 @@
+{
+  "name": "Deny-Deletion-LDCR",
+  "properties": {
+    "description": "This Assignemnt Protects Linux Sentinel Data Collection Rule from accidental deletion",
+    "displayName": "Deny deletion of Linux Sentinel DCR",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "resourceType": {
+        "value": "Microsoft.Insights/dataCollectionRules"
+      },
+      "resourceName": {
+        "value": "SentinelLinuxDCR"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-ResourceDeletion"
+  },
+  "scope": {
+    "managementGroupId": "platform"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

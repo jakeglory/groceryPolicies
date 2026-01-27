@@ -1,0 +1,8 @@
+{
+  "Audit virtual machines without disaster recovery configured": {
+    "parameters": {}
+  },
+  "Audit VMs that do not use managed disks": {
+    "parameters": {}
+  }
+}

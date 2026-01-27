@@ -1,0 +1,9 @@
+{
+  "Deny-RDP-From-Internet": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

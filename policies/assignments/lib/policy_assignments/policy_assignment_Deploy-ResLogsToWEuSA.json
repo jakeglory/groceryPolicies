@@ -1,0 +1,32 @@
+{
+  "name": "Deploy-ResLogsToWEuSA",
+  "properties": {
+    "description": "Resource logs should be enabled to track activities and events that take place on your resources and give you visibility and insights into any changes that occur. This initiative deploys diagnostic setting using the audit category group to route logs to storage for all supported resources.",
+    "displayName": "Enable audit category group resource logging for supported resources in West Europe to storage",
+    "enforcementMode": "DoNotEnforce",
+    "notScopes": [],
+    "parameters": {
+      "effect": {
+      "Value": "DeployIfNotExists"
+      },
+      "diagnosticSettingName": {
+      "Value": "setByPolicy-WEUStorage"
+      },
+      "resourceLocation": {
+      "Value":"West Europe"
+      },
+      "storageAccount": {
+      "Value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/rg-logmanagementworkspace-prod/providers/Microsoft.Storage/storageAccounts/auditlog0weuprd052024"
+      }
+      },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/8d723fb6-6680-45be-9d37-b1a4adb52207",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+    ]
+  },
+  "scope": {
+      "managementGroupId": "aldi"
+    },
+  "type": "Microsoft.Authorization/policyAssignments"
+}
+

@@ -1,0 +1,177 @@
+name: Platform Policy Assignment - $(Build.SourceBranchName) - $(Build.RequestedFor) - $(date:yyyyMMdd)
+
+trigger:
+  - none
+
+parameters:
+  - name: tenantRootMgId
+    type: string
+    displayName: Tenant Root Management Group ID
+    default: '52290a28-dcec-4da1-9252-57f67fc9ba1b'
+  - name: DeployPolicyServiceConnection
+    type: string
+    displayName: Service connection for definitions at Tenant Root
+    default: 'serviceconnection-AN-Azure-ControlRepo-MGRoot-policyDeployment'
+  - name: assignmentServiceConnectionProd
+    type: string
+    displayName: Assignment Service Connection Production
+    default: 'serviceconnection-AN-Azure-ControlRepo-mg-ALDI-policyAssignment'
+  - name: assignmentManagementGroupProd
+    type: string
+    displayName: Production Management Group ID
+    default: 'mg-Aldi'
+  - name: assignmentServiceConnectionDev
+    type: string
+    displayName: Assignment Service Connection Development
+    default: 'serviceconnection-AN-Azure-ControlRepo-dev-mg-ALDI-policyAssignment'
+  - name: assignmentManagementGroupDev
+    type: string
+    displayName: Development Management Group ID
+    default: 'dev-mg-Aldi'
+  - name: assignmentServiceConnectionBuild
+    type: string
+    displayName: Assignment Service Connection Build
+    default: 'serviceconnection-AN-Azure-ControlRepo-build-mg-ALDI-policyAssignment'
+  - name: assignmentManagementGroupBuild
+    type: string
+    displayName: Build Management Group ID
+    default: 'build-mg-Aldi'
+  - name: assignmentServiceConnectionUnmanaged
+    type: string
+    displayName: Assignment Service Connection Unmanaged
+    default: 'serviceconnection-AN-Azure-ControlRepo-mg-ALDI-unmanaged-policyAssignment'
+  - name: assignmentManagementGroupUnmanaged
+    type: string
+    displayName: Unmanaged Management Group ID 
+    default: 'mg-Aldi-unmanaged'
+  - name: customerName
+    type: string
+    default: 'AN'
+  - name: locations
+    type: string
+    default: 'westeurope'
+  - name: throttleLimit
+    type: string
+    default: '10'
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: DeployDefinitions
+    displayName: Deploy policy and policy set definitions
+    jobs:
+      - job: DeployDefinitions
+        displayName: Deploy to tenant root
+        steps:
+          - task: AzureCLI@2
+            displayName: Login (workload identity)
+            inputs:
+              azureSubscription: ${{ parameters.DeployPolicyServiceConnection }}
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az account show
+          - task: AzureCLI@2
+            displayName: Deploy policy definitions
+            inputs:
+              azureSubscription: ${{ parameters.DeployPolicyServiceConnection }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              powerShellIgnoreLASTEXITCODE: true
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-definitions.ps1" `
+                  -TenantRootManagementGroupId "${{ parameters.tenantRootMgId }}" `
+                  -Mode Policies `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}
+          - task: AzureCLI@2
+            displayName: Deploy policy set definitions
+            inputs:
+              azureSubscription: ${{ parameters.DeployPolicyServiceConnection }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              powerShellIgnoreLASTEXITCODE: true
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-definitions.ps1" `
+                  -TenantRootManagementGroupId "${{ parameters.tenantRootMgId }}" `
+                  -Mode PolicySets `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}
+
+  - stage: DeployAssignments
+    displayName: Assign policy sets to management groups
+    dependsOn: DeployDefinitions
+    jobs:
+      - job: AssignBuild
+        displayName: Assigning to Build Management Group using Build Service Connection
+        dependsOn: []
+        steps:
+          - task: AzureCLI@2
+            displayName: Assigning to Build Management Group
+            inputs:
+              azureSubscription: ${{ parameters.assignmentServiceConnectionBuild }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-assignments.ps1" `
+                  -ManagementGroupId "${{ parameters.assignmentManagementGroupBuild }}" `
+                  -CustomerName "${{ parameters.customerName }}" `
+                  -AssignmentsFolder "$(System.DefaultWorkingDirectory)/newPolicies/assignments/assignments/Build" `
+                  -Location "${{ parameters.locations }}" `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}
+      - job: AssignDev
+        displayName: Assigning to Dev Management Group using Development Service Connection
+        dependsOn: AssignBuild
+        steps:
+          - task: AzureCLI@2
+            displayName: Assigning to Dev Management Group
+            inputs:
+              azureSubscription: ${{ parameters.assignmentServiceConnectionDev }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-assignments.ps1" `
+                  -ManagementGroupId "${{ parameters.assignmentManagementGroupDev }}" `
+                  -CustomerName "${{ parameters.customerName }}" `
+                  -AssignmentsFolder "$(System.DefaultWorkingDirectory)/newPolicies/assignments/assignments/Development" `
+                  -Location "${{ parameters.locations }}" `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}
+      - job: AssignProd
+        displayName: Assigning to Prod Management Group using Production Service Connection
+        dependsOn: AssignDev
+        steps:
+          - task: AzureCLI@2
+            displayName: Assigning to Prod Management Group
+            inputs:
+              azureSubscription: ${{ parameters.assignmentServiceConnectionProd }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-assignments.ps1" `
+                  -ManagementGroupId "${{ parameters.assignmentManagementGroupProd }}" `
+                  -CustomerName "${{ parameters.customerName }}" `
+                  -AssignmentsFolder "$(System.DefaultWorkingDirectory)/newPolicies/assignments/assignments/Production" `
+                  -Location "${{ parameters.locations }}" `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}
+      - job: AssignUnmanaged
+        displayName: Assigning to Unmanaged Management Group using Unmanaged Service Connection
+        dependsOn: AssignProd
+        steps:
+          - task: AzureCLI@2
+            displayName: Assigning to Unmanaged Management Group
+            inputs:
+              azureSubscription: ${{ parameters.assignmentServiceConnectionUnmanaged }}
+              scriptType: pscore
+              scriptLocation: inlineScript
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/assignments/scripts/deploy-assignments.ps1" `
+                  -ManagementGroupId "${{ parameters.assignmentManagementGroupUnmanaged }}" `
+                  -CustomerName "${{ parameters.customerName }}" `
+                  -AssignmentsFolder "$(System.DefaultWorkingDirectory)/newPolicies/assignments/assignments/Unmanaged" `
+                  -Location "${{ parameters.locations }}" `
+                  -ThrottleLimit ${{ parameters.throttleLimit }}

@@ -1,0 +1,167 @@
+name: 'Platform - Policy Remediation - $(Build.SourceBranchName) - $(Build.RequestedFor) -  $(date:yyyyMMdd)$(rev:.r)'
+
+parameters:
+  - name: simulateOnly
+    displayName: Simulate deployment
+    type: boolean
+    default: true
+  - name: policySetToRemediateName
+    displayName: "Policy Set to remediate"
+    type: string
+  - name: mgName
+    displayName: "Management Group withouth prefix (dev-)"
+    type: string
+    default: "mg-aldi"
+
+pr: none
+
+trigger: none
+
+variables:
+  - template: '../../.globals/globalvariables.yml'
+  - name: modulePath
+    value: '/policies'
+
+  # variables for dynamic stage names
+  - ${{ if eq( parameters.simulateOnly, true) }}: # if Simulate deployment is selected, simulate both DEV and PRD 
+    - name: buildActionDisplayName
+      value: "BUILD Simulate"
+    - name: devActionDisplayName
+      value: "DEV Simulate"
+    - name: prdActionDisplayName
+      value: "PRD Simulate"
+    - name: buildAction
+      value: "simulate"
+    - name: devAction
+      value: "simulate"
+    - name: prdAction
+      value: "simulate"
+  - ${{ if ne( parameters.simulateOnly, true) }}: # if Simulate deployment is not selected
+    - ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}: # if running from main: deploy both DEV and PRD
+      - name: buildActionDisplayName
+        value: "BUILD Simulate & Deploy"
+      - name: devActionDisplayName
+        value: "DEV Simulate & Deploy"
+      - name: prdActionDisplayName
+        value: "PRD Simulate & Deploy"
+      - name: buildAction
+        value: "deploy"
+      - name: devAction
+        value: "deploy"
+      - name: prdAction
+        value: "deploy"
+    - ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/main') }}: # if running from a feature branch: deploy DEV and simulate PRD
+      - name: buildActionDisplayName
+        value: "BUILD Simulate & Deploy"
+      - name: devActionDisplayName
+        value: "DEV Simulate & Deploy"
+      - name: prdActionDisplayName
+        value: "PRD Simulate"
+      - name: buildAction
+        value: "deploy"
+      - name: devAction
+        value: "deploy"
+      - name: prdAction
+        value: "simulate"
+    
+stages:
+  - stage: Build 
+    displayName: "Build"
+    variables:
+      - template: ${{ variables.modulePath }}/.globals/build.variables.yml
+    jobs:
+      - job: BuildCreatenewAzPolicyRemediation
+        timeoutInMinutes: 240
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Create new Az Policy Remediation
+            name: NewAzPolicyRemediationBuild
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("EARLYBIRD") -Verbose
+
+  - stage: Dev 
+    displayName: Dev
+    variables:
+      - template: ${{ variables.modulePath }}/.globals/dev.variables.yml 
+    jobs:
+      - job: DevCreatenewAzPolicyRemediation
+        timeoutInMinutes: 240
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Create new Az Policy Remediation
+            name: NewAzPolicyRemediationDEV
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("mgName: ${{ parameters.mgName }}") -Verbose
+                Write-Verbose ("Policy Set: ${{ parameters.policySetToRemediateName }}") -Verbose
+                Write-Verbose ("simulateOnly: ${{ parameters.simulateOnly }}") -Verbose
+                Write-Verbose ("Service Connection: ${{ variables.serviceConnection }}") -Verbose
+                Write-Verbose ("stage: ${{ variables.stage }} ") -Verbose
+
+                # Load used functions
+                . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'remediation' 'New-AzPolicyRemediation.ps1')
+
+                $mg = "dev-${{ parameters.mgName }}"
+                Write-Verbose ("mg: $mg") -Verbose
+
+                $functionInputCompare = @{
+                  policySetToRemediateName  = '${{ parameters.policySetToRemediateName }}'
+                  mgName                    = $mg
+                  simulateOnly              = [System.Convert]::ToBoolean('${{ parameters.simulateOnly }}')
+                }
+                $functionInputCompare 
+                Write-Verbose ("Starting") -Verbose
+                New-AzPolicyRemediation @functionInputCompare
+
+  - stage: Prd 
+    displayName: Prod
+    condition: and(
+            succeeded(), 
+            eq( '${{ variables.prdAction }}', 'deploy'))
+    variables:
+      - template: ${{ variables.modulePath }}/.globals/prd.variables.yml 
+    jobs:
+      - job: PrdCreatenewAzPolicyRemediation
+        timeoutInMinutes: 240
+        steps:
+          - task: AzurePowerShell@5
+            displayName: Create new Az Policy Remediation
+            name: NewAzPolicyRemediationPrd
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("mgName: ${{ parameters.mgName }}") -Verbose
+                Write-Verbose ("Policy Set: ${{ parameters.policySetToRemediateName }}") -Verbose
+                Write-Verbose ("simulateOnly: ${{ parameters.simulateOnly }}") -Verbose
+                Write-Verbose ("Service Connection: ${{ variables.serviceConnection }}") -Verbose
+                Write-Verbose ("stage: ${{ variables.stage }} ") -Verbose
+
+                # Load used functions
+                . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'remediation' 'New-AzPolicyRemediation.ps1')
+
+                $mg = "${{ parameters.mgName }}"
+                Write-Verbose ("mg: $mg") -Verbose
+
+                $functionInputCompare = @{
+                  policySetToRemediateName  = '${{ parameters.policySetToRemediateName }}'
+                  mgName                    = $mg
+                  simulateOnly              = [System.Convert]::ToBoolean('${{ parameters.simulateOnly }}')
+                }
+                $functionInputCompare 
+                Write-Verbose ("Starting") -Verbose
+                New-AzPolicyRemediation @functionInputCompare

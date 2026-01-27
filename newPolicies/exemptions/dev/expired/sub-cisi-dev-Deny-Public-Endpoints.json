@@ -1,0 +1,17 @@
+{
+    "name": "sub-cisi-dev-Deny-Public-Endpoints",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-cisi-dev - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: SCTASK0274809",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-07-15T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "StorageDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/43343fa8-9755-46f4-bc70-9f072f1556df/resourceGroups/rg-cisi-dev-tfstate"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "name": "0e2245fa4c9b4c2a9b11a8b3",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-landing-zones/providers/Microsoft.Authorization/policyAssignments/Custom_mg-landing-zones",
+        "displayName": "sub-mia-prd - ALDI-Custom-Initiative_mg-landing-zones",
+        "description": "Exemption for project MIA has been approved by InfoSec",
+        "policyDefinitionReferenceIds": [
+            "[Network] Network interfaces should not have public IPs"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "272a91e2-d3b0-4e22-87f3-8053d6b634be"
+    }
+}

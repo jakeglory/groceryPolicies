@@ -1,0 +1,17 @@
+{
+    "name": "sub-de-ohg-ats-inf-cmg-prd-Deny-IP",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicips-lz",
+        "displayName": "sub-de-ohg-ats-inf-cmg-prd - Deny-PublicIPs",
+        "description": "ServiceNow Ticket: SCTASK0225713",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-03-21T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Network interfaces should not have public IPs"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/df477f40-daac-4fdd-a474-3ba7c1fdb2a2"
+    }
+}

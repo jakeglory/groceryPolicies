@@ -1,0 +1,223 @@
+name: Platform Policy Exemptions - $(Build.SourceBranchName) - $(Build.RequestedFor) - $(date:yyyyMMdd)
+
+trigger:
+  - none
+
+variables:
+  BuildServiceConnection: "serviceconnection-AN-Azure-ControlRepo-build-mg-aldi"
+  DevServiceConnection: "serviceconnection-AN-Azure-ControlRepo-dev-mg-aldi"
+  ProdServiceConnection: "serviceconnection-AN-Azure-ControlRepo-prod-mg-aldi"
+  vmImage: ""
+  agentPoolName: "vmss-agents-prd-mgmt-win-002"
+
+stages:
+  - stage: WhatIf
+    jobs:
+      - job: WhatIfBuildEnvironmnet
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(BuildServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                try {
+                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/build" -Filter *.json
+                  if ($files.Count -eq 0) {
+                    Write-Output "No files found in the build directory."
+                  } else {
+                    foreach ($file in $files) {
+                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                      $exemptionName = $jsonContent.name
+                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                      $exemptionCategory = $jsonContent.properties.exemptionCategory
+                      $scope = $jsonContent.scope.subscriptionId
+                      $expiresOn = $jsonContent.properties.expiresOn
+                      $description = $jsonContent.properties.description
+                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                      Write-Output "Will create or update following policy exemptions in Build environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
+                    }
+                  }
+                } catch {
+                  Write-Output "An error occurred: $_"
+                }
+      - job: WhatIfDevEnvironment
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)      
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(DevServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                try {
+                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/dev" -Filter *.json
+                  if ($files.Count -eq 0) {
+                    Write-Output "No files found in the dev directory."
+                  } else {
+                    foreach ($file in $files) {
+                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                      $exemptionName = $jsonContent.name
+                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                      $exemptionCategory = $jsonContent.properties.exemptionCategory
+                      $scope = $jsonContent.scope.subscriptionId
+                      $expiresOn = $jsonContent.properties.expiresOn
+                      $description = $jsonContent.properties.description
+                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                      Write-Output "Will create or update following policy exemptions in Dev environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
+                    }
+                  }
+                } catch {
+                  Write-Output "An error occurred: $_"
+                }
+      - job: WhatIfProdEnvironment
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(ProdServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                try {
+                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/prod" -Filter *.json
+                  if ($files.Count -eq 0) {
+                    Write-Output "No files found in the prod directory."
+                  } else {
+                    foreach ($file in $files) {
+                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                      $exemptionName = $jsonContent.name
+                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                      $exemptionCategory = $jsonContent.properties.exemptionCategory
+                      $scope = $jsonContent.scope.subscriptionId
+                      $expiresOn = $jsonContent.properties.expiresOn
+                      $description = $jsonContent.properties.description
+                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                      Write-Output "Will create or update following policy exemptions in Prod environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
+                    }
+                  }
+                } catch {
+                  Write-Output "An error occurred: $_"
+                }
+
+  - stage: Build
+    dependsOn: WhatIf
+    jobs:
+      - job: ExemptionsDeploymentBuild
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(BuildServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/build" -Filter *.json
+                foreach ($file in $files) {
+                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                  $exemptionName = $jsonContent.name
+                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                  $exemptionCategory = $jsonContent.properties.exemptionCategory
+                  $scope = $jsonContent.scope.subscriptionId
+                  $expiresOn = $jsonContent.properties.expiresOn
+                  $description = $jsonContent.properties.description
+                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                  az policy exemption create --name $exemptionName `
+                    --scope $scope `
+                    --policy-assignment $policyAssignmentId `
+                    --exemption-category $exemptionCategory `
+                    --expires-on $expiresOn `
+                    --description $description `
+                    --policy-definition-reference-ids $policyDefinitionReferenceIds  --verbose}
+
+  - stage: Dev
+    dependsOn: WhatIf
+    jobs:
+      - job: ExemptionsDeploymentDev
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: $(DevServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/dev" -Filter *.json
+                foreach ($file in $files) {
+                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                  $exemptionName = $jsonContent.name
+                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                  $exemptionCategory = $jsonContent.properties.exemptionCategory
+                  $scope = $jsonContent.scope.subscriptionId
+                  $expiresOn = $jsonContent.properties.expiresOn
+                  $description = $jsonContent.properties.description
+                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                  az policy exemption create --name $exemptionName `
+                    --scope $scope `
+                    --policy-assignment $policyAssignmentId `
+                    --exemption-category $exemptionCategory `
+                    --expires-on $expiresOn `
+                    --description $description `
+                    --policy-definition-reference-ids $policyDefinitionReferenceIds --verbose}
+
+  - stage: Prod
+    dependsOn: WhatIf
+    jobs:
+      - job: ExemptionsDeploymentProd
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - task: AzureCLI@2
+            # condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+            inputs:
+              azureSubscription: $(ProdServiceConnection)
+              scriptType: "ps"
+              visibleAzLogin: false
+              scriptLocation: "inlineScript"
+              inlineScript: |
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/prod" -Filter *.json
+                foreach ($file in $files) {
+                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
+                  $exemptionName = $jsonContent.name
+                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                  $exemptionCategory = $jsonContent.properties.exemptionCategory
+                  $scope = $jsonContent.scope.subscriptionId
+                  $expiresOn = $jsonContent.properties.expiresOn
+                  $description = $jsonContent.properties.description
+                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
+                  az policy exemption create --name $exemptionName `
+                    --scope $scope `
+                    --policy-assignment $policyAssignmentId `
+                    --exemption-category $exemptionCategory `
+                    --expires-on $expiresOn `
+                    --description $description `
+                    --policy-definition-reference-ids $policyDefinitionReferenceIds --verbose}

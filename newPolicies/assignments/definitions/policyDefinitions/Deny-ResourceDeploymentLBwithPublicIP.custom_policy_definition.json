@@ -1,0 +1,56 @@
+{
+    "name": "Deny-LB-PublicIP-AKS",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2021-06-01",
+    "properties": {
+        "displayName": "Deny Load Balancers with Public IP frontends",
+        "policyType": "Custom",
+        "mode": "All",
+        "description": "Denies creation or update of Azure Load Balancers that have any frontend IP configuration associated with a Public IP address (public load balancers).",
+        "metadata": {
+            "category": "Network",
+            "version": "2.0.0"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable the execution of the policy."
+                },
+                "allowedValues": [
+                    "Deny",
+                    "Disabled"
+                ],
+                "defaultValue": "Deny"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/loadBalancers"
+                    },
+                    {
+                        "field": "name",
+                        "notEquals": "kubernetes"
+                    },
+                    {
+                        "count": {
+                            "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*]",
+                            "where": {
+                                "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIPAddress.id",
+                                "exists": "true"
+                            }
+                        },
+                        "greater": 0
+                    }
+                ]
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        }
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "Audit-AzureBackup",
+  "properties": {
+    "description": "Azure Backup should be enabled",
+    "displayName": "Azure Backup should be enabled",
+    "metadata": {
+      "category": "Backup"
+    },
+    "parameters": {},
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Azure Backup should be enabled for Virtual Machines",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/013e242c-8828-4970-87b3-ab247555486d"
+    }
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

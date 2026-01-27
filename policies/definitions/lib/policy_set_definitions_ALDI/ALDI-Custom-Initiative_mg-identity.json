@@ -1,0 +1,29 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-identity",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-identity",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-identity",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[General] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Network interfaces should not have public IPs",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83a86a26-fd1f-447c-b59d-e51f44264114"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Network interfaces should disable IP forwarding",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/88c0b9da-ce96-4b03-9635-f29a937e2900"
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

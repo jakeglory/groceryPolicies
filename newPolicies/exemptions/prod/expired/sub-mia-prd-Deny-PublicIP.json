@@ -1,0 +1,17 @@
+{
+    "name": "sub-mia-prd-Deny-PublicIP",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicips-lz",
+        "displayName": "sub-mia-prd Deny PublicIP",
+        "description": "ServiceNow Ticket: SCTASK0324086",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-09-30T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "network interfaces should not have public ips"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/272a91e2-d3b0-4e22-87f3-8053d6b634be/resourceGroups/rg-mia-test-securemail"
+    }
+}

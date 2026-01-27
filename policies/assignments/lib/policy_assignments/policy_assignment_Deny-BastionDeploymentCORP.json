@@ -1,0 +1,22 @@
+{
+  "name": "Deny-BastionDeployCORP",
+  "properties": {
+    "description": "Assignments prevent deployment of Azure Bastion Host in MG-CORP",
+    "displayName": "Assignments prevent deployment of Azure Bastion Host in MG-CORP",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": ["microsoft.network/bastionhosts"]
+      },
+      "effect": {
+        "value": "Deny"
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749"
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

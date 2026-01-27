@@ -1,0 +1,17 @@
+{
+    "name": "sub-a365-prd-Deny-Public-Endpoints",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deny-public-endpoints",
+        "displayName": "sub-a365-prd - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: SCTASK0279606",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-10-17T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "SqlServerDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/d941d078-c63c-4fe5-9f61-8107041d6e8d/resourceGroups/rg-a365-prd-sql"
+    }
+}

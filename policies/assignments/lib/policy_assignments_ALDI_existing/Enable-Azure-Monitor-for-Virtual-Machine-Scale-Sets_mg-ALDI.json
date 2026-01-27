@@ -1,0 +1,24 @@
+{
+    "type": "Microsoft.Authorization/policyAssignments",
+    "name": "Az-Monitor-VM-ScaleSet",
+    "location": "westeurope",
+    "identity": {
+        "type": "SystemAssigned"
+    },
+    "properties": {
+        "displayName": "Enable Azure Monitor for Virtual Machine Scale Sets",
+        "description": "Enable Azure Monitor for the Virtual Machine Scale Sets in the specified scope (Management group, Subscription or resource group). Takes Log Analytics workspace as parameter. Note: if your scale set upgradePolicy is set to Manual, you need to apply the extension to the all VMs in the set by calling upgrade on them. In CLI this would be az vmss update-instances.",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/75714362-cae7-409e-9b99-a8e5075b7fad",
+        "managementGroupId": "aldi",
+        "notScopes": [],
+        "parameters": {
+            "logAnalytics_1": {
+                "value": "${LAW-Workspace}"
+            }
+        },
+        "enforcementMode": "Default"
+    },
+    "roles": [
+        "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293" //Log Analytics Contributor
+    ]
+}

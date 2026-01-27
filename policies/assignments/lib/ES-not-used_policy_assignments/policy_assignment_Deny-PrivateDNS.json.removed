@@ -1,0 +1,22 @@
+{
+  "name": "Deny-PrivateDNS",
+  "properties": {
+    "description": "This policy denies the creation of a private DNS Zones and Public IPs",
+    "displayName": "Deny the creation of private DNS",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "denyPrivateDNSZones": {
+        "value": "Deny"
+      },
+      "denyPublicIP": {
+        "value": "Deny"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-PrivateDNS"
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

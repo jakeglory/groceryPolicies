@@ -1,0 +1,21 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-connectivity",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-connectivity",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-connectivity",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[General] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

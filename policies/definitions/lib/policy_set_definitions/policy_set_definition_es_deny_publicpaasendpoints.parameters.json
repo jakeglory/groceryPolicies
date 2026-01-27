@@ -1,0 +1,177 @@
+{
+  "[Preview]: Storage account public access should be disallowed": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Storage account public access should be disallowed Effect')]"
+      }
+    }
+  },
+  "ACRDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('ACRPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "AFSDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AFSPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "AKSDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('AKSPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "APIManagementServiceShouldUseASKUThatSupportsVirtualNetworks": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('APIManagementServiceShouldUseASKUThatSupportsVirtualNetworksEffect')]"
+      }
+    }
+  },
+  "Azure Attestation providers should use private endpoints": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Azure Attestation providers should use private endpoints Effect')]"
+      }
+    }
+  },
+  "Azure Cache for Redis should disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Azure Cache for Redis should disable public network access Effect')]"
+      }
+    }
+  },
+  "Azure Cognitive Search services should disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Azure Cognitive Search services should disable public network access Effect')]"
+      }
+    }
+  },
+  "Azure SignalR Service should disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Azure SignalR Service should disable public network access Effect')]"
+      }
+    }
+  },
+  "Azure Synapse workspaces should disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Azure Synapse workspaces should disable public network access Effect')]"
+      }
+    }
+  },
+  "BatchDenyPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('BatchPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "Configure API Management services to disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Configure API Management services to disable public network access Effect')]"
+      }
+    }
+  },
+  "CosmosDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('CosmosPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "Deny-PublicEndpoint-MariaDB": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('MariaDBIpDenyEffect')]"
+      }
+    }
+  },
+  "IoT Hub device provisioning service instances should disable public network access": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('IoT Hub device provisioning service instances should disable public network access Effect')]"
+      }
+    }
+  },
+  "KeyVaultDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('KeyVaultPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "KeyVaultDenyPaasPublicNetwork": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('KeyVaultPublicNetworkDenyEffect')]"
+      }
+    }
+  },
+  "MySQLDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('MySQLIpDenyEffect')]"
+      }
+    }
+  },
+  "MySQLFlexDenyPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('MySQLFlexPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "PostgreSQLDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('PostgreSQLIpDenyEffect')]"
+      }
+    }
+  },
+  "PostgreSQLFlexDenyPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('PostgreSQLFlexPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "Public network access on Azure Data Factory should be disabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Public network access on Azure Data Factory should be disabled Effect')]"
+      }
+    }
+  },
+  "Public network access on Azure IoT Hub should be disabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Public network access on Azure IoT Hub should be disabled Effect')]"
+      }
+    }
+  },
+  "SqlServerDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('SqlServerPublicIpDenyEffect')]"
+      }
+    }
+  },
+  "StorageDenyPaasPublicIP": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('StoragePublicIpDenyEffect')]"
+      }
+    }
+  }
+}

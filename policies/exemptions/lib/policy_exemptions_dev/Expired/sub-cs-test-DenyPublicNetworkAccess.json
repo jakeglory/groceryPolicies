@@ -1,0 +1,16 @@
+{
+    "name": "sub-cs-test-DenyPublicNetworkAccess",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicaccess",
+        "displayName": "sub-cs-test - Deny Public Network Access",
+        "description": "One month exemption approved by Cyber Defense",
+        "expiresOn": "2023-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-RDP-From-Internet"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "e9ee598d-50e3-42f8-b8ad-6eb3804f43a5"
+    }
+}

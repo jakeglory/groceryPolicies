@@ -1,0 +1,38 @@
+{
+  "name": "Deny-PublicAccess",
+  "properties": {
+    "description": "Denies any network security rule that allows RDP access from Internet",
+    "displayName": "Deny Public Access to network",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Deny-RDP-From-Internet",
+      "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-RDP-From-Internet",
+      "parameters": {
+        "effect": {
+          "value": "[[parameters('Effect')]"
+        }
+      },
+      "groupNames": []
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

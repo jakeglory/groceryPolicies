@@ -1,0 +1,16 @@
+{
+    "name": "130ae4156261467baa84a7c6",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "sub-de-ohg-ats-dcs-cnct-prd - ALDI-Custom-Initiative_mg-ALDI - allowed location",
+        "description": "Allowed locations - Exemption for building ExpressRoute Circuit to FFM (Germany West Central)",
+        "policyDefinitionReferenceIds": [
+            "[Security] Allowed locations",
+            "[Security] Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "8406eed5-3171-437f-90bf-184f698e5fd7"
+    }
+}

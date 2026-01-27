@@ -1,0 +1,22 @@
+{
+  "name": "Deny-VNETPeerSandboxes",
+  "properties": {
+    "description": "Deny VNET Peering in Sandbox Subscriptions",
+    "displayName": "Deny VNET Peering in Sandbox Subscriptions",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Deny vNet peering",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-vNet-peering"
+      },
+      {
+        "policyDefinitionReferenceId": "Deny vNet peering Cross",
+        "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-VNET-Peer-Cross-Sub"
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

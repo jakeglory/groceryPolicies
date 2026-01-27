@@ -1,0 +1,11 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Network] Network interfaces should not have public IPs": {
+    "parameters": {}
+  },
+  "[Security] Network interfaces should disable IP forwarding": {
+    "parameters": {}
+  }
+}

@@ -1,0 +1,674 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-corp",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-corp",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-corp",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "API Management service should use a SKU that supports virtual networks",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/73ef9241-5d81-4cd4-b483-8443d1730fe5",
+        "parameters": {
+          "effect": {
+            "value": "Deny"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] API Management services should use a virtual network",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ef619a2c-cc4d-4d03-b2ba-8c94a834d85b"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Configure API Management services to disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7ca8c8ac-3a6e-493d-99ba-c5fa35347ff2"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] API Management services should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/df73bd95-24da-4a4f-96b9-4e8b94b402bd"
+      },
+      {
+        "policyDefinitionReferenceId": "[General] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Deny Private DNS Zones",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link blob to privatelink.blob.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "blob"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link blob_secondary to privatelink.blob.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "blob_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.blob.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link table to privatelink.table.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "table"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link table_secondary to privatelink.table.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "table_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.table.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link file to privatelink.file.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "file"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link file_secondary to privatelink.file.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "file_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.file.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link queue to privatelink.queue.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "queue"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link queue_secondary to privatelink.queue.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "queue_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.queue.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link web to privatelink.web.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "web"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link web_secondary to privatelink.web.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "web_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.web.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link vault to privatelink.vaultcore.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "vault"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.KeyVault"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link sites to privatelink.azurewebsites.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "sites"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Web"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azurewebsites.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link table to privatelink.table.cosmos.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "table"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DocumentDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.table.cosmos.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Cassandra to privatelink.cassandra.cosmos.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "Cassandra"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DocumentDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.cassandra.cosmos.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Gremlin to privatelink.gremlin.cosmos.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "Gremlin"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DocumentDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.gremlin.cosmos.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link MongoDB to privatelink.mongo.cosmos.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "MongoDB"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DocumentDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.mongo.cosmos.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link SQL to privatelink.documents.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "SQL"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DocumentDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.documents.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link registry to privatelink.azurecr.io",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "registry"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.ContainerRegistry"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azurecr.io"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link postgresqlServer to privatelink.postgres.database.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "postgresqlServer"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DBforPostgreSQL"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.postgres.database.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link sqlServer to privatelink.database.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "sqlServer"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Sql"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.database.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link serviceBus to privatelink.servicebus.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "namespace"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.ServiceBus"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.servicebus.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6edd7eda-6dd8-40f7-810d-67160c639cd9",
+        "policyDefinitionReferenceId": "[Network] Storage accounts should use private link",
+        "parameters": {
+          "effect": {
+            "value": "AuditIfNotExists"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link eventHub to privatelink.servicebus.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "namespace"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.EventHub"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.servicebus.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Private endpoint connections on Azure SQL Database should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link App Configuration to privatelink.azconfig.io",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "configurationStores"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.AppConfiguration"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azconfig.io"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link afs to privatelink.afs.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "afs"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.StorageSync"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.afs.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link amlworkspace to privatelink.api.azureml.ms",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "amlworkspace"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.MachineLearningServices"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.api.azureml.ms"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Automation Webook to privatelink.azure-automation.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "Webhook"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Automation"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Automation DSCAndHybridWorker to privatelink.azure-automation.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "DSCAndHybridWorker"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Automation"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azure-automation.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link iotHub to privatelink.azure-devices.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "iotHub"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Devices"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.azure-devices.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Data Factory to privatelink.datafactory.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "dataFactory"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DataFactory"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.datafactory.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Data Lake File System Gen2 to privatelink.dfs.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "dfs"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Data Lake File System Gen2 secondary to privatelink.dfs.core.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "dfs_secondary"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Storage"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.dfs.core.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Digital Twins to privatelink.digitaltwins.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "digitalTwinsInstances"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DigitalTwins"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.digitaltwins.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Event Grid domain to privatelink.eventgrid.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "domain"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.EventGrid"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.eventgrid.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Event Grid topic to privatelink.eventgrid.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "topic"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.EventGrid"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.eventgrid.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link mariadbServer to privatelink.mariadb.database.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "mariadbServer"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DBforMariaDB"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.mariadb.database.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link mysqlServer to privatelink.mysql.database.azure.com",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "mysqlServer"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.DBforMySQL"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.mysql.database.azure.com"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link amlworkspace to privatelink.notebooks.azure.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "amlworkspace"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.MachineLearningServices"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.notebooks.azure.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Search Service to privatelink.search.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "searchService"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Search"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.search.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Relay to privatelink.servicebus.windows.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "namespace"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Relay"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.servicebus.windows.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Synapse Sql to privatelink.sql.azuresynapse.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "Sql"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Synapse"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.sql.azuresynapse.net"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Link Synapse SqlOnDemand to privatelink.sql.azuresynapse.net",
+        "policyDefinitionId": "PrivateDNSConfigPolicyDefinitionID",
+        "parameters": {
+          "targetSubResourceType": {
+            "value": "SqlOnDemand"
+          },
+          "targetResourceProvider": {
+            "value": "Microsoft.Synapse"
+          },
+          "privateDnsZoneId": {
+            "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-privatednszones/providers/Microsoft.Network/privateDnsZones/privatelink.sql.azuresynapse.net"
+          }
+        }
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

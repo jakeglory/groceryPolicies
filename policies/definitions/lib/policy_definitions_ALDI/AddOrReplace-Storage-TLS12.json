@@ -1,0 +1,48 @@
+{
+    "name": "AddOrReplace-Storage-TLS12",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2020-09-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "Set minimum TLS 1.2 for storage",
+        "description": "Set minimum TLS version to 1.2 at storage account creation.",
+        "mode": "Indexed",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage"
+        },
+        "parameters": {},
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+                            "equals": "TLS1_2"
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "modify",
+                "details": {
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "operations": [
+                        {
+                            "operation": "addOrReplace",
+                            "field": "Microsoft.Storage/storageAccounts/minimumTlsVersion",
+                            "value": "TLS1_2"
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

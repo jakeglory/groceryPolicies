@@ -1,0 +1,22 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-decommissioned",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-decommissioned",
+    "description": "ALDI-Custom Initiative to mg-decommissioned",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-decommissioned-ID}",
+    "managementGroupId": "decommissioned",
+    "notScopes": [],
+    "parameters": {
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+  ]
+}

@@ -1,0 +1,18 @@
+{
+    "name": "sub-ccde-dev-AllowedLocationsSet",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-ccde-dev - AllowedLocations",
+        "description": "ServiceNow Ticket: SCTASK0354887",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-05-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/f7c68333-91ee-4e1e-a566-64ea62ed100b"
+    }
+}

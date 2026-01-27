@@ -1,0 +1,48 @@
+{
+  "name": "Allowed-Locations",
+  "properties": {
+    "description": "This policy-set enables you to restrict the locations your organization can specify when deploying resources.",
+    "displayName": "Allowed Locations",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+      "listOfAllowedLocations": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Allowed locations",
+          "description": "The list of locations that can be specified when deploying resources. "
+        },
+        "defaultValue": [
+          "westeurope",
+          "northeurope"
+        ]
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Allowed locations",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+        "parameters": {
+          "listOfAllowedLocations": {
+            "value": "[[parameters('listOfAllowedLocations')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Allowed locations for resource groups",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+        "parameters": {
+          "listOfAllowedLocations": {
+            "value": "[[parameters('listOfAllowedLocations')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

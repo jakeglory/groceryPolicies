@@ -1,0 +1,9 @@
+{
+  "Configure Azure Machine Learning Computes to disable local authentication methods": {
+    "parameters": {
+      "effect": {
+        "value": "Modify"
+      }
+    }
+  }
+}

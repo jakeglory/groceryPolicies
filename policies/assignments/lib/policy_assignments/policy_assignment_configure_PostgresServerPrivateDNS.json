@@ -1,0 +1,25 @@
+{
+  "name": "Config-MySQL-PrivDNS",
+  "properties": {
+    "description": "Configure Private DNS for MySQL Server",
+    "displayName": "Configure Private DNS for MySQL Server",
+    "enforcementMode": "DoNotEnforce",
+    "notScopes": [],
+    "parameters": {
+      "virtualNetworkResourceId": {
+        "value": "/subscriptions/8406eed5-3171-437f-90bf-184f698e5fd7/resourceGroups/rg-cnct-prod-dns/providers/Microsoft.Network/virtualNetworks/vn-we-prod-dns"
+      },
+      "parentDnsNamespace": {
+        "value": "mysql.database.azure.com"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Config-flexibleServerPrivateDNS",
+    "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/b12aa53e-6015-4669-85d0-8515ebb3ae7f"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

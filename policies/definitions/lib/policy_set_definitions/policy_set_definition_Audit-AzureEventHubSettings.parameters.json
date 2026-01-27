@@ -1,0 +1,5 @@
+{
+  "Authorization rules on the Event Hub instance should be defined": {
+    "parameters": {}
+  }
+}

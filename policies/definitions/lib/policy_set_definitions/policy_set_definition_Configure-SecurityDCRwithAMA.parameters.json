@@ -1,0 +1,187 @@
+{
+  "Associate Security DCR with Windows VM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "listOfWindowsImageIdToInclude": {
+        "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('WindowsDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  },
+  "Associate Security DCR with Linux VM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "listOfLinuxImageIdToInclude": {
+        "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('LinuxDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  },
+  "[Preview]: Assign Built-In User-Assigned Managed Identity to Virtual Machines": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "bringYourOwnUserAssignedManagedIdentity": {
+        "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+      },
+      "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+        "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+      },
+      "userAssignedIdentityResourceId": {
+        "value": "[[parameters('userAssignedIdentityResourceId')]"
+      },
+      "userAssignedIdentityName": {
+        "value": "[[parameters('userAssignedIdentityName')]"
+      },
+      "identityResourceGroup": {
+        "value": "[[parameters('identityResourceGroup')]"
+      },
+      "builtInIdentityResourceGroupLocation": {
+        "value": "[[parameters('builtInIdentityResourceGroupLocation')]"
+      }
+    }
+  },
+  "Configure Linux virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "bringYourOwnUserAssignedManagedIdentity": {
+        "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+      },
+      "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+        "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+      },
+      "userAssignedIdentityResourceId": {
+        "value": "[[parameters('userAssignedIdentityResourceId')]"
+      },
+      "userAssignedManagedIdentityName": {
+        "value": "[[parameters('userAssignedIdentityName')]"
+      },
+      "userAssignedManagedIdentityResourceGroup": {
+        "value": "[[parameters('identityResourceGroup')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      },
+      "listOfLinuxImageIdToInclude": {
+        "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+      }
+    }
+  },
+  "Configure Windows virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "bringYourOwnUserAssignedManagedIdentity": {
+        "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+      },
+      "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+        "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+      },
+      "userAssignedIdentityResourceId": {
+        "value": "[[parameters('userAssignedIdentityResourceId')]"
+      },
+      "userAssignedManagedIdentityName": {
+        "value": "[[parameters('userAssignedIdentityName')]"
+      },
+      "userAssignedManagedIdentityResourceGroup": {
+        "value": "[[parameters('identityResourceGroup')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      },
+      "listOfWindowsImageIdToInclude": {
+        "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+      }
+    }
+  },
+  "Deploy Dependency agent for Linux virtual machines with Azure Monitoring Agent settings": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "enableProcessesAndDependencies": {
+        "value": "[[parameters('enableProcessesAndDependencies')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  },
+  "Deploy Dependency agent to be enabled on Windows virtual machines with Azure Monitoring Agent settings": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "enableProcessesAndDependencies": {
+        "value": "[[parameters('enableProcessesAndDependencies')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  },
+  "Configure Linux Arc-enabled machines to run Azure Monitor Agent": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      }
+    }
+  },
+  "Configure Windows Arc-enabled machines to run Azure Monitor Agent": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      }
+    }
+  },
+  "Configure Linux Arc Machines to be associated with a Data Collection Rule or a Data Collection Endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('LinuxDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      }
+    }
+  },
+  "Configure Windows Arc Machines to be associated with a Data Collection Rule or a Data Collection Endpoint": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('WindowsDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      }
+    }
+  }
+}

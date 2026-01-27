@@ -1,0 +1,15 @@
+{
+  "name": "Audit-SQLSettings",
+  "properties": {
+    "description": "Audit SQL Database Settings",
+    "displayName": "Audit SQL Database Settings",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Audit-SQLSettings"
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

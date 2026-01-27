@@ -1,0 +1,8 @@
+{
+  "Deny vNet peering": {
+    "parameters": {}
+  },
+  "Deny vNet peering Cross": {
+    "parameters": {}
+  }
+}

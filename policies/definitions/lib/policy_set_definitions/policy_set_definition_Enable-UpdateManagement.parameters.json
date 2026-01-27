@@ -1,0 +1,29 @@
+﻿{
+    "[Preview]: Configure periodic checking for missing system updates on Linux azure virtual machines": {
+        "parameters": {
+            "assessmentMode": {
+                "value": "[[parameters('assessmentMode')]"
+            },
+            "osType": {
+                "value": "Linux"
+            }
+        }
+    },
+    "[Preview]: Configure periodic checking for missing system updates on Windows azure virtual machines": {
+        "parameters": {
+            "assessmentMode": {
+                "value": "[[parameters('assessmentMode')]"
+            },
+            "osType": {
+                "value": "Windows"
+            }
+        }
+    },
+    "[Preview]: Machines should be configured to periodically check for missing system updates": {
+        "parameters": {
+            "effect": {
+                "value": "[[parameters('effect')]"
+            }
+        }
+    }
+}

@@ -1,0 +1,141 @@
+{
+  "name": "Audit-KeyVaultSecuritySettings",
+  "properties": {
+    "description": "Audit KeyVault Security Settings",
+    "displayName": "Audit KeyVault Security Settings",
+    "metadata": {
+      "category": "Key Vault"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ]
+      },
+      "Keys maximum validity in days": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "The maximum validity period in days for Keys",
+          "description": "Specify the maximum number of days a key can be valid for after activation."
+        }
+      },
+      "Keys minimum days before expiration": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "The minimum days before expiration for Keys",
+          "description": "Specify the minimum number of days that a key should remain usable prior to expiration."
+        }
+      },
+      "Secrets maximum validity in days": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "The maximum validity period in days for Secrets",
+          "description": "Specify the maximum number of days a secret can be valid for. Secrets should be ephemeral. Using a secret with a long validity period is not recommended."
+        }
+      },
+      "Secrets maximum validity in days after activation": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "The maximum validity period in days for Secrets after activation",
+          "description": "Specify the maximum number of days a secret can be valid for after activation."
+        }
+      },
+      "Secrets minimum days before expiration": {
+        "type": "Integer",
+        "metadata": {
+          "displayName": "The minimum days before expiration for Secrets",
+          "description": "Specify the minimum number of days that a secret should remain usable prior to expiration."
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Key Vault keys should have an expiration date",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/152b15f7-8e1f-4c1f-ab71-8c010ba5dbc0",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Key Vault secrets should have an expiration date",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/98728c90-32c7-4049-8429-847dc0f4fe37",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Keys should have more than the specified number of days before expiration",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5ff38825-c5d8-47c5-b70e-069a21955146",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          },
+          "minimumDaysBeforeExpiration": {
+            "value": "[[parameters('Keys minimum days before expiration')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Keys should not be active for longer than the specified number of days",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c26e4b24-cf98-4c67-b48b-5a25c4c69eb9",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          },
+          "maximumValidityInDays": {
+            "value": "[[parameters('Keys maximum validity in days')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Secrets should have more than the specified number of days before expiration",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0eb591a-5e70-4534-a8bf-04b9c489584a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          },
+          "minimumDaysBeforeExpiration": {
+            "value": "[[parameters('Secrets minimum days before expiration')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Secrets should have the specified maximum validity period",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/342e8053-e12e-4c44-be01-c3c2f318400f",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          },
+          "maximumValidityInDays": {
+            "value": "[[parameters('Secrets maximum validity in days')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Secrets should not be active for longer than the specified number of days",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e8d99835-8a06-45ae-a8e0-87a91941ccfe",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          },
+          "maximumValidityInDays": {
+            "value": "[[parameters('Secrets maximum validity in days after activation')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

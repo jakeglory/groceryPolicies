@@ -1,0 +1,17 @@
+{
+    "name": "sub-cloudtraining-dev-AL",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-cloudtraining-dev - AllowedLocations",
+        "description": "Exemption for Training purposes, approved by Alex Thoemmes",
+        "expiresOn": "2024-07-26T18:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "38a8c438-1f61-4639-8408-14657e5a0e92"
+    }
+}

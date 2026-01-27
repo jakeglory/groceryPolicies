@@ -1,0 +1,637 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-ALDI",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-ALDI",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-ALDI",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+      "logAnalytics": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Primary Log Analytics workspace",
+          "description": "Select Log Analytics workspace from dropdown list. If this workspace is outside of the scope of the assignment you must manually grant 'Log Analytics Contributor' permissions (or similar) to the policy assignment's principal ID.",
+          "strongType": "omsWorkspace"
+        }
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[Security] Allowed locations",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c",
+        "parameters": {
+          "listOfAllowedLocations": {
+            "value": [
+              "westeurope",
+              "northeurope"
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Allowed locations for resource groups",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988",
+        "parameters": {
+          "listOfAllowedLocations": {
+            "value": [
+              "northeurope",
+              "westeurope"
+            ]
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] App Service should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2d21331d-a4c2-4def-a9ad-ee4e1e023beb"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Audit virtual machines without disaster recovery configured",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Audit VMs that do not use managed disks",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/06a78e20-9358-41c9-923c-fb736d382a4d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Authorization rules on the Event Hub instance should be defined",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4826e5f-6a27-407c-ae3e-9582eb39891d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Deploy Advanced Data Security on SQL servers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Deploy SQL DB transparent data encryption",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Deploy Threat Detection on SQL servers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Enable Azure Security Center on your subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ac076320-ddcf-4066-b451-6154267e8ad2"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Event Hub should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d63edb4a-c612-454d-b47d-191a724fcbf0"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Gateway subnets should not be configured with a network security group",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/35f9c03a-cc27-418e-9c0c-539ff999d010"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Key Vault should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea4d6841-2173-4317-9747-ff522a45120f"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Microsoft Antimalware for Azure should be configured to automatically update protection signatures",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c43e4a30-77cb-48ab-a4dd-93f175c63b57"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Microsoft IaaSAntimalware extension should be deployed on Windows servers",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9b597639-28e4-48eb-b506-56b05d366257"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Require encryption on Data Lake Store accounts",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Service Bus should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/235359c5-7c52-4b82-9055-01c75cf9f60e"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] SQL Server should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ae5d2f14-d830-42b6-9899-df6cfe9c71a3"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Storage Accounts should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/60d21c4f-21a3-4d94-85f4-b924e6aeeda4"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] The Log Analytics agent should be installed on Virtual Machine Scale Sets",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/efbde977-ba53-4479-b8e9-10b957924fbf"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] The Log Analytics agent should be installed on virtual machines",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a70ca396-0a34-413a-88e1-b956c1e683be"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit CostCenter tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "CostCenter"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Stage tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Stage"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit ApplicationName tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "ApplicationName"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Owner tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Owner"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Operations tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Operations"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Country tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Country"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Company tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Company"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Business Unit tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Business Unit"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Inherit Department tag from the subscription if missing",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+        "parameters": {
+          "tagName": {
+            "value": "Department"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_name tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_name"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_additional_info_optional tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_additional_info_optional"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_invoice_recipient_contact_email tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_invoice_recipient_contact_email"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_street tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_street"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_postalcode tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_postalcode"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_city tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_city"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_entity_country tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_entity_country"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_invoice_recipient_unit tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_invoice_recipient_unit"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Billing] Inherit billing_invoice_recipient_contact tag from the subscription",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140",
+        "parameters": {
+          "tagName": {
+            "value": "billing_invoice_recipient_contact"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Deploy Diagnostic Settings for Activity Log to Log Analytics workspace",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/diag-sub-to-AssignedLAW",
+        "parameters": {
+          "logAnalytics": {
+            "value": "[[parameters('logAnalytics')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Deploy Diagnostic Settings for Recovery Service Vault to Log Analytics workspace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3",
+        "parameters": {
+          "logAnalytics": {
+            "value": "[[parameters('logAnalytics')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Azure Backup should be enabled for Virtual Machines",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/013e242c-8828-4970-87b3-ab247555486d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Network Watcher flow logs should have traffic analytics enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2f080164-9f4d-497e-9db6-416dc9f7b48a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] App Configuration should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3d9f5e4c-9947-4579-9539-2a7695fbc187"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure API for FHIR should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1ee56206-5dd1-42ab-b02d-8aae8b1634ce"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Attestation providers should use private endpoints",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7b256a2d-058b-41f8-bed9-3f870541c40a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Cache for Redis should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/470baccb-7e51-4549-8b1a-3e5be069f663"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Cache for Redis should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7803067c-7d34-46e3-8c79-0ca68fc4036d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Cognitive Search services should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ee980b6d-0eca-4501-8d54-f6290fd512c3"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Cognitive Search services should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0fda3595-9f2b-4592-8675-4231d6fa82fe"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Cosmos DB should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/797b37f7-06b8-444c-b1ad-fc62867f335a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Data Factory should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8b0323be-cc25-4b61-935d-002c3798c6ea"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure File Sync should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1d320205-c6a1-4ac6-873d-46224024e8e2"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Media Services accounts should use an API that supports Private Link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a77d8bb4-8d22-4bc1-a884-f582a705b480"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Service Bus namespaces should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1c06e275-d63d-4540-b761-71f364c2111d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure SignalR Service should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/21a9766a-82a5-4747-abb5-650b6dbba6d0"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure SignalR Service should use a Private Link enabled SKU",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/464a1620-21b5-448d-8ce6-d4ac6d1bc49a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Synapse workspaces should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/38d8df46-cf4e-4073-8e03-48c24b29de0d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Azure Synapse workspaces should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/72d11df1-dd8a-41f7-8925-b05b960ebafc"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Cloud Services (extended support) role instances should have an endpoint protection solution installed",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e378679-f122-4a96-a739-a7729c46e1aa"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Cognitive Services should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/cddd188c-4b82-4c48-a19d-ddf74ee66a01"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] CosmosDB accounts should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/58440f8a-10c5-4151-bdce-dfbaad4a20b7"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Disk access resources should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f39f5f49-4abf-44de-8c70-0756997bfb51"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Event Hub namespaces should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b8564268-eb4a-4337-89be-a19db070c59d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] IoT Hub device provisioning service instances should disable public network access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d82101f3-f3ce-4fc5-8708-4c09f4009546"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] IoT Hub device provisioning service instances should use private link",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/df39c015-56a4-45de-b4a3-efe77bed320d"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] IP firewall rules on Azure Synapse workspaces should be removed",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/56fd377d-098c-4f02-8406-81eb055902b8"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] MariaDB server should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/dfbd9a64-6114-48de-a47d-90574dc2e489"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] MySQL server should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3375856c-3824-4e0e-ae6a-79e011dd4c47"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] PostgreSQL server should use a virtual network service endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3c14b034-bcb6-4905-94e7-5b8e98a47b65"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Private endpoint connections on Automation Accounts should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0c2b3618-68a8-4034-a150-ff4abc873462"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Private endpoint connections on Batch accounts should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/009a0c92-f5b4-4776-9b66-4ed2b4775563"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Private endpoint should be enabled for IoT Hub",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0d40b058-9f95-4a19-93e3-9b0330baa2a3"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Public network access on Azure Data Factory should be disabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1cf164be-6819-4a50-b8fa-4bcaa4f98fb6"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Public network access on Azure IoT Hub should be disabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2d6830fb-07eb-48e7-8c4d-2a442b35f0fb"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Public network access should be disabled for Azure File Sync",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/21a8cd35-125e-4d13-b82d-2e19b7208bb7"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Public network access should be disabled for Batch accounts",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/74c5a0ae-5e48-4738-b093-65e23a060488"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Public network access should be disabled for Container registries",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0fdf0491-d080-4575-b627-ad0e843cba0f"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3a003702-13d2-4679-941b-937e58c443f0"
+      },
+      {
+        "policyDefinitionReferenceId": "[General] Configure diagnostic settings for storage accounts to Log Analytics workspace",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/6f8f98a4-f108-47cb-8e98-91a0d85cd474",
+        "parameters": {
+          "logAnalytics": {
+            "value": "[[parameters('logAnalytics')]"
+          },
+          "servicesToDeploy": {
+            "value": [
+              "storageAccounts",
+              "blobServices",
+              "fileServices",
+              "tableServices",
+              "queueServices"
+            ]
+          },
+          "diagnosticsSettingNameToUse": {
+            "value": "storageAccountsDiagnosticsLogsToWorkspace"
+          },
+          "effect": {
+            "value": "DeployIfNotExists"
+          },
+          "StorageDelete": {
+            "value": "True"
+          },
+          "StorageWrite": {
+            "value": "True"
+          },
+          "StorageRead": {
+            "value": "True"
+          },
+          "Transaction": {
+            "value": "True"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Secure transfer to storage accounts should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9",
+        "parameters": {
+          "effect": {
+            "value": "Deny"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Storage account keys should not be expired",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/044985bb-afe1-42cd-8a36-9d5d42424537",
+        "parameters": {
+          "effect": {
+            "value": "Audit"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Preview - Storage account public access should be disallowed",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4fa4b6c0-31ca-4c0d-b10d-24b96f62a751",
+        "parameters": {
+          "effect": {
+            "value": "deny"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[General] Storage accounts should be migrated to new Azure Resource Manager resources",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/37e0d2fe-28a5-43d6-a273-67d37d1f5606",
+        "parameters": {
+          "effect": {
+            "value": "Deny"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Storage accounts should have infrastructure encryption",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/4733ea7b-a883-42fe-8cac-97454c2a9e4a",
+        "parameters": {
+          "effect": {
+            "value": "Audit"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Storage accounts should prevent shared key access",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8c6a50c6-9ffd-4ae7-986f-5fa6111f9a54",
+        "parameters": {
+          "effect": {
+            "value": "Audit"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Set minimum TLS 1.2 for storage",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-TLS12"
+      },
+      {
+        "policyDefinitionReferenceId": "[Storage] Enable soft-delete on blob-services",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-BlobServicesSoftDelete"
+      },
+      {
+        "policyDefinitionReferenceId": "[Storage] Enable soft-delete on containers",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-ContainerSoftDelete"
+      },
+      {
+        "policyDefinitionReferenceId": "[Storage] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/3a003702-13d2-4679-941b-937e58c443f0"      
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Azure SQL Database should have Azure Active Directory Only Authentication enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/abda6d70-9778-44e7-84a8-06713e6db027"
+      },    
+      {
+        "policyDefinitionReferenceId": "[Security] Azure SQL Database should have the minimal TLS version of 1.2 ",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/32e6bbec-16b6-44c2-be37-c5b672d103cf"
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Key Vault keys should have an expiration date",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/152b15f7-8e1f-4c1f-ab71-8c010ba5dbc0"
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Key Vault secrets should have an expiration date",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/98728c90-32c7-4049-8429-847dc0f4fe37"
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Keys should have more than the specified number of days before expiration",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/5ff38825-c5d8-47c5-b70e-069a21955146",
+        "parameters": {
+          "minimumDaysBeforeExpiration": {
+            "value": 730
+          }
+        }
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Keys should not be active for longer than the specified number of days",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c26e4b24-cf98-4c67-b48b-5a25c4c69eb9",
+        "parameters": {
+          "maximumValidityInDays": {
+            "value": 730
+          }
+        }
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Secrets should have more than the specified number of days before expiration",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/b0eb591a-5e70-4534-a8bf-04b9c489584a",
+        "parameters": {
+          "minimumDaysBeforeExpiration": {
+            "value": 60
+          }
+        }
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Secrets should have the specified maximum validity period",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/342e8053-e12e-4c44-be01-c3c2f318400f",
+        "parameters": {
+          "maximumValidityInDays": {
+            "value": 730
+          }
+        }
+      },      
+      {
+        "policyDefinitionReferenceId": "[Security] Secrets should not be active for longer than the specified number of days",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e8d99835-8a06-45ae-a8e0-87a91941ccfe",
+        "parameters": {
+          "maximumValidityInDays": {
+            "value": 730
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Enable Security Center's auto provisioning of the Log Analytics agent on your subscriptions with custom workspace.",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/8e7da0a5-0a0e-4bbc-bfc0-7773c018b616",
+        "parameters": {
+          "logAnalytics": {
+            "value": "[[parameters('logAnalytics')]"
+          }
+        }
+      }     
+    ],
+    "policyDefinitionGroups": null
+  }
+}

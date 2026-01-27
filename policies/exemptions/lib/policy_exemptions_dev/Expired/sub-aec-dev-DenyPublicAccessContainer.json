@@ -1,0 +1,16 @@
+{
+    "name": "sub-aec-dev-DenyPublicAccessContainer",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-aec-dev - Container deny public access",
+        "description": "ServiceNow Ticket: RITM0011115",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "ACRDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "db89842d-4146-4b94-bb7b-fbfad60b9e9c"
+    }
+}

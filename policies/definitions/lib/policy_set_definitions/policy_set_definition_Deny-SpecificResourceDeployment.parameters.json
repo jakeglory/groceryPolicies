@@ -1,0 +1,12 @@
+{
+  "Not allowed resource types": {
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": "[[parameters('listOfResourceTypesNotAllowed')]"
+      },
+      "effect": {
+        "value": "[[parameters('effect')]"
+      }
+    }
+  }
+}

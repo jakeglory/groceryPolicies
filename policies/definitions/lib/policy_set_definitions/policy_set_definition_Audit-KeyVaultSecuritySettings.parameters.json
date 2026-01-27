@@ -1,0 +1,66 @@
+{
+  "Key Vault keys should have an expiration date": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Key Vault secrets should have an expiration date": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Keys should have more than the specified number of days before expiration": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "minimumDaysBeforeExpiration": {
+        "value": "[[parameters('Keys minimum days before expiration')]"
+      }
+    }
+  },
+  "Keys should not be active for longer than the specified number of days": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "maximumValidityInDays": {
+        "value": "[[parameters('Keys maximum validity in days')]"
+      }
+    }
+  },
+  "Secrets should have more than the specified number of days before expiration": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "minimumDaysBeforeExpiration": {
+        "value": "[[parameters('Secrets minimum days before expiration')]"
+      }
+    }
+  },
+  "Secrets should have the specified maximum validity period": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "maximumValidityInDays": {
+        "value": "[[parameters('Secrets maximum validity in days')]"
+      }
+    }
+  },
+  "Secrets should not be active for longer than the specified number of days": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "maximumValidityInDays": {
+        "value": "[[parameters('Secrets maximum validity in days after activation')]"
+      }
+    }
+  }
+}

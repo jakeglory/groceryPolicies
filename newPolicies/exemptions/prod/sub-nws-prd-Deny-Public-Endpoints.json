@@ -1,0 +1,17 @@
+{
+    "name": "sub-nws-prd-Deny-Public-Endpoints",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-nws-prd - Deny-Public-Endpoints",
+        "description": "ServiceNow: RITM0300559 sub-nws-prd Exemption for Firerwall Logs",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2035-04-25T01:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "[Preview]: Storage account public access should be disallowed"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/74ea2500-39c0-4d18-873b-bd47755a72f7/resourceGroups/rg-an-governance"
+    }
+}

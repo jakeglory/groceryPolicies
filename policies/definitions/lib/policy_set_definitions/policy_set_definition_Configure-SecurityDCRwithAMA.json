@@ -1,0 +1,288 @@
+{
+  "name": "Config-SecDCRwithAMA",
+  "properties": {
+    "displayName": "Deploy Azure Monitor Agent and assosiate Security Data Collection Rules with Linux and Windows VMs",
+    "description": "Deploy Azure Monitor Agent and assosiate Security Data Collection Rules with Linux and Windows VMs",
+    "metadata": {
+      "category": "Monitoring"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Policy Effect"
+        }
+      },
+      "listOfWindowsImageIdToInclude": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Windows Images",
+          "description": "List of additional Windows Images on which DCR will be configured"
+        }
+      },
+      "listOfLinuxImageIdToInclude": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Linux Images",
+          "description": "List of additional Linux Images on which DCR will be configured"
+        }
+      },
+      "resourceType": {
+        "type": "String",
+        "metadata": { 
+          "displayName": "Resource Type",
+          "description": "Either a Data Collection Rule (DCR) or a Data Collection Endpoint (DCE)"
+        }
+      },
+      "LinuxDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Security Linux DCR",
+          "description": "DCR ResourceID which collects security logs from Linux VMs"
+        }
+      },
+      "WindowsDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Security Windows DCR",
+          "description": "DCR ResourceID which collects security logs from Windows VMs"
+        }
+      },
+      "bringYourOwnUserAssignedManagedIdentity": {
+        "type": "Boolean"
+      },
+      "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+        "type": "Boolean"
+      },
+      "userAssignedIdentityResourceId": {
+        "type": "String"
+      },
+      "userAssignedIdentityName": {
+        "type": "String"
+      },
+      "identityResourceGroup": {
+        "type": "String"
+      },
+      "builtInIdentityResourceGroupLocation": {
+        "type": "String"
+      },
+      "scopeToSupportedImages": {
+        "type": "Boolean"
+      },
+      "enableProcessesAndDependencies": {
+        "type": "Boolean"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[Preview]: Assign Built-In User-Assigned Managed Identity to Virtual Machines",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d367bd60-64ca-4364-98ea-276775bddd94",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+          },
+          "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+            "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('userAssignedIdentityResourceId')]"
+          },
+          "userAssignedIdentityName": {
+            "value": "[[parameters('userAssignedIdentityName')]"
+          },
+          "identityResourceGroup": {
+            "value": "[[parameters('identityResourceGroup')]"
+          },
+          "builtInIdentityResourceGroupLocation": {
+            "value": "[[parameters('builtInIdentityResourceGroupLocation')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Linux virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ae8a10e6-19d6-44a3-a02d-a2bdfc707742",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+          },
+          "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+            "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('userAssignedIdentityResourceId')]"
+          },
+          "userAssignedManagedIdentityName": {
+            "value": "[[parameters('userAssignedIdentityName')]"
+          },
+          "userAssignedManagedIdentityResourceGroup": {
+            "value": "[[parameters('identityResourceGroup')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Windows virtual machines to run Azure Monitor Agent with user-assigned managed identity-based authentication",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/637125fd-7c39-4b94-bb0a-d331faf333a9",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "bringYourOwnUserAssignedManagedIdentity": {
+            "value": "[[parameters('bringYourOwnUserAssignedManagedIdentity')]"
+          },
+          "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+            "value": "[[parameters('restrictBringYourOwnUserAssignedIdentityToSubscription')]"
+          },
+          "userAssignedIdentityResourceId": {
+            "value": "[[parameters('userAssignedIdentityResourceId')]"
+          },
+          "userAssignedManagedIdentityName": {
+            "value": "[[parameters('userAssignedIdentityName')]"
+          },
+          "userAssignedManagedIdentityResourceGroup": {
+            "value": "[[parameters('identityResourceGroup')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Deploy Dependency agent for Linux virtual machines with Azure Monitoring Agent settings",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d55b81e1-984f-4a96-acab-fae204e3ca7f",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "enableProcessesAndDependencies": {
+            "value": "[[parameters('enableProcessesAndDependencies')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Deploy Dependency agent to be enabled on Windows virtual machines with Azure Monitoring Agent settings",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/89ca9cc7-25cd-4d53-97ba-445ca7a1f222",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "enableProcessesAndDependencies": {
+            "value": "[[parameters('enableProcessesAndDependencies')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Associate Security DCR with Windows VM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/244efd75-0d92-453c-b9a3-7d73ca36ed52",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "listOfWindowsImageIdToInclude": {
+            "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('WindowsDCR')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Associate Security DCR with Linux VM",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "listOfLinuxImageIdToInclude": {
+            "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('LinuxDCR')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType')]"
+          },
+          "scopeToSupportedImages": {
+            "value": "[[parameters('scopeToSupportedImages')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Linux Arc-enabled machines to run Azure Monitor Agent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/845857af-0333-4c5d-bbbc-6076697da122",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Windows Arc-enabled machines to run Azure Monitor Agent",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Linux Arc Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/d5c37ce1-5f52-4523-b949-f19bf945b73a",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('LinuxDCR')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "Configure Windows Arc Machines to be associated with a Data Collection Rule or a Data Collection Endpoint",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/c24c537f-2516-4c2f-aac5-2cd26baa3d26",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          },
+          "dcrResourceId": {
+            "value": "[[parameters('WindowsDCR')]"
+          },
+          "resourceType": {
+            "value": "[[parameters('resourceType')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

@@ -1,0 +1,18 @@
+{
+    "name": "sub-scngo-dev-DenyPublicIPs",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicips-lz",
+        "displayName": "sub-scngo-dev - Deny Public IPs",
+        "description": "ITSMSD-1020091",
+        "expiresOn": "2024-01-01T21:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Network interfaces should disable IP forwarding",
+            "Network interfaces should not have public IPs"
+
+        ]
+    },
+    "scope": {
+        "subscriptionId": "5773bf5c-4a54-4d96-94d7-98a2243215bd"
+    }
+}

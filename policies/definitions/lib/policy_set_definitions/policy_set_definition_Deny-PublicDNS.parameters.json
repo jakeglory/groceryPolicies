@@ -1,0 +1,9 @@
+{
+  "Deny-Public-DNS-Zones": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

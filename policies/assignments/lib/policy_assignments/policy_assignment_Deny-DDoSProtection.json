@@ -1,0 +1,22 @@
+{
+  "name": "Deny-DDoSProtection",
+  "properties": {
+    "description": "Assignment prevent deployment of DDoS Protection Plan within Landing Zone Subscriptions",
+    "displayName": "Assignment prevent deployment of DDoS Protection Plan within Landing Zone Subscriptions",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": ["Microsoft.Network/ddosProtectionPlans"]
+      },
+      "effect": {
+        "value": "Deny"
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749"
+  },
+  "scope": {
+    "managementGroupId": "landing-zones"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

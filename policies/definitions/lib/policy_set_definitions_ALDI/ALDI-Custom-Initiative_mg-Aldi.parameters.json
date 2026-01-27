@@ -1,0 +1,478 @@
+{
+  "[Billing] Inherit billing_entity_additional_info_optional tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_additional_info_optional"
+      }
+    }
+  },
+  "[Billing] Inherit billing_entity_city tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_city"
+      }
+    }
+  },
+  "[Billing] Inherit billing_entity_country tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_country"
+      }
+    }
+  },
+  "[Billing] Inherit billing_entity_name tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_name"
+      }
+    }
+  },
+  "[Billing] Inherit billing_entity_postalcode tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_postalcode"
+      }
+    }
+  },
+  "[Billing] Inherit billing_entity_street tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_entity_street"
+      }
+    }
+  },
+  "[Billing] Inherit billing_invoice_recipient_contact tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_invoice_recipient_contact"
+      }
+    }
+  },
+  "[Billing] Inherit billing_invoice_recipient_contact_email tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_invoice_recipient_contact_email"
+      }
+    }
+  },
+  "[Billing] Inherit billing_invoice_recipient_unit tag from the subscription": {
+    "parameters": {
+      "tagName": {
+        "value": "billing_invoice_recipient_unit"
+      }
+    }
+  },
+  "[General] Configure diagnostic settings for storage accounts to Log Analytics workspace": {
+    "parameters": {
+      "logAnalytics": {
+        "value": "[[parameters('logAnalytics')]"
+      },
+      "servicesToDeploy": {
+        "value": [
+          "storageAccounts",
+          "blobServices",
+          "fileServices",
+          "tableServices",
+          "queueServices"
+        ]
+      },
+      "diagnosticsSettingNameToUse": {
+        "value": "storageAccountsDiagnosticsLogsToWorkspace"
+      },
+      "effect": {
+        "value": "DeployIfNotExists"
+      },
+      "StorageDelete": {
+        "value": "True"
+      },
+      "StorageWrite": {
+        "value": "True"
+      },
+      "StorageRead": {
+        "value": "True"
+      },
+      "Transaction": {
+        "value": "True"
+      }
+    }
+  },
+  "[General] Storage accounts should be migrated to new Azure Resource Manager resources": {
+    "parameters": {
+      "effect": {
+        "value": "Deny"
+      }
+    }
+  },
+  "[Network] App Configuration should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure API for FHIR should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure Attestation providers should use private endpoints": {
+    "parameters": {}
+  },
+  "[Network] Azure Cache for Redis should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure Cache for Redis should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure Cognitive Search services should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure Cognitive Search services should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure Cosmos DB should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure Data Factory should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure File Sync should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure Media Services accounts should use an API that supports Private Link": {
+    "parameters": {}
+  },
+  "[Network] Azure Service Bus namespaces should use private link": {
+    "parameters": {}
+  },
+  "[Network] Azure SignalR Service should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure SignalR Service should use a Private Link enabled SKU": {
+    "parameters": {}
+  },
+  "[Network] Azure Synapse workspaces should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] Azure Synapse workspaces should use private link": {
+    "parameters": {}
+  },
+  "[Network] Cloud Services (extended support) role instances should have an endpoint protection solution installed": {
+    "parameters": {}
+  },
+  "[Network] Cognitive Services should use private link": {
+    "parameters": {}
+  },
+  "[Network] CosmosDB accounts should use private link": {
+    "parameters": {}
+  },
+  "[Network] Disk access resources should use private link": {
+    "parameters": {}
+  },
+  "[Network] Event Hub namespaces should use private link": {
+    "parameters": {}
+  },
+  "[Network] IoT Hub device provisioning service instances should disable public network access": {
+    "parameters": {}
+  },
+  "[Network] IoT Hub device provisioning service instances should use private link": {
+    "parameters": {}
+  },
+  "[Network] IP firewall rules on Azure Synapse workspaces should be removed": {
+    "parameters": {}
+  },
+  "[Network] MariaDB server should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Network] MySQL server should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Network] Network Watcher flow logs should have traffic analytics enabled": {
+    "parameters": {}
+  },
+  "[Network] PostgreSQL server should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Network] Private endpoint connections on Automation Accounts should be enabled": {
+    "parameters": {}
+  },
+  "[Network] Private endpoint connections on Batch accounts should be enabled": {
+    "parameters": {}
+  },
+  "[Network] Private endpoint should be enabled for IoT Hub": {
+    "parameters": {}
+  },
+  "[Network] Public network access on Azure Data Factory should be disabled": {
+    "parameters": {}
+  },
+  "[Network] Public network access on Azure IoT Hub should be disabled": {
+    "parameters": {}
+  },
+  "[Network] Public network access should be disabled for Azure File Sync": {
+    "parameters": {}
+  },
+  "[Network] Public network access should be disabled for Batch accounts": {
+    "parameters": {}
+  },
+  "[Network] Public network access should be disabled for Container registries": {
+    "parameters": {}
+  },
+  "[Network] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants": {
+    "parameters": {}
+  },
+  "[Security] Allowed locations": {
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": [
+          "westeurope",
+          "northeurope"
+        ]
+      }
+    }
+  },
+  "[Security] Allowed locations for resource groups": {
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": [
+          "northeurope",
+          "westeurope"
+        ]
+      }
+    }
+  },
+  "[Security] App Service should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Security] Audit virtual machines without disaster recovery configured": {
+    "parameters": {}
+  },
+  "[Security] Audit VMs that do not use managed disks": {
+    "parameters": {}
+  },
+  "[Security] Authorization rules on the Event Hub instance should be defined": {
+    "parameters": {}
+  },
+  "[Security] Azure Backup should be enabled for Virtual Machines": {
+    "parameters": {}
+  },
+  "[Security] Azure SQL Database should have Azure Active Directory Only Authentication enabled": {
+    "parameters": {}
+  },
+  "[Security] Azure SQL Database should have the minimal TLS version of 1.2 ": {
+    "parameters": {}
+  },
+  "[Security] Deploy Advanced Data Security on SQL servers": {
+    "parameters": {}
+  },
+  "[Security] Deploy Diagnostic Settings for Activity Log to Log Analytics workspace": {
+    "parameters": {
+      "logAnalytics": {
+        "value": "[[parameters('logAnalytics')]"
+      }
+    }
+  },
+  "[Security] Deploy Diagnostic Settings for Recovery Service Vault to Log Analytics workspace": {
+    "parameters": {
+      "logAnalytics": {
+        "value": "[[parameters('logAnalytics')]"
+      }
+    }
+  },
+  "[Security] Deploy SQL DB transparent data encryption": {
+    "parameters": {}
+  },
+  "[Security] Deploy Threat Detection on SQL servers": {
+    "parameters": {}
+  },
+  "[Security] Enable Azure Security Center on your subscription": {
+    "parameters": {}
+  },
+  "[Security] Enable Security Center's auto provisioning of the Log Analytics agent on your subscriptions with custom workspace.": {
+    "parameters": {
+      "logAnalytics": {
+        "value": "[[parameters('logAnalytics')]"
+      }
+    }
+  },
+  "[Security] Event Hub should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] Gateway subnets should not be configured with a network security group": {
+    "parameters": {}
+  },
+  "[Security] Inherit ApplicationName tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "ApplicationName"
+      }
+    }
+  },
+  "[Security] Inherit Business Unit tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Business Unit"
+      }
+    }
+  },
+  "[Security] Inherit Company tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Company"
+      }
+    }
+  },
+  "[Security] Inherit CostCenter tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "CostCenter"
+      }
+    }
+  },
+  "[Security] Inherit Country tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Country"
+      }
+    }
+  },
+  "[Security] Inherit Department tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Department"
+      }
+    }
+  },
+  "[Security] Inherit Operations tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Operations"
+      }
+    }
+  },
+  "[Security] Inherit Owner tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Owner"
+      }
+    }
+  },
+  "[Security] Inherit Stage tag from the subscription if missing": {
+    "parameters": {
+      "tagName": {
+        "value": "Stage"
+      }
+    }
+  },
+  "[Security] Key Vault keys should have an expiration date": {
+    "parameters": {}
+  },
+  "[Security] Key Vault secrets should have an expiration date": {
+    "parameters": {}
+  },
+  "[Security] Key Vault should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] Keys should have more than the specified number of days before expiration": {
+    "parameters": {
+      "minimumDaysBeforeExpiration": {
+        "value": 730
+      }
+    }
+  },
+  "[Security] Keys should not be active for longer than the specified number of days": {
+    "parameters": {
+      "maximumValidityInDays": {
+        "value": 730
+      }
+    }
+  },
+  "[Security] Microsoft Antimalware for Azure should be configured to automatically update protection signatures": {
+    "parameters": {}
+  },
+  "[Security] Microsoft IaaSAntimalware extension should be deployed on Windows servers": {
+    "parameters": {}
+  },
+  "[Security] Preview - Storage account public access should be disallowed": {
+    "parameters": {
+      "effect": {
+        "value": "deny"
+      }
+    }
+  },
+  "[Security] Require encryption on Data Lake Store accounts": {
+    "parameters": {}
+  },
+  "[Security] Secrets should have more than the specified number of days before expiration": {
+    "parameters": {
+      "minimumDaysBeforeExpiration": {
+        "value": 60
+      }
+    }
+  },
+  "[Security] Secrets should have the specified maximum validity period": {
+    "parameters": {
+      "maximumValidityInDays": {
+        "value": 730
+      }
+    }
+  },
+  "[Security] Secrets should not be active for longer than the specified number of days": {
+    "parameters": {
+      "maximumValidityInDays": {
+        "value": 730
+      }
+    }
+  },
+  "[Security] Secure transfer to storage accounts should be enabled": {
+    "parameters": {
+      "effect": {
+        "value": "Deny"
+      }
+    }
+  },
+  "[Security] Service Bus should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] Set minimum TLS 1.2 for storage": {
+    "parameters": {}
+  },
+  "[Security] SQL Server should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] Storage account keys should not be expired": {
+    "parameters": {
+      "effect": {
+        "value": "Audit"
+      }
+    }
+  },
+  "[Security] Storage accounts should have infrastructure encryption": {
+    "parameters": {
+      "effect": {
+        "value": "Audit"
+      }
+    }
+  },
+  "[Security] Storage accounts should prevent shared key access": {
+    "parameters": {
+      "effect": {
+        "value": "Audit"
+      }
+    }
+  },
+  "[Security] Storage Accounts should use a virtual network service endpoint": {
+    "parameters": {}
+  },
+  "[Security] The Log Analytics agent should be installed on Virtual Machine Scale Sets": {
+    "parameters": {}
+  },
+  "[Security] The Log Analytics agent should be installed on virtual machines": {
+    "parameters": {}
+  },
+  "[Storage] Enable soft-delete on blob-services": {
+    "parameters": {}
+  },
+  "[Storage] Enable soft-delete on containers": {
+    "parameters": {}
+  },
+  "[Storage] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants": {
+    "parameters": {}
+  }
+}

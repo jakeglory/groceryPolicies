@@ -1,0 +1,39 @@
+{
+  "name": "Deny-ResourceDeletion",
+  "properties": {
+    "description": "Policy Initiative to deny removal of resource",
+    "displayName": "Policy Initiative to deny removal of resource",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Protect"
+    },
+    "parameters": {
+      "resourceType": {
+        "type": "String",
+        "metadata": {
+          "description": "Resource Type to be protected"
+        }
+      },
+      "resourceName": {
+        "type": "String",
+        "metadata": {
+          "description": "Resource Name to be protected"
+        }
+      }
+    },
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Policy to deny removal of resource",
+      "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Resource-Removal",
+      "parameters": {
+        "resourceType": {
+          "value": "[[parameters('resourceType')]"
+        },
+        "resourceName": {
+          "value": "[[parameters('resourceName')]"
+        }
+      }
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

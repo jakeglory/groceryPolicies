@@ -1,0 +1,38 @@
+{
+  "type": "Microsoft.Authorization/policySetDefinitions",
+  "name": "Custom-Initiative_mg-online",
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-online",
+    "policyType": "Custom",
+    "description": "ALDI-Custom-Initiative_mg-online",
+    "metadata": {
+      "category": "General"
+    },
+    "parameters": {
+      "ddosPlan": {
+        "type": "String",
+        "defaultValue": "${DDOS}"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[General] Audit resource location matches resource group location",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a"
+      },
+      {
+        "policyDefinitionReferenceId": "[Network] Virtual networks should be protected by Azure DDoS Protection Standard",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/94de2ad3-e0c1-4caf-ad78-5d47bbc83d3d",
+        "parameters": {
+          "ddosPlan": {
+            "value": "[[parameters('ddosPlan')]"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Security] Private endpoint connections on Azure SQL Database should be enabled",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed"
+      }
+    ],
+    "policyDefinitionGroups": null
+  }
+}

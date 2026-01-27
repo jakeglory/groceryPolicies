@@ -1,0 +1,15 @@
+{
+  "name": "Deny-VNETPeerSandboxes",
+  "properties": {
+    "description": "Deny VNET Peering in Sandbox Subscriptions",
+    "displayName": "Deny VNET Peering in Sandbox Subscriptions",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-VNETPeerSandboxes"
+  },
+  "scope": {
+    "managementGroupId": "sandbox"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

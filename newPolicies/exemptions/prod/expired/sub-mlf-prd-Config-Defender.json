@@ -1,0 +1,17 @@
+{
+    "name": "sub-mlf-prd-Config-Defender",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deploy-mdfc-config",
+        "displayName": "sub-mlf-prd Config-Defender",
+        "description": "ServiceNow Ticket: SCTASK0263742",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-11-30T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "vulnerabilityForVM"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/ac848dd7-c0b7-4be0-a8bc-5b28f5d6ed79"
+    }
+}

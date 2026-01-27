@@ -1,0 +1,21 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "ALDI-Tagging-Convention",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Tagging-Convention",
+    "description": "Initiative contains policies to inherit tags from Subscription\nhttps://dev.azure.com/an-de-ohg-sbi/Azure%20Cloud%20Foundation/_wiki/wikis/CCoE%20Public%20Wiki/1340/Tagging-Convention",
+    "policyDefinitionId": "${ALDI-Tagging-Convention}",
+    "managementGroupId": "aldi",
+    "notScopes": [],
+    "parameters": {},
+    "metadata": {},
+    "enforcementMode": "Default"
+  },
+  "roles": [
+    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c" //contributor
+  ]
+}

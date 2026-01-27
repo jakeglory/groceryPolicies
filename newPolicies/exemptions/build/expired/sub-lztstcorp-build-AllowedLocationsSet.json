@@ -1,0 +1,18 @@
+{
+    "name": "sub-lztstcorp-build-AllowedLocationsSet",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/build-mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-lztstcorp-build - AllowedLocations",
+        "description": "ServiceNow Ticket: SCTASK0299396",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-08-18T19:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/844017f4-aeb5-4f3c-adf0-b25f11d866a9"
+    }
+}

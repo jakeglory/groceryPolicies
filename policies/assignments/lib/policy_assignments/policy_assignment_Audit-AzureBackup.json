@@ -1,0 +1,15 @@
+{
+  "name": "Audit-AzureBackup",
+  "properties": {
+    "description": "Azure Backup should be enabled",
+    "displayName": "Azure Backup should be enabled",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Audit-AzureBackup"
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

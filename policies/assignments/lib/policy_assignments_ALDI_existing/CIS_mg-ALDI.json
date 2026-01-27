@@ -1,0 +1,47 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "CISv1.1.0",
+  "location": "westeurope",
+  "identity": {
+    "type": "None"
+  },
+  "properties": {
+    "displayName": "CIS Microsoft Azure Foundations Benchmark v1.1.0",
+    "description": "This initiative includes policies that address a subset of CIS Microsoft Azure Foundations Benchmark recommendations. Additional policies will be added in upcoming releases. For more information, visit https://aka.ms/cisazure110-initiative.",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/1a5bb27d-173f-493e-9568-eb56638dde4d",
+    "managementGroupId": "aldi",
+    "parameters": {
+      "listOfRegionsWhereNetworkWatcherShouldBeEnabled": {
+        "value": [
+          "northeurope",
+          "westeurope"
+        ]
+      },
+      "NetworkWatcherResourceGroupName": {
+        "value": "rg-connectivity-network_watcher"
+      },
+      "listOfApprovedVMExtensions": {
+        "value": [
+          "AzureDiskEncryption",
+          "AzureDiskEncryptionForLinux",
+          "DependencyAgentWindows",
+          "DependencyAgentLinux",
+          "IaaSAntimalware",
+          "IaaSDiagnostics",
+          "LinuxDiagnostic",
+          "MicrosoftMonitoringAgent",
+          "NetworkWatcherAgentLinux",
+          "NetworkWatcherAgentWindows",
+          "OmsAgentForLinux",
+          "VMSnapshot",
+          "VMSnapshotLinux",
+          "ConfigurationforWindows",
+          "ConfigurationForLinux"
+        ]
+      }
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+  ]
+}

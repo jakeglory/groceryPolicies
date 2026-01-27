@@ -1,0 +1,15 @@
+{
+  "name": "Audit-AzureEHSettings",
+  "properties": {
+    "description": "Audit AzureEventHubSettings",
+    "displayName": "Audit AzureEventHubSettings",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Audit-AzureEventHubSettings"
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

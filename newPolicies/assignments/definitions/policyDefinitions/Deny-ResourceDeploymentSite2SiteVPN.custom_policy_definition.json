@@ -1,0 +1,46 @@
+{
+    "name": "Deny-SiteToSite-VPN",
+    "properties": {
+        "description": "Prevents the creation of site-to-site VPN connections.",
+        "displayName": "Site-to-site VPN connections must not be deployed",
+        "metadata": {
+            "category": "Network",
+            "version": "1.0.0"
+        },
+        "mode": "Indexed",
+        "parameters": {
+            "effect": {
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "Deny"
+                ],
+                "defaultValue": "Deny",
+                "metadata": {
+                    "description": "Enable or disable enforcement of the policy.",
+                    "displayName": "Effect"
+                },
+                "type": "String"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Network/connections"
+                    },
+                    {
+                        "field": "Microsoft.Network/connections/connectionType",
+                        "equals": "IPsec"
+                    }
+                ]
+        },
+        "then": {
+            "effect": "[parameters('effect')]"
+        }
+        },
+        "policyType": "Custom"
+    },
+    "type": "Microsoft.Authorization/policyDefinitions"
+}

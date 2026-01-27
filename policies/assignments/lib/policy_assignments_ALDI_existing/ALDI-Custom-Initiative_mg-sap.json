@@ -1,0 +1,22 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-sap",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-sap",
+    "description": "ALDI-Custom Initiative to mg-sap",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-sap-ID}",
+    "managementGroupId": "sap",
+    "notScopes": [],
+    "parameters": {
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+  ]
+}

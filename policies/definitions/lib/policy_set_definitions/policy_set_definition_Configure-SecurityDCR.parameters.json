@@ -1,0 +1,40 @@
+{
+  "Associate Security DCR with Windows VM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "listOfWindowsImageIdToInclude": {
+        "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('WindowsDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  },
+  "Associate Security DCR with Linux VM": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('effect')]"
+      },
+      "listOfLinuxImageIdToInclude": {
+        "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+      },
+      "dcrResourceId": {
+        "value": "[[parameters('LinuxDCR')]"
+      },
+      "resourceType": {
+        "value": "[[parameters('resourceType')]"
+      },
+      "scopeToSupportedImages": {
+        "value": "[[parameters('scopeToSupportedImages')]"
+      }
+    }
+  }
+}

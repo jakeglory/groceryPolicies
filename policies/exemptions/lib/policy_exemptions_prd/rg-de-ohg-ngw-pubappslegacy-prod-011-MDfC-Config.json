@@ -1,0 +1,17 @@
+{
+    "name": "rg-de-ohg-ngw-pubappslegacy-prod-011-Deploy-MDfC-Config",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deploy-mdfc-config",
+        "displayName": "rg-de-ohg-ngw-pubappslegacy-prod-011 Deploy MDfC Config",
+        "description": "Exemption for VDI Clients",
+        "policyDefinitionReferenceIds": [
+            "defenderForVM",
+            "vulnerabilityForVM"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "43ad08bb-af14-4203-8142-5b3c326eca51",
+        "ResourceGroupName": "rg-de-ohg-ngw-pubappslegacy-prod-011"
+    }
+}

@@ -1,0 +1,4 @@
+variables:
+  serviceConnection: "serviceconnection-AN-Azure-ControlRepo-build-mg-aldi"
+  managementGroupId: "build-mg-aldi"
+  stage: "BUILD"

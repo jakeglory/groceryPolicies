@@ -1,0 +1,998 @@
+var varCustomPolicySetDefinitionsArray = [
+	{
+		name: 'Custom-Initiative_mg-ALDI'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-Aldi.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_additional_info_optional tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_additional_info_optional tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_city tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_city tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_country tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_country tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_name tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_name tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_postalcode tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_postalcode tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_entity_street tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_entity_street tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_invoice_recipient_contact tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_invoice_recipient_contact tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_invoice_recipient_contact_email tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_invoice_recipient_contact_email tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Billing] Inherit billing_invoice_recipient_unit tag from the subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b27a0cbd-a167-4dfa-ae64-4337be671140'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Billing] Inherit billing_invoice_recipient_unit tag from the subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[General] Configure diagnostic settings for storage accounts to Log Analytics workspace'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6f8f98a4-f108-47cb-8e98-91a0d85cd474'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[General] Configure diagnostic settings for storage accounts to Log Analytics workspace'].parameters
+				}
+				{
+						definitionReferenceId: '[General] Storage accounts should be migrated to new Azure Resource Manager resources'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/37e0d2fe-28a5-43d6-a273-67d37d1f5606'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[General] Storage accounts should be migrated to new Azure Resource Manager resources'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] App Configuration should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/3d9f5e4c-9947-4579-9539-2a7695fbc187'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] App Configuration should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure API for FHIR should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/1ee56206-5dd1-42ab-b02d-8aae8b1634ce'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure API for FHIR should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Attestation providers should use private endpoints'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/7b256a2d-058b-41f8-bed9-3f870541c40a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Attestation providers should use private endpoints'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Cache for Redis should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/470baccb-7e51-4549-8b1a-3e5be069f663'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Cache for Redis should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Cache for Redis should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/7803067c-7d34-46e3-8c79-0ca68fc4036d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Cache for Redis should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Cognitive Search services should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ee980b6d-0eca-4501-8d54-f6290fd512c3'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Cognitive Search services should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Cognitive Search services should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0fda3595-9f2b-4592-8675-4231d6fa82fe'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Cognitive Search services should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Cosmos DB should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/797b37f7-06b8-444c-b1ad-fc62867f335a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Cosmos DB should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Data Factory should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/8b0323be-cc25-4b61-935d-002c3798c6ea'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Data Factory should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure File Sync should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/1d320205-c6a1-4ac6-873d-46224024e8e2'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure File Sync should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Media Services accounts should use an API that supports Private Link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/a77d8bb4-8d22-4bc1-a884-f582a705b480'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Media Services accounts should use an API that supports Private Link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Service Bus namespaces should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/1c06e275-d63d-4540-b761-71f364c2111d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Service Bus namespaces should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure SignalR Service should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/21a9766a-82a5-4747-abb5-650b6dbba6d0'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure SignalR Service should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure SignalR Service should use a Private Link enabled SKU'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/464a1620-21b5-448d-8ce6-d4ac6d1bc49a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure SignalR Service should use a Private Link enabled SKU'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Synapse workspaces should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/38d8df46-cf4e-4073-8e03-48c24b29de0d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Synapse workspaces should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Azure Synapse workspaces should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/72d11df1-dd8a-41f7-8925-b05b960ebafc'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Azure Synapse workspaces should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Cloud Services (extended support) role instances should have an endpoint protection solution installed'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/1e378679-f122-4a96-a739-a7729c46e1aa'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Cloud Services (extended support) role instances should have an endpoint protection solution installed'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Cognitive Services should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/cddd188c-4b82-4c48-a19d-ddf74ee66a01'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Cognitive Services should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] CosmosDB accounts should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/58440f8a-10c5-4151-bdce-dfbaad4a20b7'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] CosmosDB accounts should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Disk access resources should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/f39f5f49-4abf-44de-8c70-0756997bfb51'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Disk access resources should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Event Hub namespaces should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b8564268-eb4a-4337-89be-a19db070c59d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Event Hub namespaces should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] IoT Hub device provisioning service instances should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/d82101f3-f3ce-4fc5-8708-4c09f4009546'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] IoT Hub device provisioning service instances should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] IoT Hub device provisioning service instances should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/df39c015-56a4-45de-b4a3-efe77bed320d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] IoT Hub device provisioning service instances should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] IP firewall rules on Azure Synapse workspaces should be removed'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/56fd377d-098c-4f02-8406-81eb055902b8'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] IP firewall rules on Azure Synapse workspaces should be removed'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] MariaDB server should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/dfbd9a64-6114-48de-a47d-90574dc2e489'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] MariaDB server should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] MySQL server should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/3375856c-3824-4e0e-ae6a-79e011dd4c47'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] MySQL server should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Network Watcher flow logs should have traffic analytics enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/2f080164-9f4d-497e-9db6-416dc9f7b48a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Network Watcher flow logs should have traffic analytics enabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] PostgreSQL server should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/3c14b034-bcb6-4905-94e7-5b8e98a47b65'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] PostgreSQL server should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Private endpoint connections on Automation Accounts should be enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0c2b3618-68a8-4034-a150-ff4abc873462'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Private endpoint connections on Automation Accounts should be enabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Private endpoint connections on Batch accounts should be enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/009a0c92-f5b4-4776-9b66-4ed2b4775563'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Private endpoint connections on Batch accounts should be enabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Private endpoint should be enabled for IoT Hub'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0d40b058-9f95-4a19-93e3-9b0330baa2a3'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Private endpoint should be enabled for IoT Hub'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Public network access on Azure Data Factory should be disabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/1cf164be-6819-4a50-b8fa-4bcaa4f98fb6'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Public network access on Azure Data Factory should be disabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Public network access on Azure IoT Hub should be disabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/2d6830fb-07eb-48e7-8c4d-2a442b35f0fb'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Public network access on Azure IoT Hub should be disabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Public network access should be disabled for Azure File Sync'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/21a8cd35-125e-4d13-b82d-2e19b7208bb7'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Public network access should be disabled for Azure File Sync'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Public network access should be disabled for Batch accounts'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/74c5a0ae-5e48-4738-b093-65e23a060488'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Public network access should be disabled for Batch accounts'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Public network access should be disabled for Container registries'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0fdf0491-d080-4575-b627-ad0e843cba0f'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Public network access should be disabled for Container registries'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/3a003702-13d2-4679-941b-937e58c443f0'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Network] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Allowed locations'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/e56962a6-4747-49cd-b67b-bf8b01975c4c'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Allowed locations'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Allowed locations for resource groups'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/e765b5de-1225-4ba3-bd56-1ac6695af988'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Allowed locations for resource groups'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] App Service should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/2d21331d-a4c2-4def-a9ad-ee4e1e023beb'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] App Service should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Audit virtual machines without disaster recovery configured'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Audit virtual machines without disaster recovery configured'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Audit VMs that do not use managed disks'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/06a78e20-9358-41c9-923c-fb736d382a4d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Audit VMs that do not use managed disks'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Authorization rules on the Event Hub instance should be defined'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/f4826e5f-6a27-407c-ae3e-9582eb39891d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Authorization rules on the Event Hub instance should be defined'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Azure Backup should be enabled for Virtual Machines'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/013e242c-8828-4970-87b3-ab247555486d'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Azure Backup should be enabled for Virtual Machines'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Azure SQL Database should have Azure Active Directory Only Authentication enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/abda6d70-9778-44e7-84a8-06713e6db027'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Azure SQL Database should have Azure Active Directory Only Authentication enabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Azure SQL Database should have the minimal TLS version of 1.2 '
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/32e6bbec-16b6-44c2-be37-c5b672d103cf'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Azure SQL Database should have the minimal TLS version of 1.2 '].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy Advanced Data Security on SQL servers'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6134c3db-786f-471e-87bc-8f479dc890f6'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Deploy Advanced Data Security on SQL servers'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy Diagnostic Settings for Activity Log to Log Analytics workspace'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/diag-sub-to-AssignedLAW'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Deploy Diagnostic Settings for Activity Log to Log Analytics workspace'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy Diagnostic Settings for Recovery Service Vault to Log Analytics workspace'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/c717fb0c-d118-4c43-ab3d-ece30ac81fb3'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Deploy Diagnostic Settings for Recovery Service Vault to Log Analytics workspace'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy SQL DB transparent data encryption'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/86a912f6-9a06-4e26-b447-11b16ba8659f'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Deploy SQL DB transparent data encryption'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy Threat Detection on SQL servers'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/36d49e87-48c4-4f2e-beed-ba4ed02b71f5'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Deploy Threat Detection on SQL servers'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Enable Azure Security Center on your subscription'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ac076320-ddcf-4066-b451-6154267e8ad2'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Enable Azure Security Center on your subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Enable Security Center\'s auto provisioning of the Log Analytics agent on your subscriptions with custom workspace.'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/8e7da0a5-0a0e-4bbc-bfc0-7773c018b616'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Enable Security Center\'s auto provisioning of the Log Analytics agent on your subscriptions with custom workspace.'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Event Hub should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/d63edb4a-c612-454d-b47d-191a724fcbf0'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Event Hub should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Gateway subnets should not be configured with a network security group'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/35f9c03a-cc27-418e-9c0c-539ff999d010'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Gateway subnets should not be configured with a network security group'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit ApplicationName tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit ApplicationName tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Business Unit tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Business Unit tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Company tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Company tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit CostCenter tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit CostCenter tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Country tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Country tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Department tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Department tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Operations tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Operations tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Owner tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Owner tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Inherit Stage tag from the subscription if missing'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Inherit Stage tag from the subscription if missing'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Key Vault keys should have an expiration date'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/152b15f7-8e1f-4c1f-ab71-8c010ba5dbc0'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Key Vault keys should have an expiration date'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Key Vault secrets should have an expiration date'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/98728c90-32c7-4049-8429-847dc0f4fe37'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Key Vault secrets should have an expiration date'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Key Vault should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ea4d6841-2173-4317-9747-ff522a45120f'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Key Vault should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Keys should have more than the specified number of days before expiration'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/5ff38825-c5d8-47c5-b70e-069a21955146'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Keys should have more than the specified number of days before expiration'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Keys should not be active for longer than the specified number of days'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/c26e4b24-cf98-4c67-b48b-5a25c4c69eb9'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Keys should not be active for longer than the specified number of days'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Microsoft Antimalware for Azure should be configured to automatically update protection signatures'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/c43e4a30-77cb-48ab-a4dd-93f175c63b57'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Microsoft Antimalware for Azure should be configured to automatically update protection signatures'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Microsoft IaaSAntimalware extension should be deployed on Windows servers'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/9b597639-28e4-48eb-b506-56b05d366257'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Microsoft IaaSAntimalware extension should be deployed on Windows servers'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Preview - Storage account public access should be disallowed'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/4fa4b6c0-31ca-4c0d-b10d-24b96f62a751'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Preview - Storage account public access should be disallowed'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Require encryption on Data Lake Store accounts'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/a7ff3161-0087-490a-9ad9-ad6217f4f43a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Require encryption on Data Lake Store accounts'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Secrets should have more than the specified number of days before expiration'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/b0eb591a-5e70-4534-a8bf-04b9c489584a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Secrets should have more than the specified number of days before expiration'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Secrets should have the specified maximum validity period'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/342e8053-e12e-4c44-be01-c3c2f318400f'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Secrets should have the specified maximum validity period'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Secrets should not be active for longer than the specified number of days'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/e8d99835-8a06-45ae-a8e0-87a91941ccfe'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Secrets should not be active for longer than the specified number of days'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Secure transfer to storage accounts should be enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/404c3081-a854-4457-ae30-26a93ef643f9'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Secure transfer to storage accounts should be enabled'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Service Bus should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/235359c5-7c52-4b82-9055-01c75cf9f60e'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Service Bus should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Set minimum TLS 1.2 for storage'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-TLS12'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Set minimum TLS 1.2 for storage'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] SQL Server should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ae5d2f14-d830-42b6-9899-df6cfe9c71a3'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] SQL Server should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Storage account keys should not be expired'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/044985bb-afe1-42cd-8a36-9d5d42424537'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Storage account keys should not be expired'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Storage accounts should have infrastructure encryption'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/4733ea7b-a883-42fe-8cac-97454c2a9e4a'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Storage accounts should have infrastructure encryption'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Storage accounts should prevent shared key access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/8c6a50c6-9ffd-4ae7-986f-5fa6111f9a54'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Storage accounts should prevent shared key access'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Storage Accounts should use a virtual network service endpoint'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/60d21c4f-21a3-4d94-85f4-b924e6aeeda4'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] Storage Accounts should use a virtual network service endpoint'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] The Log Analytics agent should be installed on Virtual Machine Scale Sets'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/efbde977-ba53-4479-b8e9-10b957924fbf'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] The Log Analytics agent should be installed on Virtual Machine Scale Sets'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] The Log Analytics agent should be installed on virtual machines'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/a70ca396-0a34-413a-88e1-b956c1e683be'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Security] The Log Analytics agent should be installed on virtual machines'].parameters
+				}
+				{
+						definitionReferenceId: '[Storage] Enable soft-delete on blob-services'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-BlobServicesSoftDelete'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Storage] Enable soft-delete on blob-services'].parameters
+				}
+				{
+						definitionReferenceId: '[Storage] Enable soft-delete on containers'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/AddOrReplace-Storage-ContainerSoftDelete'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Storage] Enable soft-delete on containers'].parameters
+				}
+				{
+						definitionReferenceId: '[Storage] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/3a003702-13d2-4679-941b-937e58c443f0'
+						definitionParameters: varALDICustomInitiativeMgAldiParameters['[Storage] Synapse managed private endpoints should only connect to resources in approved Azure Active Directory tenants'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-connectivity'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-connectivity.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgConnectivityParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-corp'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-corp.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] API Management services should use a virtual network'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ef619a2c-cc4d-4d03-b2ba-8c94a834d85b'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] API Management services should use a virtual network'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Deny Private DNS Zones'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Deny Private DNS Zones'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link afs to privatelink.afs.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link afs to privatelink.afs.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link amlworkspace to privatelink.api.azureml.ms'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link amlworkspace to privatelink.api.azureml.ms'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link amlworkspace to privatelink.notebooks.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link amlworkspace to privatelink.notebooks.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link App Configuration to privatelink.azconfig.io'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link App Configuration to privatelink.azconfig.io'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Automation DSCAndHybridWorker to privatelink.azure-automation.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Automation DSCAndHybridWorker to privatelink.azure-automation.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Automation Webook to privatelink.azure-automation.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Automation Webook to privatelink.azure-automation.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link blob to privatelink.blob.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link blob to privatelink.blob.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link blob_secondary to privatelink.blob.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link blob_secondary to privatelink.blob.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Cassandra to privatelink.cassandra.cosmos.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Cassandra to privatelink.cassandra.cosmos.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Data Factory to privatelink.datafactory.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Data Factory to privatelink.datafactory.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Data Lake File System Gen2 secondary to privatelink.dfs.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Data Lake File System Gen2 secondary to privatelink.dfs.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Data Lake File System Gen2 to privatelink.dfs.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Data Lake File System Gen2 to privatelink.dfs.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Digital Twins to privatelink.digitaltwins.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Digital Twins to privatelink.digitaltwins.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Event Grid domain to privatelink.eventgrid.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Event Grid domain to privatelink.eventgrid.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Event Grid topic to privatelink.eventgrid.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Event Grid topic to privatelink.eventgrid.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link eventHub to privatelink.servicebus.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link eventHub to privatelink.servicebus.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link file to privatelink.file.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link file to privatelink.file.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link file_secondary to privatelink.file.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link file_secondary to privatelink.file.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Gremlin to privatelink.gremlin.cosmos.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Gremlin to privatelink.gremlin.cosmos.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link iotHub to privatelink.azure-devices.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link iotHub to privatelink.azure-devices.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link mariadbServer to privatelink.mariadb.database.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link mariadbServer to privatelink.mariadb.database.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link MongoDB to privatelink.mongo.cosmos.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link MongoDB to privatelink.mongo.cosmos.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link mysqlServer to privatelink.mysql.database.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link mysqlServer to privatelink.mysql.database.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link postgresqlServer to privatelink.postgres.database.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link postgresqlServer to privatelink.postgres.database.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link queue to privatelink.queue.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link queue to privatelink.queue.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link queue_secondary to privatelink.queue.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link queue_secondary to privatelink.queue.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link registry to privatelink.azurecr.io'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link registry to privatelink.azurecr.io'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Relay to privatelink.servicebus.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Relay to privatelink.servicebus.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Search Service to privatelink.search.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Search Service to privatelink.search.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link serviceBus to privatelink.servicebus.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link serviceBus to privatelink.servicebus.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link sites to privatelink.azurewebsites.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link sites to privatelink.azurewebsites.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link SQL to privatelink.documents.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link SQL to privatelink.documents.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link sqlServer to privatelink.database.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link sqlServer to privatelink.database.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Synapse Sql to privatelink.sql.azuresynapse.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Synapse Sql to privatelink.sql.azuresynapse.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link Synapse SqlOnDemand to privatelink.sql.azuresynapse.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link Synapse SqlOnDemand to privatelink.sql.azuresynapse.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link table to privatelink.table.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link table to privatelink.table.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link table to privatelink.table.cosmos.azure.com'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link table to privatelink.table.cosmos.azure.com'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link table_secondary to privatelink.table.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link table_secondary to privatelink.table.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link vault to privatelink.vaultcore.azure.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link vault to privatelink.vaultcore.azure.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link web to privatelink.web.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link web to privatelink.web.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Link web_secondary to privatelink.web.core.windows.net'
+						definitionId: PrivateDNSConfigPolicyDefinitionID
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Link web_secondary to privatelink.web.core.windows.net'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Storage accounts should use private link'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6edd7eda-6dd8-40f7-810d-67160c639cd9'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Network] Storage accounts should use private link'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] API Management services should disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/df73bd95-24da-4a4f-96b9-4e8b94b402bd'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Security] API Management services should disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Configure API Management services to disable public network access'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/7ca8c8ac-3a6e-493d-99ba-c5fa35347ff2'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Security] Configure API Management services to disable public network access'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Private endpoint connections on Azure SQL Database should be enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['[Security] Private endpoint connections on Azure SQL Database should be enabled'].parameters
+				}
+				{
+						definitionReferenceId: 'API Management service should use a SKU that supports virtual networks'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/73ef9241-5d81-4cd4-b483-8443d1730fe5'
+						definitionParameters: varALDICustomInitiativeMgCorpParameters['API Management service should use a SKU that supports virtual networks'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-decommissioned'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-decommissioned.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgDecommissionedParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Not allowed resource types - VirtualNetworkGateway'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749'
+						definitionParameters: varALDICustomInitiativeMgDecommissionedParameters['[Network] Not allowed resource types - VirtualNetworkGateway'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-identity'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-identity.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgIdentityParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Network interfaces should not have public IPs'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/83a86a26-fd1f-447c-b59d-e51f44264114'
+						definitionParameters: varALDICustomInitiativeMgIdentityParameters['[Network] Network interfaces should not have public IPs'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Network interfaces should disable IP forwarding'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/88c0b9da-ce96-4b03-9635-f29a937e2900'
+						definitionParameters: varALDICustomInitiativeMgIdentityParameters['[Security] Network interfaces should disable IP forwarding'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-landing-zones'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-landing-zones.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Network interfaces should not have public IPs'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/83a86a26-fd1f-447c-b59d-e51f44264114'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[Network] Network interfaces should not have public IPs'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Not allowed resource types - DDOS Plan'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[Network] Not allowed resource types - DDOS Plan'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy export to Log Analytics workspace for Azure Security Center data'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/ffb6f416-7bd2-4488-8828-56585fef2be9'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[Security] Deploy export to Log Analytics workspace for Azure Security Center data'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Deploy Standard pricing tier for Security Center onto Subscription'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-SecurityCenter'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[Security] Deploy Standard pricing tier for Security Center onto Subscription'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Network interfaces should disable IP forwarding'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/88c0b9da-ce96-4b03-9635-f29a937e2900'
+						definitionParameters: varALDICustomInitiativeMgLandingZonesParameters['[Security] Network interfaces should disable IP forwarding'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-management'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-management.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgManagementParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Network interfaces should not have public IPs'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/83a86a26-fd1f-447c-b59d-e51f44264114'
+						definitionParameters: varALDICustomInitiativeMgManagementParameters['[Network] Network interfaces should not have public IPs'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Network interfaces should disable IP forwarding'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/88c0b9da-ce96-4b03-9635-f29a937e2900'
+						definitionParameters: varALDICustomInitiativeMgManagementParameters['[Security] Network interfaces should disable IP forwarding'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-online'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-online.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgOnlineParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Virtual networks should be protected by Azure DDoS Protection Standard'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/94de2ad3-e0c1-4caf-ad78-5d47bbc83d3d'
+						definitionParameters: varALDICustomInitiativeMgOnlineParameters['[Network] Virtual networks should be protected by Azure DDoS Protection Standard'].parameters
+				}
+				{
+						definitionReferenceId: '[Security] Private endpoint connections on Azure SQL Database should be enabled'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/7698e800-9299-47a6-b3b6-5a0fee576eed'
+						definitionParameters: varALDICustomInitiativeMgOnlineParameters['[Security] Private endpoint connections on Azure SQL Database should be enabled'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-platform'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-platform.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgPlatformParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Virtual networks should be protected by Azure DDoS Protection Standard'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/94de2ad3-e0c1-4caf-ad78-5d47bbc83d3d'
+						definitionParameters: varALDICustomInitiativeMgPlatformParameters['[Network] Virtual networks should be protected by Azure DDoS Protection Standard'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-sandbox'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-sandbox.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgSandboxParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Deny vNet peering'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-vNet-peering'
+						definitionParameters: varALDICustomInitiativeMgSandboxParameters['[Network] Deny vNet peering'].parameters
+				}
+				{
+						definitionReferenceId: '[Network] Deny vNet peering Cross'
+						definitionId: '${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-VNET-Peer-Cross-Sub'
+						definitionParameters: varALDICustomInitiativeMgSandboxParameters['[Network] Deny vNet peering Cross'].parameters
+				}
+		]
+	}
+	{
+		name: 'Custom-Initiative_mg-sap'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-sap.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: '[General] Audit resource location matches resource group location'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/0a914e76-4921-4c19-b460-a2d36003525a'
+						definitionParameters: varALDICustomInitiativeMgSapParameters['[General] Audit resource location matches resource group location'].parameters
+				}
+		]
+	}
+	{
+		name: '6a2dad3d25ca4ee3a8e3bd58'
+		libSetDefinition: json(loadTextContent('lib/policy_set_definitions_ALDI/ALDI-Tagging-Convention.json'))
+		libSetChildDefinitions: [
+				{
+						definitionReferenceId: 'Inherit a tag from the subscription if missing_1'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDITaggingConventionParameters['Inherit a tag from the subscription if missing_1'].parameters
+				}
+				{
+						definitionReferenceId: 'Inherit a tag from the subscription if missing_2'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDITaggingConventionParameters['Inherit a tag from the subscription if missing_2'].parameters
+				}
+				{
+						definitionReferenceId: 'Inherit a tag from the subscription if missing_3'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDITaggingConventionParameters['Inherit a tag from the subscription if missing_3'].parameters
+				}
+				{
+						definitionReferenceId: 'Inherit a tag from the subscription if missing_4'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDITaggingConventionParameters['Inherit a tag from the subscription if missing_4'].parameters
+				}
+				{
+						definitionReferenceId: 'Inherit a tag from the subscription if missing_7'
+						definitionId: '/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469'
+						definitionParameters: varALDITaggingConventionParameters['Inherit a tag from the subscription if missing_7'].parameters
+				}
+		]
+	}
+
+]
+
+
+// Policy Set/Initiative Definition Parameter Variables
+
+var varALDICustomInitiativeMgAldiParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-Aldi.parameters.json')
+
+var varALDICustomInitiativeMgConnectivityParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-connectivity.parameters.json')
+
+var varALDICustomInitiativeMgCorpParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-corp.parameters.json')
+
+var varALDICustomInitiativeMgDecommissionedParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-decommissioned.parameters.json')
+
+var varALDICustomInitiativeMgIdentityParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-identity.parameters.json')
+
+var varALDICustomInitiativeMgLandingZonesParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-landing-zones.parameters.json')
+
+var varALDICustomInitiativeMgManagementParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-management.parameters.json')
+
+var varALDICustomInitiativeMgOnlineParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-online.parameters.json')
+
+var varALDICustomInitiativeMgPlatformParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-platform.parameters.json')
+
+var varALDICustomInitiativeMgSandboxParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-sandbox.parameters.json')
+
+var varALDICustomInitiativeMgSapParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Custom-Initiative_mg-sap.parameters.json')
+
+var varALDITaggingConventionParameters = loadJsonContent('lib/policy_set_definitions_ALDI/ALDI-Tagging-Convention.parameters.json')
+

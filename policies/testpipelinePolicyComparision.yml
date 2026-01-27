@@ -1,0 +1,318 @@
+trigger: none
+
+parameters:
+  - name: ValidateOnly
+    displayName: "Simulate execution"
+    type: boolean
+    default: 'True'
+
+variables:
+  - name: serviceConnection
+    value: 'serviceconnection-AN-Azure-ControlRepo-dev-mg-aldi'
+  - name: pathPolicyDefintions
+    value: /policies/policy_definitions
+  - name: pathPolicySetDefinitions
+    value: /policies/policyset_definitions
+  - name: pathAssignments
+    value: /policies/policy_assignments
+
+steps:
+  - checkout: self
+    persistCredentials: true
+
+  - task: PowerShell@2
+    displayName: Install required modules
+    inputs:
+      targetType: inline
+      script: |
+        # Install-Module -Name 'Az.Subscription' -RequiredVersion '0.7.3' -Force -Scope 'CurrentUser'
+
+        $requiredModules = @(
+          #'Az.Resources',
+          #'Az.Subscription',
+          # 'Az.Accounts',
+          #'Az.Network',
+          'Az.ResourceGraph'
+        )
+        foreach($module in $requiredModules) {
+          if(-not (Get-Module $module -ListAvailable)) {
+            Install-Module $module -Scope CurrentUser -Force
+            Write-Verbose ("Module [$module] was installed") -Verbose
+          } else {
+            Write-Verbose ("Module [$module] is already installed") -Verbose
+          }
+        }
+
+  - task: AzurePowerShell@5
+    displayName: LocalVsAzurePolicyAssignments
+    name: 'LocalVsAzurePolicyAssignments'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        Write-Verbose ("Comparing and removing Policy assignments - local vs. Azure") -Verbose
+
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        #policy Assignments
+        $functionInputDefInfoAssignments = @{
+          mgmtGroupId           = 'dev-mg-aldi'
+          localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'assignments' 'lib' 'policy_assignments')
+          policyObjectType      = 'policyAssignments'
+          returnDiffOnly        = [boolean] $true
+        }
+
+        $functionInputRemoveAssignments = @{
+          policyObjectType      = 'policyAssignments'
+          WhatIf                = [boolean] $WhatIfStatus
+        }
+
+        $result = Get-PolicyDefinitionsInfo @functionInputDefInfoAssignments -returnDiffOnly
+        if ($result.Count -gt 0) {
+            #Remove-PolicyObject -definitionsToRemove $result @functionInputRemoveAssignments
+            Write-Verbose ("Policy assignments will be removed") -Verbose
+        }
+        else {
+            Write-Verbose ("No policy assignments to remove") -Verbose
+        }
+
+  - task: AzurePowerShell@5
+    displayName: LocalVsAzurePolicySetDef
+    name: 'LocalVsAzurePolicySetDef'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        Write-Verbose ("Comparing and removing Policy set definitions - local vs. Azure") -Verbose
+
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        # #policy Set Definition
+         $functionInputDefInfoSetDefinitions = @{
+          mgmtGroupId           = 'dev-mg-aldi'
+          localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'definitions' 'lib' 'policy_set_definitions*')
+          policyObjectType      = 'policySetDefinition'
+          returnDiffOnly        = [boolean] $true
+        }
+
+        $functionInputRemoveSetDefinitions= @{
+          policyObjectType      = 'policySetDefinition'
+          WhatIf                = [boolean] $WhatIfStatus
+        }
+
+        $result = Get-PolicyDefinitionsInfo @functionInputDefInfoSetDefinitions
+         if ($result.Count -gt 0) {
+            #Remove-PolicyObject -definitionsToRemove $result @functionInputRemoveSetDefinitions
+            Write-Verbose ("Policy Set defintions will be removed") -Verbose
+         }
+         else {
+             Write-Verbose ("No policy policy sets to remove") -Verbose
+         }
+
+  - task: AzurePowerShell@5
+    displayName: LocalVsAzurePolicyDefinitions
+    name: 'LocalVsAzurePolicyDefinitions'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        Write-Verbose ("Comparing and removing Policy Definitions - local vs. Azure") -Verbose
+
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        #if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        #if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        #policy Definitions
+        $functionInputDefInfoDefinitions = @{
+          mgmtGroupId           = 'dev-mg-aldi'
+          localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'definitions' 'lib' 'policy_definitions*')
+          policyObjectType      = 'policyDefinitions'
+          returnDiffOnly        = [boolean] $true
+        }
+
+        $functionInputRemoveDefinitions= @{
+          policyObjectType      = 'policyDefinitions'
+          WhatIf                = [boolean] $WhatIfStatus
+        }
+
+        #policy Definition
+        $result = Get-PolicyDefinitionsInfo @functionInputDefInfoDefinitions
+        if ($result.Count -gt 0) {
+            #Remove-PolicyObject -definitionsToRemove $result @functionInputRemoveDefinitions
+            Write-Verbose ("Policy defintions will be removed") -Verbose
+        }
+        else {
+            Write-Verbose ("No policy definitions to remove") -Verbose
+        }
+
+  - task: AzurePowerShell@5
+    displayName: TwoMgmtGrPolicyDefinitions
+    name: 'TwoMgmtGrPolicyDefinitions'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        Write-Verbose ("Comparing and Policy definitions between two Management Groups") -Verbose
+
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        $mgmtGr1 = 'mg-aldi'
+        $mgmtGr2 = 'dev-mg-aldi'
+
+        $result = Compare-PolicyDefinitionsInfo -mgmtGroupId1 $mgmtGr1 -mgmtGroupId2 $mgmtGr2 -policyObjectType policyDefinitions 
+
+        $resultsMgmtGr1 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr1 }
+        $resultsMgmtGr2 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr2 }
+        $resultsMgmtGrBoth = $result | Where-Object { $_.ExistsIn -eq "Both" }
+
+        $resultsMgmtGr1 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr1, $resultsMgmtGr1.Count ) -Verbose
+
+        $resultsMgmtGr2 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr2, $resultsMgmtGr2.Count ) -Verbose
+
+        $resultsMgmtGrBoth | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of results on both sides: [{0}]" -f $resultsMgmtGrBoth.Count ) -Verbose
+
+  - task: AzurePowerShell@5
+    displayName: TwoMgmtGrPolicySetDefinitions
+    name: 'TwoMgmtGrPolicySetDefinitions'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        Write-Verbose ("Comparing and Policy set definitions between two Management Groups") -Verbose
+
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        $mgmtGr1 = 'mg-aldi'
+        $mgmtGr2 = 'dev-mg-aldi'
+
+        $result = Compare-PolicyDefinitionsInfo -mgmtGroupId1 $mgmtGr1 -mgmtGroupId2 $mgmtGr2 -policyObjectType policySetDefinition
+
+        $resultsMgmtGr1 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr1 }
+        $resultsMgmtGr2 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr2 }
+        $resultsMgmtGrBoth = $result | Where-Object { $_.ExistsIn -eq "Both" }
+
+        $resultsMgmtGr1 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr1, $resultsMgmtGr1.Count ) -Verbose
+
+        $resultsMgmtGr2 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr2, $resultsMgmtGr2.Count ) -Verbose
+
+        $resultsMgmtGrBoth | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of results on both sides: [{0}]" -f $resultsMgmtGrBoth.Count ) -Verbose
+  - task: AzurePowerShell@5
+    displayName: TwoMgmtGrPolicyAssignments
+    name: 'TwoMgmtGrPolicyAssignments'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        $mgmtGr1 = 'mg-aldi'
+        $mgmtGr2 = 'dev-mg-aldi'
+
+        $result = Compare-PolicyDefinitionsInfo -mgmtGroupId1 $mgmtGr1 -mgmtGroupId2 $mgmtGr2 -policyObjectType policyAssignments
+
+        $resultsMgmtGr1 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr1 }
+        $resultsMgmtGr2 = $result | Where-Object { $_.ExistsIn -eq $mgmtGr2 }
+        $resultsMgmtGrBoth = $result | Where-Object { $_.ExistsIn -eq "Both" }
+
+        $resultsMgmtGr1 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr1, $resultsMgmtGr1.Count ) -Verbose
+
+        $resultsMgmtGr2 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [{0}]: [{1}]" -f $mgmtGr2, $resultsMgmtGr2.Count ) -Verbose
+
+        $resultsMgmtGrBoth | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of results on both sides: [{0}]" -f $resultsMgmtGrBoth.Count ) -Verbose
+        
+  - task: AzurePowerShell@5
+    displayName: AssignmentsPrdVsDev
+    name: 'AssignmentsPrdVsDev'
+    inputs:
+      azureSubscription: ${{ variables.serviceConnection }}
+      azurePowerShellVersion: 'latestVersion'
+      preferredAzurePowerShellVersion: ''
+      pwsh: true
+      ScriptType: InlineScript
+      inline: |
+        # Load used functions
+        . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+        $WorkingBranch = "refs/heads/main"
+        $WhatIfStatus = $false
+        if ('$(Build.SourceBranch)' -ne $WorkingBranch) { $WhatIfStatus = $true }
+        if ('${{ parameters.ValidateOnly }}' -eq 'true') { $WhatIfStatus = $true }
+
+        $result = Compare-PolicyAssignments
+
+        $resultsMgmtGr1 = $result | Where-Object { $_.ExistsIn -eq 'mg-aldi' }
+        $resultsMgmtGr2 = $result | Where-Object { $_.ExistsIn -eq 'dev-mg-aldi' }
+        $resultsMgmtGrBoth = $result | Where-Object { $_.ExistsIn -eq "Both" }
+
+        Write-Verbose ("Displaying unique results in [mg-aldi]") -Verbose
+        $resultsMgmtGr1 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [mg-aldi]: [{0}]" -f $resultsMgmtGr1.Count ) -Verbose
+
+        Write-Verbose ("Displaying unique results in [dev-mg-aldi]") -Verbose
+        $resultsMgmtGr2 | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of unique results in [dev-mg-aldi]: [{0}]" -f $resultsMgmtGr2.Count ) -Verbose
+
+        Write-Verbose ("Displaying results on both sides:") -Verbose
+        $resultsMgmtGrBoth | ConvertTo-Json -Depth 99
+        Write-Verbose ("Number of results on both sides: [{0}]" -f $resultsMgmtGrBoth.Count ) -Verbose

@@ -1,0 +1,5 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  }
+}

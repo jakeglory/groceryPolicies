@@ -1,0 +1,16 @@
+{
+    "name": "sub-otx-prd-DenyPublicNetworkAccess",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicaccess",
+        "displayName": "sub-otx-prd - Deny Public Network Access",
+        "description": "One month exemption approved by Cyber Defense",
+        "expiresOn": "2023-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-RDP-From-Internet"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "7f088b0b-775e-45a9-96f3-fe2acf713029"
+    }
+}

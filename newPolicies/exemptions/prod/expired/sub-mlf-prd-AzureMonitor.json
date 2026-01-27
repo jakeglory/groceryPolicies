@@ -1,0 +1,17 @@
+{
+    "name": "sub-mlf-prd-AzureMonitor",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Config-SecDCRandAMA",
+        "displayName": "sub-mlf-prd AzureMonitorAgent",
+        "description": "ServiceNow Ticket: SCTASK0263732",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-11-30T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "[Preview]: Assign Built-In User-Assigned Managed Identity to Virtual Machines"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/ac848dd7-c0b7-4be0-a8bc-5b28f5d6ed79"
+    }
+}

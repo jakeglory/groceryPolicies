@@ -1,0 +1,49 @@
+{
+  "name": "Enforce-PlatformTags",
+  "properties": {
+    "description": "Enforce Platform Managed Tags",
+    "displayName": "Enforce Platform Managed Tags",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "Tag az_billingid": {
+        "value": "az_billingid"
+      },
+      "Tag az_owner": {
+        "value": "az_owner"
+      },
+      "Tag az_technicalcontact": {
+        "value": "az_technicalcontact"
+      },
+      "Tag az_workloadteam": {
+        "value": "az_workloadteam"
+      },
+      "Tag az_businesscriticality": {
+        "value": "az_businesscriticality"
+      },
+      "Tag az_dataclassification": {
+        "value": "az_dataclassification"
+      },
+      "Tag az_lzversion": {
+        "value": "az_lzversion"
+      },
+      "Tag az_projectshortname": {
+        "value": "az_projectshortname"
+      },
+      "Tag az_stage": {
+        "value": "az_stage"
+      },
+      "Tag az_solutionline": {
+        "value": "az_solutionline"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Enforce-PlatformTags",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f"
+    ]
+    },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

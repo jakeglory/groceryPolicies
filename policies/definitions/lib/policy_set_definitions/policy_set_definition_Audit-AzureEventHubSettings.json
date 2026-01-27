@@ -1,0 +1,16 @@
+{
+  "name": "Audit-AzureEventHubSettings",
+  "properties": {
+    "description": "Audit Azure EventHubSettings",
+    "displayName": "Audit Azure EventHubSettings",
+    "metadata": {
+      "category": "Event Hub"
+    },
+    "parameters": {},
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Authorization rules on the Event Hub instance should be defined",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/f4826e5f-6a27-407c-ae3e-9582eb39891d"
+    }
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

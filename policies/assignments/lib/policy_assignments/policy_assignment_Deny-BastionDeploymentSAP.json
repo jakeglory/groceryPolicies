@@ -1,0 +1,22 @@
+{
+  "name": "Deny-BastionDeploySAP",
+  "properties": {
+    "description": "Assignments prevent deployment of Azure Bastion Host in MG-SAP",
+    "displayName": "Assignments prevent deployment of Azure Bastion Host in MG-SAP",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": ["microsoft.network/bastionhosts"]
+      },
+      "effect": {
+        "value": "Deny"
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/6c112d4e-5bc7-47ae-a041-ea2d9dccd749"
+  },
+  "scope": {
+    "managementGroupId": "SAP"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

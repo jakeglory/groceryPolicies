@@ -1,0 +1,15 @@
+{
+    "name": "sub-zba-int-Set-StorageSettings",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Set-StorageSettings",
+        "displayName": "sub-zba-int - Set-StorageSettings",
+        "description": "Mail Approval from InfoSec on 04.05.2020 regarding Backup failures",
+        "policyDefinitionReferenceIds": [
+            "Storage accounts should have infrastructure encryption"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "54ea7754-fe81-4e46-b1fc-ef8f8385484c"
+    }
+}

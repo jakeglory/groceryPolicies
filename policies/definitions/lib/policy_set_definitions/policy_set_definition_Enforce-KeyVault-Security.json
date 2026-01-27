@@ -1,0 +1,20 @@
+{
+  "name": "Enforce-KeyVault-Security",
+  "properties": {
+    "description": "Ensures that Key Vaults are created with soft-delete enabled",
+    "displayName": "KeyVault SoftDelete should be enabled",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Key Vault"
+    },
+    "parameters": {},
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Append-KV-SoftDelete",
+      "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Append-KV-SoftDelete",
+      "parameters": {},
+      "groupNames": []
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

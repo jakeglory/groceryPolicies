@@ -1,0 +1,36 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Network] Network interfaces should not have public IPs": {
+    "parameters": {}
+  },
+  "[Network] Not allowed resource types - DDOS Plan": {
+    "parameters": {
+      "listOfResourceTypesNotAllowed": {
+        "value": [
+          "Microsoft.Network/ddosProtectionPlans"
+        ]
+      }
+    }
+  },
+  "[Security] Deploy export to Log Analytics workspace for Azure Security Center data": {
+    "parameters": {
+      "resourceGroupName": {
+        "value": "rg-an-governance"
+      },
+      "resourceGroupLocation": {
+        "value": "westeurope"
+      },
+      "workspaceResourceId": {
+        "value": "[[parameters('logAnalytics')]"
+      }
+    }
+  },
+  "[Security] Deploy Standard pricing tier for Security Center onto Subscription": {
+    "parameters": {}
+  },
+  "[Security] Network interfaces should disable IP forwarding": {
+    "parameters": {}
+  }
+}

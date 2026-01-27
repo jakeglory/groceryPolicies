@@ -1,0 +1,19 @@
+{
+  "Allowed locations": {
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[[parameters('listOfAllowedLocations')]"
+      }
+    }
+  },
+  "Allowed locations for resource groups": {
+    "parameters": {
+      "listOfAllowedLocations": {
+        "value": "[[parameters('listOfAllowedLocations')]"
+      }
+    }
+  },
+  "Audit resource location matches resource group location": {
+    "parameters": {}
+  }
+}

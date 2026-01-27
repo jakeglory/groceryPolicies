@@ -1,0 +1,15 @@
+{
+  "name": "Deny-PublicAccess",
+  "properties": {
+    "description": "Denies any network security rule that allows RDP access from Internet",
+    "displayName": "Deny Public Access to network",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-PublicAccess"
+  },
+  "scope": {
+    "managementGroupId": "landing-zones"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

@@ -1,0 +1,17 @@
+{
+    "name": "sub-ccoe-prd-imaging-Deny-PE",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deny-public-endpoints",
+        "displayName": "sub-ccoe-prd-imaging - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: SCTASK0220560",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-08-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "KeyVaultDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/2a908d0e-8d21-458e-9d21-cb676e9568e5/resourceGroups/rg-ccoe-prd-weu-pkrtmp-01"
+    }
+}

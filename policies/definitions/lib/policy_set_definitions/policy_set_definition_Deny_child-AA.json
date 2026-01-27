@@ -1,0 +1,38 @@
+{
+  "name": "Deny-AA-child-res",
+  "properties": {
+    "description": "This policy denies the creation of child resources on the Automation Account",
+    "displayName": "Deny Child-Resources in Automation Account",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Automation"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Deny-AA-child-resources",
+      "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-AA-child-resources",
+      "parameters": {
+        "effect": {
+          "value": "[[parameters('Effect')]"
+        }
+      },
+      "groupNames": []
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

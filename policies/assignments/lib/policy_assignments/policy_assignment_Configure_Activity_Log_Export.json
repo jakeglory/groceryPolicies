@@ -1,0 +1,29 @@
+{
+  "name": "Conf-ActivLog-Export",
+  "properties": {
+    "description": "Configure Activity Log Export to Central Log Analytics",
+    "displayName": "Configure Activity Log Export to Central Log Analytics",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "effect": {
+        "value": "DeployIfNotExists"
+      },
+      "logAnalytics": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourcegroups/rg-logmanagementworkspace-prod/providers/microsoft.operationalinsights/workspaces/log-we-prod-logmanagementworkspace"
+      },
+      "logsEnabled": {
+        "value": "True"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Conf-ActivLog-Export",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+          "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

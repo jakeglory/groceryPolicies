@@ -1,0 +1,42 @@
+{
+  "name": "Configure-SecurityDCRs",
+  "properties": {
+    "description": "Configure Security Data Collection Rules",
+    "displayName": "Configure Security DCRs",
+    "enforcementMode": "DoNotEnforce",
+    "notScopes": [],
+    "parameters": {
+      "effect": {
+        "value": "DeployIfNotExists"
+      },
+      "listOfWindowsImageIdToInclude": {
+        "value": []
+      },
+      "listOfLinuxImageIdToInclude": {
+        "value": ["/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.2","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.1","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-test-002/providers/Microsoft.Compute/galleries/imagesap4weu/images/sapimage/versions/0.0.1","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-test-002/providers/Microsoft.Compute/images/goldenimage-sep-16","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-tmd-001/providers/Microsoft.Compute/images/image-sep-12","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.3","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.4","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.5","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrmain001","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrdev001","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrsq001"]
+      },
+      "resourceType": {
+        "value": "Microsoft.Insights/dataCollectionRules"
+      },
+      "LinuxDCR": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/RG-logmanagementworkspace-prod/providers/Microsoft.Insights/dataCollectionRules/SentinelLinuxDCR"
+      },
+      "WindowsDCR": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/RG-logmanagementworkspace-prod/providers/Microsoft.Insights/dataCollectionRules/SentinelWindowsDCR"
+      },
+      "scopeToSupportedImages": {
+            "value": false
+          }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Config-SecurityDCR",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+          "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+          "/providers/microsoft.authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

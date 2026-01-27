@@ -1,0 +1,133 @@
+{
+  "name": "EnforceAldiNordPlatformTags",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "Enforce Aldi Nord Platform Managed Tags",
+    "description": "Enforces Aldi Nord Platform Managed Tags",
+    "scope": "/providers/Microsoft.Management/managementGroups/mg-aldi",
+    "metadata": {
+      "assignedBy": "Policy Initiative Assigned by Platform Team as part of Q4 2025 policy rollout"
+    },
+    "enforcementMode": "Default",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Enforce-ANPlatformTags",
+    "parameters": {
+      "Tag az_billingid": {
+        "value": "az_billingid"
+      },
+      "Tag az_owner": {
+        "value": "az_owner"
+      },
+      "Tag az_technicalcontact": {
+        "value": "az_technicalcontact"
+      },
+      "Tag az_workloadteam": {
+        "value": "az_workloadteam"
+      },
+      "Tag az_businesscriticality": {
+        "value": "az_businesscriticality"
+      },
+      "Tag az_dataclassification": {
+        "value": "az_dataclassification"
+      },
+      "Tag az_lzversion": {
+        "value": "az_lzversion"
+      },
+      "Tag az_project": {
+        "value": "az_project"
+      },
+      "Tag az_stage": {
+        "value": "az_stage"
+      },
+      "Tag az_solutionline": {
+        "value": "az_solutionline"
+      }
+    },
+    "nonComplianceMessages": [
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord BillingID Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_billingid tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Owner Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_owner tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Technical Contact Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_technicalcontact tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Workload Team Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_workloadteam tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Business Criticality Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_businesscriticality tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Data Classification Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_dataclassification tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord LZ Version Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_lzversion tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Project Short Name Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_project tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Stage Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_stage tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Solution Line Tag from Subscription to Resource Group",
+        "message": "Each resource group must inherit the az_solutionline tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord BillingID Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_billingid tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Owner Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_owner tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Technical Contact Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_technicalcontact tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Workload Team Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_workloadteam tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Business Criticality Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_businesscriticality tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Data Classification Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_dataclassification tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord LZ Version Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_lzversion tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Project Short Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_project tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Stage Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_stage tag from its subscription."
+      },
+      {
+        "policyDefinitionReferenceId": "Inherit or Modify Azure Aldi Nord Solution Line Tag from Subscription to Resource",
+        "message": "Each resource must inherit the az_solutionline tag from its subscription."
+      }
+    ]
+  }
+}

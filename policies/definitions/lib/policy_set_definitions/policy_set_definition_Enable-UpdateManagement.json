@@ -1,0 +1,73 @@
+{
+  "name": "Enable-UpdateManagement",
+  "properties": {
+    "description": "Configure Azure Update Management Center",
+    "displayName": "Enable Update Management",
+    "metadata": {
+      "category": "Update Management Center"
+    },
+    "parameters": {
+      "assessmentMode": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Assessment mode",
+          "description": "Assessment mode for the machines."
+        },
+        "allowedValues": [
+          "ImageDefault",
+          "AutomaticByPlatform"
+        ],
+        "defaultValue": "AutomaticByPlatform"
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Policy Effect",
+          "description": "The desired effect of the policy."
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "[Preview]: Configure periodic checking for missing system updates on Linux azure virtual machines",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15",
+        "parameters": {
+          "assessmentMode": {
+            "value": "[[parameters('assessmentMode')]"
+          },
+          "osType": {
+            "value": "Linux"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Preview]: Configure periodic checking for missing system updates on Windows azure virtual machines",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/59efceea-0c96-497e-a4a1-4eb2290dac15",
+        "parameters": {
+          "assessmentMode": {
+            "value": "[[parameters('assessmentMode')]"
+          },
+          "osType": {
+            "value": "Windows"
+          }
+        }
+      },
+      {
+        "policyDefinitionReferenceId": "[Preview]: Machines should be configured to periodically check for missing system updates",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/bd876905-5b84-4f73-ab2d-2e7a7c4568d9",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('effect')]"
+          }
+        }
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

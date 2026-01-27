@@ -1,0 +1,18 @@
+{
+  "name": "Deploy-Budget-SBXSub",
+  "properties": {
+    "description": "Deploy Budget on Sandbox Subscriptions",
+    "displayName": "Deploy Budget on Sandbox Subscriptions",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deploy-Budget",
+    "roleDefinitionIds": [
+      "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c" //contributor
+    ]
+  },
+  "scope": {
+    "managementGroupId": "sandbox"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

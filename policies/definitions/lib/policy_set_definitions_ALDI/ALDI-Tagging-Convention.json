@@ -1,0 +1,80 @@
+{
+    "properties": {
+      "displayName": "ALDI-Tagging-Convention",
+      "policyType": "Custom",
+      "description": "Initiative contains policies to inherit tags from Subscription\nhttps://dev.azure.com/an-de-ohg-sbi/Azure%20Cloud%20Foundation/_wiki/wikis/CCoE%20Public%20Wiki/1340/Tagging-Convention",
+      "metadata": {
+        "category": "Tagging",
+        "version": "1.1",
+        "createdBy": "9030e2a5-f083-4410-8b02-e859b0ce78f3",
+        "createdOn": "2022-06-10T06:14:09.8293984Z",
+        "updatedBy": "9030e2a5-f083-4410-8b02-e859b0ce78f3",
+        "updatedOn": "2022-06-23T07:04:31.9527915Z"
+      },
+      "parameters": {},
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "Inherit a tag from the subscription if missing_1",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+          "parameters": {
+            "tagName": {
+              "value": "ccoe_project"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "Inherit a tag from the subscription if missing_2",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+          "parameters": {
+            "tagName": {
+              "value": "ccoe_stage"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "Inherit a tag from the subscription if missing_3",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+          "parameters": {
+            "tagName": {
+              "value": "ccoe_owner"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "Inherit a tag from the subscription if missing_4",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+          "parameters": {
+            "tagName": {
+              "value": "ccoe_workloadteam"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "Inherit a tag from the subscription if missing_7",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/40df99da-1232-49b1-a39a-6da8d878f469",
+          "parameters": {
+            "tagName": {
+              "value": "ccoe_billingID"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": []
+    },
+    "id": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policySetDefinitions/6a2dad3d25ca4ee3a8e3bd58",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "name": "6a2dad3d25ca4ee3a8e3bd58",
+    "systemData": {
+      "createdBy": "X000752@aldi-nord.com",
+      "createdByType": "User",
+      "createdAt": "2022-06-10T06:14:09.2983097Z",
+      "lastModifiedBy": "X000752@aldi-nord.com",
+      "lastModifiedByType": "User",
+      "lastModifiedAt": "2022-06-23T07:04:31.4647117Z"
+    }
+  }

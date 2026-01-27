@@ -1,0 +1,17 @@
+{
+    "name": "sub-sap4-prd-StorageFirewallA",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deny-public-endpoints",
+        "displayName": "sub-sap4-prd-StorageFirewallA",
+        "description": "ServiceNow Ticket: RITM0269683",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-11-15T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "StorageDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/mrg-RF1-0e1c9b"
+    }
+}

@@ -1,0 +1,51 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "Deny-NetworkResources",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "properties": {
+    "description": "Blocks deployment of selected public network edge services (load balancers with public IPs, Azure Firewall, NAT gateway and Site to Site VPN) in the target management group.",
+    "displayName": "Block public network edge services",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deny-NetworkResources",
+    "enforcementMode": "DoNotEnforce",
+    "nonComplianceMessages": [
+      {
+        "message": "Deployment of load balancers (excluding LB named kubernetes) with public IP frontends is blocked by the Network Edge security policy. Please remove the public IP configuration or request an exemption.",
+        "policyDefinitionReferenceId": "DenyLoadBalancerPublicIP"
+      },
+      {
+        "message": "Deployment of Azure Firewall resources is blocked by the Network Edge security policy. Review your design or request an exemption.",
+        "policyDefinitionReferenceId": "DenyAzureFirewall"
+      },
+      {
+        "message": "Deployment of NAT gateway resources is blocked by the Network Edge security policy. Review your design or request an exemption.",
+        "policyDefinitionReferenceId": "DenyNatGateway"
+      },
+      {
+        "message": "Deployment of Site to Site VPN resources is blocked by the Network Edge security policy. Review your design or request an exemption.",
+        "policyDefinitionReferenceId": "DenySiteToSiteVPN"
+      }
+    ],
+    "parameters": {
+      "LoadBalancerPublicIPEffect": {
+        "value": "Deny"
+      },
+      "AzureFirewallEffect": {
+        "value": "Deny"
+      },
+      "NatGatewayEffect": {
+        "value": "Deny"
+      },
+      "Site2SiteEffect": {
+        "value": "Deny"
+      }
+
+    },
+    "metadata": {
+      "assignedBy": "Policy Initiative Assigned by Platform Team as part of Q1 2026 policy rollout"
+    },
+    "scope": "/providers/Microsoft.Management/managementGroups/mg-identity",
+    "notScopes": []
+  }
+}

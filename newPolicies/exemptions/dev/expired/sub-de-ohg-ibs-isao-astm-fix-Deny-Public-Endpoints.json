@@ -1,0 +1,17 @@
+{
+    "name": "sub-de-ohg-ibs-fix-DenyPE",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-de-ohg-ibs-isao-astm-fix - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: SCTASK0345499",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-11-12T23:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "aksdenypaaspublicip"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/ae2cf23d-5b2a-4e68-8f38-653e4ea0874b"
+    }
+}

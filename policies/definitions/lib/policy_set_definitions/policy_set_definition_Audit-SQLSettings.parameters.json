@@ -1,0 +1,16 @@
+{
+  "Azure SQL Database should be running TLS version 1.2 or newer": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  },
+  "Azure SQL Database should have Azure Active Directory Only Authentication enabled": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

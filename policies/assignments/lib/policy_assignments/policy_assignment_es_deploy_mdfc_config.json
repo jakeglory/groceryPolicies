@@ -1,0 +1,32 @@
+{
+  "name": "Deploy-MDFC-Config",
+  "properties": {
+    "description": "Deploy Microsoft Defender for Cloud configuration and Security Contacts version 2.1.0 (Deploy-MDFC-Config_20240319)",
+    "displayName": "Deploy Microsoft Defender for Cloud configuration",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "email Security Contact": {
+        "value": "cyberdefensecenter@aldi-nord.de"
+      },
+      "logAnalytics": {
+        "value": "placeholder"
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deploy-MDFC-Config",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd", //Security Admin
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", //Contributor
+      "/providers/microsoft.authorization/roleDefinitions/ed7f3fbd-7b88-4dd4-9017-9adb7ce333f8", //Azure Kubernetes Service Contributor Role
+      "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293", //Log Analytics Contributor
+      "/providers/microsoft.authorization/roleDefinitions/18ed5180-3e48-46fd-8541-4ea054d57064", //Azure Kubernetes Service Policy Add-on Deployment
+      "/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635", //Owner
+      "/providers/microsoft.authorization/roleDefinitions/8bb6f106-b146-4ee6-a3f9-b9c5a96e0ae5", //Defender Kubernetes Agent Operator
+      "/providers/microsoft.authorization/roleDefinitions/5e93ba01-8f92-4c7a-b12a-801e3df23824"  //Kubernetes Agent Operator
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

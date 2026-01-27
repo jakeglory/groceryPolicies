@@ -1,0 +1,18 @@
+{
+  "name": "Deploy-PrivDnsZoneConf",
+  "properties": {
+    "description": "Deploy private DNS Zone Configuration",
+    "displayName": "Deploy private DNS Zone Configuration",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deploy-privateDnsZoneConfigs",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

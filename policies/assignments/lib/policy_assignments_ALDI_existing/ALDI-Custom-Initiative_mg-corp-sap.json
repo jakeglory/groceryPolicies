@@ -1,0 +1,23 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "94d7a0599c9848d39a87799c",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-corp",
+    "description": "--",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-corp-ID}",
+    "managementGroupId": "sap",
+    "notScopes": [],
+    "parameters": {
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c" //contributor
+  ]
+}

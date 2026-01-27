@@ -1,0 +1,28 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "name": "Custom_mg-landing-zones",
+  "location": "westeurope",
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName": "ALDI-Custom-Initiative_mg-landing-zones",
+    "description": "ALDI-Custom Initiative to mg-landing-zones",
+    "policyDefinitionId": "${ALDI-Custom-Initiative_mg-landing-zones-ID}",
+    "managementGroupId": "landing-zones",
+    "notScopes": [],
+    "parameters": {
+      "logAnalytics": {
+        "value": "${LAW-Workspace}"
+      }
+    },
+    "metadata": {
+    },
+    "enforcementMode": "Default"
+  },
+  "roles": [
+    "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", //contributor
+    "/providers/Microsoft.Authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd", //SecurityAdmin
+    "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7" //networkContributor
+  ]
+}

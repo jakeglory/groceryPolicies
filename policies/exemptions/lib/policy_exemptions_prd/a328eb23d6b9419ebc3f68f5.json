@@ -1,0 +1,16 @@
+{
+    "name": "a328eb23d6b9419ebc3f68f5",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "sub-zba-int - ALDI-Custom-Initiative_mg-ALDI", 
+        "description": "Mail Approval from InfoSec on 04.05.2020 regarding Backup failures",
+        "policyDefinitionReferenceIds": [
+            "[Security] Preview - Storage account public access should be disallowed",
+            "[Security] Storage accounts should have infrastructure encryption"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "54ea7754-fe81-4e46-b1fc-ef8f8385484c"
+    }
+}

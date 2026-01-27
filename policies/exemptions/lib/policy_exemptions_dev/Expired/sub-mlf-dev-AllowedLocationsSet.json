@@ -1,0 +1,17 @@
+{
+    "name": "sub-mlf-dev-AllowedLocationsSet",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-mlf-dev - AllowedLocations",
+        "description": "ServiceNow Ticket: SCTASK0022387",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "38513dae-0c2f-476a-b4cc-2d78f5d29b02"
+    }
+}

@@ -1,0 +1,51 @@
+{
+    "name": "AddOrReplace-Storage-BlobServicesSoftDelete",
+    "type": "Microsoft.Authorization/policyDefinitions",
+    "apiVersion": "2020-09-01",
+    "scope": null,
+    "properties": {
+        "policyType": "Custom",
+        "displayName": "Enable soft-delete on blob-services",
+        "description": "Enalbe soft-delete on blob-services at storage account creation.",
+        "mode": "Indexed",
+        "metadata": {
+            "version": "1.0.0",
+            "category": "Storage"
+        },
+        "parameters": {},
+        "policyRule": {
+            "if": {
+                "allOf": [
+                    {
+                        "field": "type",
+                        "equals": "Microsoft.Storage/storageAccounts/blobServices"
+                    },
+                    {
+                        "not": {
+                            "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy.enabled",
+                            "equals": true
+                        }
+                    }
+                ]
+            },
+            "then": {
+                "effect": "modify",
+                "details": {
+                    "roleDefinitionIds": [
+                        "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "operations": [
+                        {
+                            "operation": "addOrReplace",
+                            "field": "Microsoft.Storage/storageAccounts/blobServices/deleteRetentionPolicy",
+                            "value": {
+                                "enabled": true,
+                                "days": 7
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

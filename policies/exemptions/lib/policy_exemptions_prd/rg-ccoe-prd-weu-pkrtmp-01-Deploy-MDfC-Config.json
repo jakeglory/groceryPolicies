@@ -1,0 +1,18 @@
+{
+    "name": "rg-ccoe-prd-weu-pkrtmp-01-Deploy-MDfC-Config",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deploy-mdfc-config",
+        "displayName": "rg-ccoe-prd-weu-pkrtmp-01 Deploy MDfC Config",
+        "description": "SNOW Ticket: RITM0013543",
+        "policyDefinitionReferenceIds": [
+            "defenderForVM",
+            "vulnerabilityForVM",
+            "defenderForStorageAccounts"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "2a908d0e-8d21-458e-9d21-cb676e9568e5",
+        "ResourceGroupName": "rg-ccoe-prd-weu-pkrtmp-01"
+    }
+}

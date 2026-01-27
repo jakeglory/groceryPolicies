@@ -1,0 +1,36 @@
+{
+    "name": "sub-web-prd-001-EnforcePlatformTags",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/enforce-platformtags",
+        "displayName": "sub-web-prd-001 Enforce Platform Managed Tags",
+        "description": "ServiceNow Ticket: SCTASK0231947",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-05-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Inherit or Modify Azure Aldi Nord BillingID Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Owner Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Technical Contact Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Workload Team Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Business Criticality Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Data Classification Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord LZ Version Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Project Short Name Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Stage Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord Solution Line Tag from Subscription to Resource Group",
+            "Inherit or Modify Azure Aldi Nord BillingID Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Owner Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Technical Contact Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Workload Team Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Business Criticality Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Data Classification Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord LZ Version Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Project Short Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Stage Tag from Subscription to Resource",
+            "Inherit or Modify Azure Aldi Nord Solution Line Tag from Subscription to Resource"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/d6330ce2-799d-4d67-872f-55e948d8c572"
+    }
+}

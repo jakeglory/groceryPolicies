@@ -1,0 +1,21 @@
+{
+    "name": "sub-sap4-prd-newTLS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl-q225",
+        "displayName": "sub-sap4-prd TLS Exempion",
+        "description": "ServiceNow Ticket: SCTASK0376974",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-04-20T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "storagedeployhttpsenabledeffect"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourcegroups/rg-sap4-prd-weu-sap-001"
+    }
+}
+
+
+
+

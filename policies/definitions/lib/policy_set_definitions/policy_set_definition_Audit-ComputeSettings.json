@@ -1,0 +1,22 @@
+{
+  "name": "Audit-ComputeSettings",
+  "properties": {
+    "description": "Audit Virtual Machine Settings",
+    "displayName": "Audit Virtual Machine Settings",
+    "metadata": {
+      "category": "Compute"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Audit virtual machines without disaster recovery configured",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0015ea4d-51ff-4ce3-8d8c-f3f8f0179a56"
+      },
+      {
+        "policyDefinitionReferenceId": "Audit VMs that do not use managed disks",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/06a78e20-9358-41c9-923c-fb736d382a4d"
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

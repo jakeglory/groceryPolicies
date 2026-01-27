@@ -1,0 +1,17 @@
+{
+    "name": "sub-scngo-dev-DeployNSGFlow",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deploy-network-security",
+        "displayName": "sub-scngo-dev - Deploys NSG flow logs and traffic analytics to Log Analytics",
+        "description": "ITSMSD-1020091",
+        "expiresOn": "2024-01-01T21:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deploy-Nsg-FlowLogs-to-LA"
+
+        ]
+    },
+    "scope": {
+        "subscriptionId": "5773bf5c-4a54-4d96-94d7-98a2243215bd"
+    }
+}

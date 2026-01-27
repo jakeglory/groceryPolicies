@@ -1,0 +1,16 @@
+{
+    "name": "sub-de-ohg-ibs-isao-astm-dev-DenyPublicNetworkAccess",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicaccess",
+        "displayName": "sub-de-ohg-ibs-isao-astm-dev - Deny Public Network Access",
+        "description": "One month exemption approved by Cyber Defense",
+        "expiresOn": "2023-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-RDP-From-Internet"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "827d0300-f3b2-435b-977f-2c2234ed91d3"
+    }
+}

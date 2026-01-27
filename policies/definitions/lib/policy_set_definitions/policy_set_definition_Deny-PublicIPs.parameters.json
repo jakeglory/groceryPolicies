@@ -1,0 +1,8 @@
+{
+  "Network interfaces should disable IP forwarding": {
+    "parameters": {}
+  },
+  "Network interfaces should not have public IPs": {
+    "parameters": {}
+  }
+}

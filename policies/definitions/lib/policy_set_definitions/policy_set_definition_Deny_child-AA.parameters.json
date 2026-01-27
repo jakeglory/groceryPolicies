@@ -1,0 +1,9 @@
+{
+  "Deny-AA-child-resources": {
+    "parameters": {
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      }
+    }
+  }
+}

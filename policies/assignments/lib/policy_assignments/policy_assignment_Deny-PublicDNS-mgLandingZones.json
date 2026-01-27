@@ -1,0 +1,15 @@
+{
+  "name": "Deny-Public-DNS-Zones",
+  "properties": {
+    "description": "Deny the creation of Public DNS Zone",
+    "displayName": "Deny the creation of Public DNS Zone",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Public-DNS-Zones"
+  },
+  "scope": {
+    "managementGroupId": "corp"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

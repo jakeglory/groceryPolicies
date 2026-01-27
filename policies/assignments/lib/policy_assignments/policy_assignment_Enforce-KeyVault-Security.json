@@ -1,0 +1,15 @@
+{
+  "name": "Enforce-KV-Security",
+  "properties": {
+    "description": "Ensures that Key Vaults are created with soft-delete enabled",
+    "displayName": "KeyVault SoftDelete should be enabled",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Enforce-KeyVault-Security"
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

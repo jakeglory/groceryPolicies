@@ -1,0 +1,37 @@
+{
+  "Inherit a tag from the subscription if missing_1": {
+    "parameters": {
+      "tagName": {
+        "value": "ccoe_project"
+      }
+    }
+  },
+  "Inherit a tag from the subscription if missing_2": {
+    "parameters": {
+      "tagName": {
+        "value": "ccoe_stage"
+      }
+    }
+  },
+  "Inherit a tag from the subscription if missing_3": {
+    "parameters": {
+      "tagName": {
+        "value": "ccoe_owner"
+      }
+    }
+  },
+  "Inherit a tag from the subscription if missing_4": {
+    "parameters": {
+      "tagName": {
+        "value": "ccoe_workloadteam"
+      }
+    }
+  },
+  "Inherit a tag from the subscription if missing_7": {
+    "parameters": {
+      "tagName": {
+        "value": "ccoe_billingID"
+      }
+    }
+  }
+}

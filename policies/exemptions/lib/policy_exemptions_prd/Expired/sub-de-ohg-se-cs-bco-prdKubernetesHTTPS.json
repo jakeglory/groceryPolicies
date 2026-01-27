@@ -1,0 +1,19 @@
+{
+    "name": "sub-de-ohg-se-cs-bco-prdKubernetesHTTPS",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl",
+        "displayName": "BCO Exemption for HTTPS access to Kubernetes",
+        "description": "ITSMSD-1015832",
+        "expiresOn": "2023-12-31T23:59:00Z",
+        "metadata": {
+            "category": ""
+        },
+        "policyDefinitionReferenceIds": [
+            "AKSIngressHttpsOnlyEffect"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "8199851b-40c6-4681-ad6f-bd2286ef6d08"
+    }
+}

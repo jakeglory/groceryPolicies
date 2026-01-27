@@ -1,0 +1,20 @@
+{
+    "name": "rg-stm-prd-vnet-Deny-Private-DNS-Zones",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-corp/providers/Microsoft.Authorization/policyAssignments/Custom_mg-corp",
+        "displayName": "rg-stm-prd-vnet - Deny Private DNS Zones",
+        "description": "ITSMSD-823509",
+        "expiresOn": "2022-12-02T21:00:00Z",
+        "metadata": {
+            "category": "Network"
+        },
+        "policyDefinitionReferenceIds": [
+            "[Network] Deny Private DNS Zones"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "63477364-30eb-4cb2-9962-097d92ab8b5f",
+        "ResourceGroupName": "rg-stm-prd-vnet"
+    }
+}

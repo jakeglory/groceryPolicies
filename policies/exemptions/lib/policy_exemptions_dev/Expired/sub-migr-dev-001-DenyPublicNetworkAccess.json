@@ -1,0 +1,16 @@
+{
+    "name": "sub-migr-dev-001-DenyPublicNetworkAccess",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-landing-zones/providers/microsoft.authorization/policyassignments/deny-publicaccess",
+        "displayName": "sub-migr-dev-001 - Deny Public Network Access",
+        "description": "One month exemption approved by Cyber Defense",
+        "expiresOn": "2023-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Deny-RDP-From-Internet"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "0784c301-c695-41f5-9f33-77518c1e99d9"
+    }
+}

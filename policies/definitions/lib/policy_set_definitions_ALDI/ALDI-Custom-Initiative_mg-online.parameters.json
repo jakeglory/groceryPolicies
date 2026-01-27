@@ -1,0 +1,15 @@
+{
+  "[General] Audit resource location matches resource group location": {
+    "parameters": {}
+  },
+  "[Network] Virtual networks should be protected by Azure DDoS Protection Standard": {
+    "parameters": {
+      "ddosPlan": {
+        "value": "[[parameters('ddosPlan')]"
+      }
+    }
+  },
+  "[Security] Private endpoint connections on Azure SQL Database should be enabled": {
+    "parameters": {}
+  }
+}

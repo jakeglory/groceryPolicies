@@ -1,0 +1,128 @@
+{
+  "name": "Deploy-Budget",
+  "properties": {
+    "description": "Deploy Budget",
+    "displayName": "Deploy Budget",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Budget"
+    },
+    "parameters": {
+      "amount": {
+        "type": "String",
+        "defaultValue": "1000",
+        "metadata": {
+          "description": "The total amount of cost or usage to track with the budget"
+        }
+      },
+      "budgetName": {
+        "type": "String",
+        "defaultValue": "budget-set-by-policy",
+        "metadata": {
+          "description": "The name for the budget to be created"
+        }
+      },
+      "contactEmails": {
+        "type": "Array",
+        "defaultValue": [],
+        "metadata": {
+          "description": "The list of email addresses, in an array, to send the budget notification to when the threshold is exceeded."
+        }
+      },
+      "contactGroups": {
+        "type": "Array",
+        "defaultValue": [],
+        "metadata": {
+          "description": "The list of action groups, in an array, to send the budget notification to when the threshold is exceeded. It accepts array of strings."
+        }
+      },
+      "contactRoles": {
+        "type": "Array",
+        "defaultValue": [
+          "Owner",
+          "Contributor"
+        ],
+        "metadata": {
+          "description": "The list of contact RBAC roles, in an array, to send the budget notification to when the threshold is exceeded."
+        }
+      },
+      "effect": {
+        "type": "String",
+        "defaultValue": "DeployIfNotExists",
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "metadata": {
+          "description": "Enable or disable the execution of the policy"
+        }
+      },
+      "firstThreshold": {
+        "type": "String",
+        "defaultValue": "90",
+        "metadata": {
+          "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000."
+        }
+      },
+      "secondThreshold": {
+        "type": "String",
+        "defaultValue": "100",
+        "metadata": {
+          "description": "Threshold value associated with a notification. Notification is sent when the cost exceeded the threshold. It is always percent and has to be between 0 and 1000."
+        }
+      },
+      "timeGrain": {
+        "type": "String",
+        "defaultValue": "Monthly",
+        "allowedValues": [
+          "Monthly",
+          "Quarterly",
+          "Annually",
+          "BillingMonth",
+          "BillingQuarter",
+          "BillingAnnual"
+        ],
+        "metadata": {
+          "description": "The time covered by a budget. Tracking of the amount will be reset based on the time grain."
+        }
+      }
+    },
+    "policyDefinitions": {
+      "policyDefinitionReferenceId": "Deploy a default budget on all subscriptions under the assigned scope",
+      "policyDefinitionId": "${targetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deploy-Budget",
+      "parameters": {
+        "amount": {
+          "value": "[[parameters('amount')]"
+        },
+        "budgetName": {
+          "value": "[[parameters('budgetName')]"
+        },
+        "contactEmails": {
+          "value": "[[parameters('contactEmails')]"
+        },
+        "contactGroups": {
+          "value": "[[parameters('contactGroups')]"
+        },
+        "contactRoles": {
+          "value": "[[parameters('contactRoles')]"
+        },
+        "effect": {
+          "value": "[[parameters('effect')]"
+        },
+        "firstThreshold": {
+          "value": "[[parameters('firstThreshold')]"
+        },
+        "secondThreshold": {
+          "value": "[[parameters('secondThreshold')]"
+        },
+        "timeGrain": {
+          "value": "[[parameters('timeGrain')]"
+        }
+      },
+      "groupNames": []
+    }
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

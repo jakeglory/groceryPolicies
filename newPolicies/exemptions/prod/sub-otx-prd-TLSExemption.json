@@ -1,0 +1,21 @@
+{
+    "name": "sub-otx-prd-newTLS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl-q225",
+        "displayName": "sub-otx-prd TLS Exempion",
+        "description": "ServiceNow Ticket: CHG0038961",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "storagedeployhttpsenabledeffect"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/7f088b0b-775e-45a9-96f3-fe2acf713029/resourcegroups/rg-otx-prd"
+    }
+}
+
+
+
+

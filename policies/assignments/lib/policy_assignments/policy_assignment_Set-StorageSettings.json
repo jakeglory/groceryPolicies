@@ -1,0 +1,18 @@
+{
+  "name": "Set-StorageSettings",
+  "properties": {
+    "description": "Configure and Audit Storage Account Settings",
+    "displayName": "Configure and Audit Storage Account Settings",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Configure-Audit-StorageAccountSettings",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

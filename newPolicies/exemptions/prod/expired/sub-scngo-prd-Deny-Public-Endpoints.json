@@ -1,0 +1,17 @@
+{
+    "name": "sub-scngo-prd-Deny-Public-Endpoints",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deny-public-endpoints",
+        "displayName": "sub-scngo-prd - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: SCTASK0211003",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-04-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "StorageDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/aa6f3462-5a92-426d-97a4-1410b7819402"
+    }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "Deny-PrivateDNS",
+  "properties": {
+    "description": "This policy denies the creation of a private DNS Zones and Public IPs",
+    "displayName": "Deny the creation of private DNS",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Deny-Private-DNS-Zones",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Private-DNS-Zones",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        },
+        "groupNames": []
+      },
+      {
+        "policyDefinitionReferenceId": "Deny-PublicIP",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-PublicIP",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        },
+        "groupNames": []
+      }
+    ]
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

@@ -1,0 +1,15 @@
+{
+  "Conf-ActivLog-Export":{
+    "parameters": {
+      "logAnalytics": {
+        "value": "[[parameters('logAnalytics')]"
+      },
+      "effect": {
+        "value": "[[parameters('Effect')]"
+      },
+      "logsEnabled": {
+        "value": "[[parameters('logsEnabled')]"
+      }
+    }
+  }
+}

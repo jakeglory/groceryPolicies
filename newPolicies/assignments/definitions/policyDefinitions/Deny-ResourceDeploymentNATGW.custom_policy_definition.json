@@ -1,0 +1,38 @@
+{
+    "name": "Deny-NATGateway",
+    "properties": {
+        "description": "Prevents the deployment of NAT gateway resources.",
+        "displayName": "NAT gateway must not be deployed",
+        "metadata": {
+            "category": "Network",
+            "version": "1.0.0"
+        },
+        "mode": "Indexed",
+        "parameters": {
+            "effect": {
+                "allowedValues": [
+                    "Audit",
+                    "Disabled",
+                    "Deny"
+                ],
+                "defaultValue": "Deny",
+                "metadata": {
+                    "description": "Enable or disable enforcement of the policy.",
+                    "displayName": "Effect"
+                },
+                "type": "String"
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Network/natGateways"
+            },
+            "then": {
+                "effect": "[parameters('effect')]"
+            }
+        },
+        "policyType": "Custom"
+    },
+    "type": "Microsoft.Authorization/policyDefinitions"
+}

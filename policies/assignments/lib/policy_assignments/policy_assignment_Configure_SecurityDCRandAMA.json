@@ -1,0 +1,67 @@
+{
+  "name": "Config-SecDCRandAMA",
+  "properties": {
+    "description": "Deploy Azure Monitor Agent and Configure Security Data Collection Rules",
+    "displayName": "Deploy Azure Monitor Agent and Configure Security Data Collection Rules",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {
+      "effect": {
+        "value": "DeployIfNotExists"
+      },
+      "listOfWindowsImageIdToInclude": {
+        "value": []
+      },
+      "listOfLinuxImageIdToInclude": {
+        "value": ["/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.2","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.1","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-test-002/providers/Microsoft.Compute/galleries/imagesap4weu/images/sapimage/versions/0.0.1","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-test-002/providers/Microsoft.Compute/images/goldenimage-sep-16","/subscriptions/5888d61e-d292-42c0-b2dd-36e689ba22e3/resourceGroups/rg-sap4-dev-weu-tmd-001/providers/Microsoft.Compute/images/image-sep-12","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.3","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.4","/subscriptions/8db9b021-159e-4a89-87ff-849c55824367/resourceGroups/rg-sap4-prd-weu-img-001/providers/Microsoft.Compute/galleries/sapimagegallery/images/sapimage/versions/0.0.5","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrmain001","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrdev001","/subscriptions/ce1b0d89-17f9-488a-843d-56ef5ea972a7/resourceGroups/rg-mssh-shr-sig-001/providers/Microsoft.Compute/galleries/sigmsshshrmain001/images/simsshshrsq001"]
+      },
+      "resourceType": {
+        "value": "Microsoft.Insights/dataCollectionRules"
+      },
+      "LinuxDCR": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/RG-logmanagementworkspace-prod/providers/Microsoft.Insights/dataCollectionRules/SentinelLinuxDCR"
+      },
+      "WindowsDCR": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/RG-logmanagementworkspace-prod/providers/Microsoft.Insights/dataCollectionRules/SentinelWindowsDCR"
+      },
+      "bringYourOwnUserAssignedManagedIdentity": {
+        "value": true
+      },
+      "restrictBringYourOwnUserAssignedIdentityToSubscription": {
+        "value": false
+      },
+      "userAssignedIdentityResourceId": {
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourceGroups/rg-platformmonitoring-prod/providers/Microsoft.ManagedIdentity/userAssignedIdentities/umi-prod-mgmt-weu-mon-001"
+      },
+      "userAssignedIdentityName": {
+        "value": "umi-prod-mgmt-weu-mon-001"
+      },
+      "identityResourceGroup": {
+        "value": "rg-platformmonitoring-prod"
+      },
+      "builtInIdentityResourceGroupLocation": {
+        "value": "westeurope"
+      },
+      "scopeToSupportedImages": {
+        "value": true
+      },
+      "enableProcessesAndDependencies": {
+        "value": false
+      }
+    },
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Config-SecDCRwithAMA",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa", // Monitoring Contributor
+      "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293", // Log Analytics Contributor
+      "/providers/microsoft.authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7", 
+      "/providers/microsoft.authorization/roleDefinitions/18d7d88d-d35e-4fb5-a5c3-7773c20a72d9", 
+      "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", 
+      "/providers/microsoft.authorization/roleDefinitions/9980e02c-c2be-4d73-94e8-173b1dc7cf3c", // Virtual Machine Contributor
+      "/providers/microsoft.authorization/roleDefinitions/cd570a14-e51a-42ad-bac8-bafd67325302" // Azure Connected Machine Resource Administrator
+    ]
+  },
+  "scope": {
+    "managementGroupId": "aldi"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

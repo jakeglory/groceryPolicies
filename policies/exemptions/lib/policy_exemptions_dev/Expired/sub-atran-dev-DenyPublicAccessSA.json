@@ -1,0 +1,16 @@
+{
+    "name": "sub-atran-dev-DenyPublicAccessSA",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-atran-dev - Storage Account deny public access",
+        "description": "ServiceNow Ticket: SCTASK0173575. Technical project lead who approved exemption: Alexander Thoemmes/Lukas Friedrichs",
+   "expiresOn": "2025-01-31T10:00:00Z",     
+        "policyDefinitionReferenceIds": [
+            "StorageDenyPaasPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "b607eac9-96da-4c57-aae3-0c0e845745ca"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "name": "sub-app-prd-fe-001-newTLS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl-q225",
+        "displayName": "sub-app-prd-fe-001 TLS Exempion",
+        "description": "ServiceNow Ticket: SCTASK0319342",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-12-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "dine-functionapp-tls",
+            "dine-function-apps-slots-tls"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/1ec4f67e-81c2-43f2-af5d-7e56ac4a1fcf"
+    }
+}
+
+
+
+

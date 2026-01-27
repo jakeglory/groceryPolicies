@@ -1,0 +1,22 @@
+{
+  "name": "Deny-PublicIPs",
+  "properties": {
+    "description": "Deny the creation of Public IP",
+    "displayName": "Deny the creation of Public IP",
+    "metadata": {
+      "category": "Network"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Network interfaces should disable IP forwarding",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/88c0b9da-ce96-4b03-9635-f29a937e2900"
+      },
+      {
+        "policyDefinitionReferenceId": "Network interfaces should not have public IPs",
+        "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/83a86a26-fd1f-447c-b59d-e51f44264114"
+      }
+    ]
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

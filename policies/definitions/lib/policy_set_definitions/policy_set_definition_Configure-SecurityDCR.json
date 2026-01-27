@@ -1,0 +1,101 @@
+{
+  "name": "Config-SecurityDCR",
+  "properties": {
+    "displayName": "Assosiate Security Data Collection Rules with Linux and Windows VMs",
+    "description": "Assosiate Security Data Collection Rules with Linux and Windows VMs",
+    "metadata": {
+      "category": "Monitoring"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Policy Effect"
+        }
+      },
+      "listOfWindowsImageIdToInclude": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Windows Images",
+          "description": "List of additional Windows Images on which DCR will be configured"
+        }
+      },
+      "listOfLinuxImageIdToInclude": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Additional Linux Images",
+          "description": "List of additional Linux Images on which DCR will be configured"
+        }
+      },
+      "resourceType": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Resource Type",
+          "description": "Either a Data Collection Rule (DCR) or a Data Collection Endpoint (DCE)"
+        }
+      },
+      "LinuxDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Security Linux DCR",
+          "description": "DCR ResourceID which collects security logs from Linux VMs"
+        }
+      },
+      "WindowsDCR": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Security Windows DCR",
+          "description": "DCR ResourceID which collects security logs from Windows VMs"
+        }
+      },
+      "scopeToSupportedImages": {
+        "type": "Boolean"}
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "Associate Security DCR with Windows VM",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/244efd75-0d92-453c-b9a3-7d73ca36ed52",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('effect')]"
+            },
+            "listOfWindowsImageIdToInclude": {
+              "value": "[[parameters('listOfWindowsImageIdToInclude')]"
+            },
+            "dcrResourceId": {
+              "value": "[[parameters('WindowsDCR')]"
+            },
+            "resourceType": {
+              "value": "[[parameters('resourceType')]"
+            },
+            "scopeToSupportedImages": {
+              "value": "[[parameters('scopeToSupportedImages')]"
+            }
+          }
+        },
+        {
+          "policyDefinitionReferenceId": "Associate Security DCR with Linux VM",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2ea82cdd-f2e8-4500-af75-67a2e084ca74",
+          "parameters": {
+            "effect": {
+              "value": "[[parameters('effect')]"
+            },
+            "listOfWindowsImageIdToInclude": {
+              "value": "[[parameters('listOfLinuxImageIdToInclude')]"
+            },
+            "dcrResourceId": {
+              "value": "[[parameters('LinuxDCR')]"
+            },
+            "resourceType": {
+              "value": "[[parameters('resourceType')]"
+            },
+            "scopeToSupportedImages": {
+              "value": "[[parameters('scopeToSupportedImages')]"
+            }
+          }
+        }
+      ]
+    },
+    "type": "Microsoft.Authorization/policySetDefinitions"
+  }

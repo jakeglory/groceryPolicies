@@ -1,0 +1,595 @@
+name: 'Platform - Policy  - $(Build.SourceBranchName) - $(Build.RequestedFor) -  $(date:yyyyMMdd)$(rev:.r)'
+
+parameters:
+  - name: simulateOnly
+    displayName: Simulate deployment
+    type: boolean
+    default: false
+  - name: forceRemoval
+    displayName: "Delete ALL Assignments"
+    type: boolean
+    default: "false"
+    
+
+pr: none
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - '/policies/*'
+      - '/.globals/pipelineTemplates/*.yml'
+    exclude:
+      - '/**/*.md'
+
+
+variables:
+  - template: '/.globals/globalvariables.yml'
+  - name: modulePath
+    value: '/policies'
+  - name: environments
+    value: build,dev,prd
+
+  - name: pathPolicyDefintions
+    value: /policies/definitions/lib/policy_definitions*
+  - name: pathPolicySetDefinitions
+    value: /policies/definitions/lib/policy_set_definitions*
+  - name: pathAssignments
+    value: /policies/assignments/lib/policy_assignments*
+  # - name: pathExemptionsDev 
+  #   value: /policies/exemptions/lib/policy_exemptions_dev*
+  # - name: pathExemptionsPrd 
+  #   value: /policies/exemptions/lib/policy_exemptions_prd*
+
+
+    
+stages:
+  # - ${{ each env in split(variables.environments, ',') }}: #Validation for all Stages
+  #   # - stage: ${{ env }}Validate
+  #   #   displayName: ${{ env }} - Validate only
+  #   #   variables: 
+  #   #   - template: ${{ variables.modulePath }}/.globals/${{ env }}.variables.yml
+  #   #   jobs:
+  #   #     - template: /.globals/pipelineTemplates/jobs.validatePolicyDeployment.yml
+  #   #       parameters:
+  #   #         serviceConnection: ${{ variables.serviceConnection }}
+  #   #         stage: ${{ variables.stage }}
+  #   #         simulateOnly: 'true'
+
+  - stage: processBuild
+    condition: eq( '${{ parameters.simulateOnly }}', 'false')
+    displayName: processBuild
+    variables: 
+    - template: ${{ variables.modulePath }}/.globals/build.variables.yml
+    jobs:
+      - template: /.globals/pipelineTemplates/jobs.validatePolicyDeployment.yml
+        parameters:
+          serviceConnection: ${{ variables.serviceConnection }}
+          stage: ${{ variables.stage }}
+          simulateOnly: ${{ parameters.simulateOnly }}
+
+
+  - stage: PreparePoliciesDEV # this stage will compare the deployed Policies from DEV in Azure with the Policies in that Repo. If there are differences, the Policies in Azure will be removed. Also a comparision between DEV and PRD will be done and shown.
+    displayName: Prepare Azure Policies DEV
+    variables:
+      - template: ${{ variables.modulePath }}/.globals/dev.variables.yml
+    jobs:
+      - job: PrepareAzurePolicies
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: ${{ variables.vmImage }}
+          ${{ if ne(variables.poolName, '') }}:
+            name: ${{ variables.poolName }}
+        steps:
+        - task: PowerShell@2
+          displayName: Install required modules
+          inputs:
+            targetType: inline
+            script: |
+              # Install-Module -Name 'Az.Subscription' -RequiredVersion '0.7.3' -Force -Scope 'CurrentUser'
+
+              $requiredModules = @(
+                'Az.ResourceGraph'
+              )
+              foreach($module in $requiredModules) {
+                if(-not (Get-Module $module -ListAvailable)) {
+                  Install-Module $module -Scope CurrentUser -Force
+                  Write-Verbose ("Module [$module] was installed") -Verbose
+                } else {
+                  Write-Verbose ("Module [$module] is already installed") -Verbose
+                }
+              }
+        - task: AzurePowerShell@5
+          displayName: "Repo Compare Assignments"
+          name: "LocalVsAzurePolicyAssignments"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              Write-Verbose ("Comparing and removing Policy assignments - local vs. Azure") -Verbose
+              Write-Verbose ("Force Removal is set to ${{ parameters.forceRemoval }}") -Verbose
+              $policyType = "policyAssignments"
+              $policyPath = '${{ variables.pathAssignments }}'
+              if ("${{ variables.devAction }}" -ne "deploy"){ 
+                Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                $removeWhatIf = $true 
+              } else { 
+                $removeWhatIf = $false 
+                Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+              }
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+
+              if ($${{ parameters.forceRemoval }}){ $returnDiffOnly = $false } else { $returnDiffOnly = $true }
+
+              $functionInputCompare = @{
+                mgmtGroupId           = '${{ variables.managementGroupId }}'
+                localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                policyObjectType      = $policyType
+                returnDiffOnly        = [boolean] $returnDiffOnly
+              }
+
+              $result = Get-PolicyDefinitionsInfo @functionInputCompare
+              $result  | ConvertTo-Json -Depth 99 #DEBUG
+              if ($result.Count -gt 0) {
+                  Write-Verbose ("$policyType will be removed") -Verbose
+                  Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf -forceRemoval $${{ parameters.forceRemoval }}
+              }
+              else {
+                  Write-Verbose ("No $policyType to remove") -Verbose
+              }
+        # - task: AzurePowerShell@5
+        #   displayName: "Repo Compare Exemptions"
+        #   name: "LocalVsAzurePolicyExemptions"
+        #   inputs:
+        #     azureSubscription: ${{ variables.serviceConnection }}
+        #     azurePowerShellVersion: "latestVersion"
+        #     preferredAzurePowerShellVersion: ""
+        #     pwsh: true
+        #     ScriptType: InlineScript
+        #     inline: |
+        #       Write-Verbose ("Comparing and removing Policy Exemptions - local vs. Azure") -Verbose
+        #       Write-Verbose ("Force Removal is set to ${{ parameters.forceRemoval }}") -Verbose
+        #       $policyType = "policyExemptions"
+        #       $policyPath = '${{ variables.pathExemptionsDev }}'
+        #       if ("${{ variables.devAction }}" -ne "deploy"){ 
+        #         Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+        #         $removeWhatIf = $true 
+        #       } else { 
+        #         $removeWhatIf = $false 
+        #         Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+        #       }
+        #       # Load used functions
+        #       . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+
+        #       if ($${{ parameters.forceRemoval }}){ $returnDiffOnly = $false } else { $returnDiffOnly = $true }
+
+        #       $functionInputCompare = @{
+        #         mgmtGroupId           = '${{ variables.managementGroupId }}'
+        #         localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+        #       }
+
+        #       $result = Get-PolicyExemptions @functionInputCompare
+        #       $result  | ConvertTo-Json -Depth 99 #DEBUG
+        #       if ($result.Count -gt 0) {
+        #           Write-Verbose ("$policyType will be removed") -Verbose
+        #           Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf -forceRemoval $${{ parameters.forceRemoval }}
+        #       }
+        #       else {
+        #           Write-Verbose ("No $policyType to remove") -Verbose
+        #       }
+        - task: AzurePowerShell@5
+          displayName: "Repo Compare Definitions"
+          name: "LocalVsAzurePolicyDefinitions"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              Write-Verbose ("Comparing and removing Policy set definitions - local vs. Azure") -Verbose
+              $policyType = "policyDefinitions" 
+              $policyPath = '${{ variables.pathPolicyDefintions }}'
+              Write-Verbose ("${{ variables.devAction }}") -Verbose
+              if ("${{ variables.devAction }}" -ne "deploy"){ 
+                Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                $removeWhatIf = $true 
+              } else { 
+                $removeWhatIf = $false 
+                Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+              }
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+              $functionInputCompare = @{
+                mgmtGroupId           = '${{ variables.managementGroupId }}'
+                localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                policyObjectType      = $policyType
+                returnDiffOnly        = [boolean] $true
+              }
+
+              # Should be set as parameter or pipeline variable
+              $ignoredIds = @(
+                "/providers/Microsoft.Management/managementgroups/mg-ALDI/providers/Microsoft.Authorization/policyDefinitions/Deny-vNet-peering-cross"
+                "Dummy"
+              )
+              Write-Verbose ("IgnoredIds $ignoredIds") -Verbose
+
+              $result = Get-PolicyDefinitionsInfo @functionInputCompare
+              $result  | ConvertTo-Json -Depth 99 #DEBUG
+              if ($result.Count -gt 0) {
+                  Write-Verbose ("$policyType will be removed") -Verbose
+                  Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -ignoredIds $ignoredIds -WhatIf:$removeWhatIf
+              }
+              else {
+                  Write-Verbose ("No $policyType to remove") -Verbose
+              }
+        - task: AzurePowerShell@5
+          displayName: "Repo Compare SetDefinitions"
+          name: "LocalVsAzurePolicySetDef"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              Write-Verbose ("Comparing and removing Policy set definitions - local vs. Azure") -Verbose
+              $policyType = "policySetDefinition" 
+              $policyPath = '${{ variables.pathPolicySetDefinitions }}'
+              if ("${{ variables.devAction }}" -ne "deploy"){ 
+                Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                $removeWhatIf = $true 
+              } else { 
+                $removeWhatIf = $false 
+                Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+              }
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+              $functionInputCompare = @{
+                mgmtGroupId           = '${{ variables.managementGroupId }}'
+                localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                policyObjectType      = $policyType
+                returnDiffOnly        = [boolean] $true
+              }
+
+              $result = Get-PolicyDefinitionsInfo @functionInputCompare
+              $result  | ConvertTo-Json -Depth 99 #DEBUG
+              if ($result.Count -gt 0) {
+                  Write-Verbose ("$policyType will be removed") -Verbose
+                  Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf
+              }
+              else {
+                  Write-Verbose ("No $policyType to remove") -Verbose
+              }
+        - task: AzurePowerShell@5
+          condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+          displayName: "Stage Compare Definitions"
+          name: "TwoMgmtGrPolicyDefinitions"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              Write-Verbose ("Comparing and Policy definitions between two Management Groups") -Verbose
+
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+              $policyType = 'policyDefinitions'
+
+              $result = Compare-PolicyDefinitionsInfo -policyObjectType $policyType
+
+              $mgmtGroupIdPrd = '=>' #mg-aldi'
+              $mgmtGroupIdDev  = '<=' #'dev-mg-aldi'
+              $resultsmgmtGroupIdPrd = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdPrd }
+              $resultsmgmtGroupIdDev = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdDev }
+              $resultsMgmtGrBoth = $result | Where-Object { $_.SideIndicator -eq "==" }
+
+              Write-Verbose ("Number of unique results in PROD: [{0}]" -f $resultsmgmtGroupIdPrd.Count ) -Verbose
+              $resultsmgmtGroupIdPrd | Select-Object -ExpandProperty InputObject
+
+              Write-Verbose ("Number of unique results in DEV: [{0}]" -f $resultsmgmtGroupIdDev.Count ) -Verbose
+              $resultsmgmtGroupIdDev | Select-Object  -ExpandProperty InputObject
+
+              Write-Verbose ("Number of results which are equal" -f $resultsMgmtGrBoth.Count ) -Verbose
+              $resultsMgmtGrBoth | Select-Object -ExpandProperty InputObject
+        - task: AzurePowerShell@5
+          condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+          displayName: "Stage Compare SetDefinitions"
+          name: "TwoMgmtGrPolicySetDefinitions"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              Write-Verbose ("Comparing and Policy set definitions between two Management Groups") -Verbose
+
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+              $policyType = 'policySetDefinition'
+
+              $result = Compare-PolicyDefinitionsInfo -policyObjectType $policyType
+
+              $mgmtGroupIdPrd = '=>' #mg-aldi'
+              $mgmtGroupIdDev  = '<=' #'dev-mg-aldi'
+              $resultsmgmtGroupIdPrd = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdPrd }
+              $resultsmgmtGroupIdDev = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdDev }
+              $resultsMgmtGrBoth = $result | Where-Object { $_.SideIndicator -eq "==" }
+
+              Write-Verbose ("Number of unique results in PROD: [{0}]" -f $resultsmgmtGroupIdPrd.Count ) -Verbose
+              $resultsmgmtGroupIdPrd | Select-Object -ExpandProperty InputObject
+
+              Write-Verbose ("Number of unique results in DEV: [{0}]" -f $resultsmgmtGroupIdDev.Count ) -Verbose
+              $resultsmgmtGroupIdDev | Select-Object  -ExpandProperty InputObject
+
+              Write-Verbose ("Number of results which are equal" -f $resultsMgmtGrBoth.Count ) -Verbose
+              $resultsMgmtGrBoth | Select-Object -ExpandProperty InputObject
+        - task: AzurePowerShell@5
+          condition: and(succeeded(), ne(variables['Build.SourceBranch'], 'refs/heads/main'))
+          displayName: "Stage Compare Assignments"
+          name: "AssignmentsPrdVsDev"
+          inputs:
+            azureSubscription: ${{ variables.serviceConnection }}
+            azurePowerShellVersion: "latestVersion"
+            preferredAzurePowerShellVersion: ""
+            pwsh: true
+            ScriptType: InlineScript
+            inline: |
+              # Load used functions
+              . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+              $policyType = 'policyAssignments'
+
+              $result = Compare-PolicyDefinitionsInfo -policyObjectType $policyType
+
+              $mgmtGroupIdPrd = '=>' #mg-aldi'
+              $mgmtGroupIdDev  = '<=' #'dev-mg-aldi'
+              $resultsmgmtGroupIdPrd = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdPrd }
+              $resultsmgmtGroupIdDev = $result | Where-Object { $_.SideIndicator -eq $mgmtGroupIdDev }
+              $resultsMgmtGrBoth = $result | Where-Object { $_.SideIndicator -eq "==" }
+
+              Write-Verbose ("Number of unique results in PROD: [{0}]" -f $resultsmgmtGroupIdPrd.Count ) -Verbose
+              $resultsmgmtGroupIdPrd | Select-Object -ExpandProperty InputObject
+
+              Write-Verbose ("Number of unique results in DEV: [{0}]" -f $resultsmgmtGroupIdDev.Count ) -Verbose
+              $resultsmgmtGroupIdDev | Select-Object  -ExpandProperty InputObject
+
+              Write-Verbose ("Number of results which are equal" -f $resultsMgmtGrBoth.Count ) -Verbose
+              $resultsMgmtGrBoth | Select-Object -ExpandProperty InputObject
+
+  - stage: processdev
+    condition: eq( '${{ parameters.simulateOnly }}', 'false')
+    displayName: processdev
+    variables: 
+    - template: ${{ variables.modulePath }}/.globals/dev.variables.yml
+    jobs:
+      - template: /.globals/pipelineTemplates/jobs.validatePolicyDeployment.yml
+        parameters:
+          serviceConnection: ${{ variables.serviceConnection }}
+          stage: ${{ variables.stage }}
+          simulateOnly: ${{ parameters.simulateOnly }}
+
+  - stage: PreparePoliciesPRD # this stage will compare the deployed Policies from PROD in Azure with the Policies in that Repo. If there are differences, the Policies in Azure will be removed (only in main-stage).
+    displayName: Prepare Azure Policies PROD
+    variables:
+      - template: ${{ variables.modulePath }}/.globals/prd.variables.yml
+    jobs:
+      - job: PrepareAzurePolicies
+        steps:
+          - task: PowerShell@2
+            displayName: Install required modules
+            inputs:
+              targetType: inline
+              script: |
+                # Install-Module -Name 'Az.Subscription' -RequiredVersion '0.7.3' -Force -Scope 'CurrentUser'
+
+                $requiredModules = @(
+                  'Az.ResourceGraph'
+                )
+                foreach($module in $requiredModules) {
+                  if(-not (Get-Module $module -ListAvailable)) {
+                    Install-Module $module -Scope CurrentUser -Force
+                    Write-Verbose ("Module [$module] was installed") -Verbose
+                  } else {
+                    Write-Verbose ("Module [$module] is already installed") -Verbose
+                  }
+                }
+          - task: AzurePowerShell@5
+            displayName: "Repo Compare Definitions"
+            name: "LocalVsAzurePolicyDefinitions"
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("Comparing and removing Policy set definitions - local vs. Azure") -Verbose
+                $policyType = "policyDefinitions" 
+                $policyPath = '${{ variables.pathPolicyDefintions }}'
+
+                if ("${{ variables.prdAction }}" -ne "deploy"){ 
+                  Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                  $removeWhatIf = $true 
+                } else { 
+                  $removeWhatIf = $false 
+                  Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+                }
+                # Load used functions
+                . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+                $functionInputCompare = @{
+                  mgmtGroupId           = '${{ variables.managementGroupId }}'
+                  localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                  policyObjectType      = $policyType
+                  returnDiffOnly        = [boolean] $true
+                }
+
+                # Should be set as parameter or pipeline variable
+                $ignoredIds = @(
+                  "/providers/Microsoft.Management/managementgroups/mg-ALDI/providers/Microsoft.Authorization/policyDefinitions/Deny-vNet-peering-cross"
+                  "Dummy"
+                )
+                Write-Verbose ("IgnoredIds $ignoredIds") -Verbose
+
+                $result = Get-PolicyDefinitionsInfo @functionInputCompare
+                $result  | ConvertTo-Json -Depth 99 #DEBUG
+                if ($result.Count -gt 0) {
+                    Write-Verbose ("$policyType will be removed") -Verbose
+                    Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -ignoredIds $ignoredIds -WhatIf:$removeWhatIf
+                }
+                else {
+                    Write-Verbose ("No $policyType to remove") -Verbose
+                }
+          - task: AzurePowerShell@5
+            displayName: "Repo Compare SetDefinitions"
+            name: "LocalVsAzurePolicySetDef"
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("Comparing and removing Policy set definitions - local vs. Azure") -Verbose
+                $policyType = "policySetDefinition" 
+                $policyPath = '${{ variables.pathPolicySetDefinitions }}'
+                if ("${{ variables.prdAction }}" -ne "deploy"){ 
+                  Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                  $removeWhatIf = $true 
+                } else { 
+                  $removeWhatIf = $false 
+                  Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+                }
+                # Load used functions
+                . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+                $functionInputCompare = @{
+                  mgmtGroupId           = '${{ variables.managementGroupId }}'
+                  localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                  policyObjectType      = $policyType
+                  returnDiffOnly        = [boolean] $true
+                }
+
+                $result = Get-PolicyDefinitionsInfo @functionInputCompare
+                $result  | ConvertTo-Json -Depth 99 #DEBUG
+                if ($result.Count -gt 0) {
+                    Write-Verbose ("$policyType will be removed") -Verbose
+                    Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf
+                }
+                else {
+                    Write-Verbose ("No $policyType to remove") -Verbose
+                }
+          - task: AzurePowerShell@5
+            displayName: "Repo Compare Assignments"
+            name: "LocalVsAzurePolicyAssignments"
+            inputs:
+              azureSubscription: ${{ variables.serviceConnection }}
+              azurePowerShellVersion: "latestVersion"
+              preferredAzurePowerShellVersion: ""
+              pwsh: true
+              ScriptType: InlineScript
+              inline: |
+                Write-Verbose ("Comparing and removing Policy assignments - local vs. Azure") -Verbose
+                Write-Verbose ("Force Removal is set to ${{ parameters.forceRemoval }}") -Verbose
+                $policyType = "policyAssignments"
+                $policyPath = '${{ variables.pathAssignments }}'
+                if ("${{ variables.prdAction }}" -ne "deploy"){ 
+                  Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+                  $removeWhatIf = $true 
+                } else { 
+                  $removeWhatIf = $false 
+                  Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+                }
+                # Load used functions
+                . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+
+
+                if ($${{ parameters.forceRemoval }}){ $returnDiffOnly = $false } else { $returnDiffOnly = $true }
+
+                $functionInputCompare = @{
+                  mgmtGroupId           = '${{ variables.managementGroupId }}'
+                  localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+                  policyObjectType      = $policyType
+                  returnDiffOnly        = [boolean] $returnDiffOnly
+                }
+
+                $result = Get-PolicyDefinitionsInfo @functionInputCompare
+                $result  | ConvertTo-Json -Depth 99 #DEBUG
+                if ($result.Count -gt 0) {
+                    Write-Verbose ("$policyType will be removed") -Verbose
+                    Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf -forceRemoval $${{ parameters.forceRemoval }}
+                }
+                else {
+                    Write-Verbose ("No $policyType to remove") -Verbose
+                }
+          # - task: AzurePowerShell@5
+          #   displayName: "Repo Compare Exemptions"
+          #   name: "LocalVsAzurePolicyExemptions"
+          #   inputs:
+          #     azureSubscription: ${{ variables.serviceConnection }}
+          #     azurePowerShellVersion: "latestVersion"
+          #     preferredAzurePowerShellVersion: ""
+          #     pwsh: true
+          #     ScriptType: InlineScript
+          #     inline: |
+          #       Write-Verbose ("Comparing and removing Policy Exemptions - local vs. Azure") -Verbose
+          #       Write-Verbose ("Force Removal is set to ${{ parameters.forceRemoval }}") -Verbose
+          #       $policyType = "policyExemptions"
+          #       $policyPath = '${{ variables.pathExemptionsPrd }}'
+          #       if ("${{ variables.prdAction }}" -ne "deploy"){ 
+          #         Write-Verbose ("Setting Remove Action to WhatIf") -Verbose
+          #         $removeWhatIf = $true 
+          #       } else { 
+          #         $removeWhatIf = $false 
+          #         Write-Verbose ("Setting Remove Action to NON-WhatIf") -Verbose
+          #       }
+          #       # Load used functions
+          #       . (Join-Path '$(System.DefaultWorkingDirectory)' 'policies' 'policiesComparision.ps1')
+  
+  
+          #       if ($${{ parameters.forceRemoval }}){ $returnDiffOnly = $false } else { $returnDiffOnly = $true }
+  
+          #       $functionInputCompare = @{
+          #         mgmtGroupId           = '${{ variables.managementGroupId }}'
+          #         localDefinitionsPath  = (Join-Path '$(System.DefaultWorkingDirectory)' $policyPath)
+          #       }
+  
+          #       $result = Get-PolicyExemptions @functionInputCompare
+          #       $result  | ConvertTo-Json -Depth 99 #DEBUG
+          #       if ($result.Count -gt 0) {
+          #           Write-Verbose ("$policyType will be removed") -Verbose
+          #           Remove-PolicyObject -definitionsToRemove $result -policyObjectType $policyType -mgmtGroupId ${{ variables.managementGroupId }} -WhatIf:$removeWhatIf -forceRemoval $${{ parameters.forceRemoval }}
+          #       }
+          #       else {
+          #           Write-Verbose ("No $policyType to remove") -Verbose
+          #       }
+          
+
+  - stage: processprd
+    condition: eq( '${{ parameters.simulateOnly }}', 'false')
+    displayName: processprd
+    variables: 
+    - template: ${{ variables.modulePath }}/.globals/prd.variables.yml
+    jobs:
+      - template: /.globals/pipelineTemplates/jobs.validatePolicyDeployment.yml
+        parameters:
+          serviceConnection: ${{ variables.serviceConnection }}
+          stage: ${{ variables.stage }}
+          simulateOnly: ${{ parameters.simulateOnly }}

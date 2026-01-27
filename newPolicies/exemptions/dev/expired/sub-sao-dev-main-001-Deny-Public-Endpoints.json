@@ -1,0 +1,18 @@
+{
+    "name": "sub-sao-dev-main-001-Deny-Public-Endpoints",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-sao-dev-main-001 - Deny-Public-Endpoints",
+        "description": "ServiceNow Ticket: ASANO, Temporary Exemption to restore lost data from Storage Account",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2025-04-25T01:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "StorageDenyPaasPublicIP",
+            "[Preview]: Storage account public access should be disallowed"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/405667f9-377f-4d1d-94c8-80beabfba61c"
+    }
+}

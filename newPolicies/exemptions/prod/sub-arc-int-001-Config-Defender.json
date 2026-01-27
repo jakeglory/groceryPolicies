@@ -1,0 +1,17 @@
+{
+    "name": "sub-arc-int-001-Config-Defender",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-aldi/providers/microsoft.authorization/policyassignments/deploy-mdfc-config",
+        "displayName": "sub-arc-int-001 Config-Defender",
+        "description": "ServiceNow Ticket: SCTASK0328963",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-03-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "defenderForVM"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/ca6b0806-e11c-4553-a6ec-b13eb4569e58"
+    }
+}

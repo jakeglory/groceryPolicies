@@ -1,0 +1,87 @@
+{
+  "name": "Deny-NetworkResourcesOnline",
+  "properties": {
+    "description": "Denies deployment of public-facing edge services including load balancers (excluding LB named kubernetes) with public IPs, site-to-site VPN connections, Azure Firewall.",
+    "displayName": "Deny deployment of public-facing edge services",
+    "metadata": {
+      "category": "Network",
+      "version": "2.0.0"
+    },
+    "parameters": {
+      "LoadBalancerPublicIPEffect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "defaultValue": "Deny",
+        "metadata": {
+          "description": "Effect to apply for the load balancer public IP deny policy.",
+          "displayName": "Load balancer public IP policy effect"
+        },
+        "type": "String"
+      },
+      "AzureFirewallEffect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "defaultValue": "Deny",
+        "metadata": {
+          "description": "Effect to apply for the Azure Firewall deny policy.",
+          "displayName": "Azure Firewall policy effect"
+        },
+        "type": "String"
+      },
+       "Site2SiteEffect": {
+        "allowedValues": [
+          "Audit",
+          "Disabled",
+          "Deny"
+        ],
+        "defaultValue": "Deny",
+        "metadata": {
+          "description": "Effect to apply for the NAT gateway deny policy.",
+          "displayName": "NAT gateway policy effect"
+        },
+        "type": "String"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "groupNames": [],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('LoadBalancerPublicIPEffect')]"
+          }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/${tenantRootMgId}/providers/Microsoft.Authorization/policyDefinitions/Deny-LB-PublicIP-AKS",
+        "policyDefinitionReferenceId": "DenyLoadBalancerPublicIP"
+      },
+      {
+        "groupNames": [],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('AzureFirewallEffect')]"
+          }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/${tenantRootMgId}/providers/Microsoft.Authorization/policyDefinitions/Deny-AzureFirewall",
+        "policyDefinitionReferenceId": "DenyAzureFirewall"
+      },
+       {
+        "groupNames": [],
+        "parameters": {
+          "effect": {
+            "value": "[parameters('Site2SiteEffect')]"
+          }
+        },
+        "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/${tenantRootMgId}/providers/Microsoft.Authorization/policyDefinitions/Deny-SiteToSite-VPN",
+        "policyDefinitionReferenceId": "DenySiteToSiteVPN"
+      }
+    ],
+    "policyType": "Custom"
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}
+

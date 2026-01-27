@@ -1,0 +1,165 @@
+trigger: none
+
+parameters:
+  - name: assignmentId
+    displayName: 'Policy Assignment Resource ID'
+    type: string
+    default: ''
+  - name: scope
+    displayName: 'Assignment Scope (/providers/Microsoft.Management/managementGroups/YourManageMentGroupName or /subscriptions/YourSubscriptionId)'
+    type: string
+    default: '/providers/Microsoft.Management/managementGroups/'
+  - name: serviceConnection
+    displayName: 'Azure Service Connection'
+    type: string
+    default: 'serviceconnection-AN-Azure-ControlRepo-build-mg-aldi'
+  - name: resourceCount
+    displayName: 'Number of resources to remediate per task'
+    type: number
+    default: 5000
+
+variables:
+  vmImage: ""
+  agentPoolName: "ccoe-vmss-prod-win"
+
+stages:
+  - stage: Remediation
+    displayName: 'Remediate Non-Compliant DeployIfNotExists/Modify Policies'
+    jobs:
+      - job: RemediatePolicies
+        displayName: 'Remediate Non-Compliant Policies'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: none
+          - task: AzurePowerShell@5
+            displayName: 'Query Non-Compliant DeployIfNotExists/Modify Policies'
+            inputs:
+              azureSubscription: '${{ parameters.serviceConnection }}'
+              ScriptType: 'InlineScript'
+              azurePowerShellVersion: 'LatestVersion'
+              pwsh: true
+              Inline: |
+                $ErrorActionPreference = 'Stop'
+                $assignmentId = "${{ parameters.assignmentId }}"
+                $scope = "${{ parameters.scope }}"
+                $resourceCount = ${{ parameters.resourceCount }}
+                # Extract assignment name for reporting
+                $assignmentName = Split-Path $assignmentId -Leaf
+                # Extract management group or subscription for Resource Graph
+                if ($scope -match "/providers/Microsoft.Management/managementGroups/([^/]+)") {
+                  $mgName = $Matches[1]
+                } elseif ($scope -match "/subscriptions/([^/]+)") {
+                  $subscriptionId = $Matches[1]
+                } else {
+                  throw "Scope must be a management group or subscription resource ID."
+                }
+                # Resource Graph query for non-compliant DeployIfNotExists/Modify policies in the assignment
+                $query = @"
+                policyresources
+                | where type == 'microsoft.policyinsights/policystates'
+                | where properties.policyAssignmentId == '$assignmentId'
+                | where properties.complianceState == 'NonCompliant'
+                | extend effect = tostring(properties.policyDefinitionAction)
+                | where effect =~ 'deployifnotexists' or effect =~ 'modify'
+                | project policyDefinitionReferenceId = tostring(properties.policyDefinitionReferenceId), policyDefinitionId = tostring(properties.policyDefinitionId), effect
+                | summarize by policyDefinitionReferenceId, policyDefinitionId, effect
+                "@
+                if ($mgName) {
+                  $queryResults = Search-AzGraph -Query $query -ManagementGroup $mgName -First 1000
+                } elseif ($subscriptionId) {
+                  $queryResults = Search-AzGraph -Query $query -Subscription $subscriptionId -First 1000
+                }
+                if (-not $queryResults -or $queryResults.Count -eq 0) {
+                  Write-Host "No non-compliant DeployIfNotExists/Modify policies found for assignment: $assignmentName"
+                  Write-Host "##vso[task.complete result=Succeeded;]No remediation needed"
+                  return
+                }
+                Write-Host "Found $($queryResults.Count) non-compliant DeployIfNotExists/Modify policies:"
+                foreach ($policy in $queryResults) {
+                  Write-Host "- $($policy.policyDefinitionReferenceId): $($policy.policyDefinitionId) [Effect: $($policy.effect)]"
+                }
+                # Save for next step
+                $queryResults | ConvertTo-Json -Depth 10 -Compress | Out-File -FilePath "$(Agent.TempDirectory)/noncompliant_policies.json" -Encoding UTF8
+                $assignmentId | Out-File -FilePath "$(Agent.TempDirectory)/assignment_id.txt" -Encoding UTF8
+                $scope | Out-File -FilePath "$(Agent.TempDirectory)/scope.txt" -Encoding UTF8
+          - task: AzurePowerShell@5
+            displayName: 'Create Remediation Tasks'
+            condition: succeeded()
+            inputs:
+              azureSubscription: '${{ parameters.serviceConnection }}'
+              ScriptType: 'InlineScript'
+              azurePowerShellVersion: 'LatestVersion'
+              pwsh: true
+              Inline: |
+                $ErrorActionPreference = 'Stop'
+                $assignmentId = (Get-Content "$(Agent.TempDirectory)/assignment_id.txt" -Raw).Trim()
+                $scope = (Get-Content "$(Agent.TempDirectory)/scope.txt" -Raw).Trim()
+                $resourceCount = ${{ parameters.resourceCount }}
+                $nonCompliantPoliciesJson = Get-Content "$(Agent.TempDirectory)/noncompliant_policies.json" -Raw
+                $nonCompliantPolicies = $nonCompliantPoliciesJson | ConvertFrom-Json
+                if ($nonCompliantPolicies -isnot [array]) { $nonCompliantPolicies = @($nonCompliantPolicies) }
+                if ($resourceCount -gt 50000) {
+                  Write-Error "Resource count cannot exceed 50,000 per remediation task (Azure limit)"
+                  throw "Invalid resource count: $resourceCount"
+                }
+                $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+                $taskCount = 0
+                $successfulTasks = 0
+                $failedTasks = 0
+                $counter = 1
+                foreach ($policy in $nonCompliantPolicies) {
+                  $policyRefId = $policy.policyDefinitionReferenceId
+                  $remediationName = "rem-$policyRefId-$timestamp-$counter"
+                  if ($remediationName.Length -gt 64) {
+                    $truncatedRefId = $policyRefId.Substring(0, [Math]::Min(20, $policyRefId.Length))
+                    $remediationName = "rem-$truncatedRefId-$timestamp-$counter"
+                  }
+                  try {
+                    $remediationParams = @{
+                      Name = $remediationName
+                      Scope = $scope
+                      PolicyAssignmentId = $assignmentId
+                      PolicyDefinitionReferenceId = $policyRefId
+                      ResourceCount = $resourceCount
+                      ParallelDeploymentCount = 10
+                      FailureThreshold = 0.1
+                    }
+                    $remediation = Start-AzPolicyRemediation @remediationParams
+                    if ($remediation) {
+                      Write-Host "Successfully created remediation task: $remediationName"
+                      $successfulTasks++
+                    } else {
+                      throw "Remediation task creation returned null"
+                    }
+                  }
+                  catch {
+                    Write-Warning "Failed to create remediation task: $remediationName"
+                    Write-Warning "Error: $($_.Exception.Message)"
+                    $failedTasks++
+                    Write-Host "##vso[task.logissue type=warning]Failed to create remediation task for policy: $policyRefId - $($_.Exception.Message)"
+                  }
+                  $taskCount++
+                  $counter++
+                }
+                Write-Host "==============================================="
+                Write-Host "REMEDIATION TASKS CREATION SUMMARY"
+                Write-Host "==============================================="
+                Write-Host "Total policies processed: $taskCount"
+                Write-Host "Successful remediation tasks: $successfulTasks"
+                Write-Host "Failed remediation tasks: $failedTasks"
+                Write-Host "Assignment ID: $assignmentId"
+                Write-Host "Scope: $scope"
+                Write-Host "Resource count per task: $resourceCount"
+                Write-Host "==============================================="
+                if ($failedTasks -gt 0) {
+                  Write-Host "##vso[task.logissue type=warning]Some remediation tasks failed to create ($failedTasks out of $taskCount)"
+                  if ($successfulTasks -eq 0) {
+                    Write-Error "All remediation tasks failed to create"
+                    throw "Pipeline failed: No remediation tasks were created successfully"
+                  }
+                }
+                Write-Host "Remediation task creation completed successfully"

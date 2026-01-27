@@ -1,0 +1,15 @@
+{
+    "name": "sub-mlf-prd-MDfC-Storage",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deploy-MDFC-Config",
+        "displayName": "sub-mlf-prd - MDfC Storage Plan",
+        "description": "Subscription sub-mlf-prod has new (cheaper) Defender for Storage Plan enabled. Exemption is configured to prevent policy enablement of more expensive plan",
+        "policyDefinitionReferenceIds": [
+            "defenderForStorageAccounts"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "ac848dd7-c0b7-4be0-a8bc-5b28f5d6ed79"
+    }
+}

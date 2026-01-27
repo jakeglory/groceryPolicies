@@ -1,0 +1,22 @@
+{
+    "name": "",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/XXX",
+        "displayName": "",
+        "description": "",
+        "exemptionCategory": "", //is optional - "Waiver" or "Mitigated"
+        "expiresOn": "2022-10-15T03:57:00Z",
+        "metadata": {
+            "category": "TEST"
+        },
+        "policyDefinitionReferenceIds": [
+            ""
+        ]
+    },
+    "scope": {
+        "managementGroupId": "",
+        "subscriptionId": "",
+        "ResourceGroupName": ""
+    }
+}

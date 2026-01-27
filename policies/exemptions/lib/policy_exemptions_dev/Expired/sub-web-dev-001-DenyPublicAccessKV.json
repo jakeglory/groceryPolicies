@@ -1,0 +1,17 @@
+{
+    "name": "sub-web-dev-001-DenyPublicAccessKV",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi/providers/Microsoft.Authorization/policyAssignments/Deny-Public-Endpoints",
+        "displayName": "sub-web-dev-001 - KeyVault deny public access",
+        "description": "ServiceNow Ticket: SCTASK0177507",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "KeyVaultDenyPaasPublicIP",
+            "KeyVaultDenyPaasPublicNetwork"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "525d00c3-fe05-41c6-b5db-b1577a81f656"
+    }
+}

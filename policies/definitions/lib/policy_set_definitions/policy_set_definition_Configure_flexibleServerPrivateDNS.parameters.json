@@ -1,0 +1,12 @@
+{
+    "Config-flexibleServerPrivateDNS": {
+      "parameters": {
+        "virtualNetworkResourceId": {
+          "value": "[[parameters('virtualNetworkResourceId')]"
+        },
+        "parentDnsNamespace": {
+          "value": "[[parameters('parentDnsNamespace')]"
+        }
+      }
+    }
+}

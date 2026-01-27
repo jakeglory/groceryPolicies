@@ -1,0 +1,40 @@
+{
+  "name": "Deny-Public-DNS-Zones",
+  "properties": {
+    "description": "This policy set denies the creation of a Public DNS Zones",
+    "displayName": "Deny the creation of Public DNS",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "Effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyDefinitions": [
+      {
+        "policyDefinitionReferenceId": "Deny-Public-DNS-Zones",
+        "policyDefinitionId": "${varTargetManagementGroupResourceId}/providers/Microsoft.Authorization/policyDefinitions/Deny-Public-DNS-Zones",
+        "parameters": {
+          "effect": {
+            "value": "[[parameters('Effect')]"
+          }
+        },
+        "groupNames": []
+      }
+    ]
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}

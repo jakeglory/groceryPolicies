@@ -1,0 +1,15 @@
+{
+  "name": "Deny-PublicIPs-Mgmt",
+  "properties": {
+    "description": "Deny the creation of Public IP",
+    "displayName": "Deny the creation of Public IP",
+    "enforcementMode": "Default",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "${topLevelManagementGroupResourceId}/providers/Microsoft.Authorization/policySetDefinitions/Deny-PublicIPs"
+  },
+  "scope": {
+    "managementGroupId": "management"
+  },
+  "type": "Microsoft.Authorization/policyAssignments"
+}

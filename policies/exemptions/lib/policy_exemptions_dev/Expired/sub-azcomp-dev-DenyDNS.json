@@ -1,0 +1,16 @@
+{
+    "name": "sub-azcomp-dev-DenyDNS",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-corp/providers/microsoft.authorization/policyassignments/custom_mg-corp",
+        "displayName": "sub-azcomp-dev - Deny DNS Creation",
+        "description": "SCTASK0047368",
+        "expiresOn": "2024-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "[Network] Deny Private DNS Zones"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "f001c0f5-2206-4143-a018-1905d406e38c"
+    }
+}

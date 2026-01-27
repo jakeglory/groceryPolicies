@@ -1,0 +1,17 @@
+{
+    "name": "rg-cnct-prod-wg-exd-001-allowedLocations",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Custom_mg-ALDI",
+        "displayName": "rg-cnct-prod-wg-exd-001 - ALDI-Custom-Initiative_mg-ALDI-exemption - allowedLocations",
+        "description": "ITSMSD-747916",
+        "policyDefinitionReferenceIds": [
+            "[Security] Allowed locations",
+            "[Security] Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "8406eed5-3171-437f-90bf-184f698e5fd7",
+        "ResourceGroupName": "rg-cnct-prod-wg-exd-001"
+    }
+}

@@ -1,0 +1,16 @@
+{
+    "name": "sub-azcomp-dev-KVSoftDelete",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-aldi/providers/microsoft.authorization/policyassignments/enforce-kv-security",
+        "displayName": "sub-azcomp-dev-KVSoftDelete",
+        "description": "ServiceNow Ticket: SCTASK0155816 Permanent examption for development subscription",
+        "expiresOn": "2025-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Append-KV-SoftDelete"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "f001c0f5-2206-4143-a018-1905d406e38c"
+    }
+}

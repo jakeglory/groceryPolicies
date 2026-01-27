@@ -1,0 +1,26 @@
+{
+  "name": "Configure-MachineLearning-Security",
+  "properties": {
+    "description": "Configures Machine Learning Service security settings to meet best practices",
+    "displayName": "Configures Machine Learning security settings",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Machine Learning"
+    },
+    "parameters": {},
+    "policyDefinitions": [
+    {
+      "policyDefinitionReferenceId": "Configure Azure Machine Learning Computes to disable local authentication methods",
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a6f9a2d0-cff7-4855-83ad-4cd750666512",
+      "parameters": {
+        "effect": {
+          "value": "Modify"
+        }
+      },
+      "groupNames": []
+    }
+  ]
+  },
+  "scope": null,
+  "type": "Microsoft.Authorization/policySetDefinitions"
+}
