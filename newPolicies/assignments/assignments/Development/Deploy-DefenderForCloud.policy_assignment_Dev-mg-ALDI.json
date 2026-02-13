@@ -6,20 +6,10 @@
   "identity": {
     "type": "SystemAssigned"
   },
-  "roleDefinitionIds": [
-    "/providers/microsoft.authorization/roleDefinitions/fb1c8493-542b-48eb-b624-b4c8fea62acd",
-    "/providers/microsoft.authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c",
-    "/providers/microsoft.authorization/roleDefinitions/ed7f3fbd-7b88-4dd4-9017-9adb7ce333f8",
-    "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
-    "/providers/microsoft.authorization/roleDefinitions/18ed5180-3e48-46fd-8541-4ea054d57064",
-    "/providers/microsoft.authorization/roleDefinitions/8e3af657-a8ff-443c-a75c-2fe8c4bcb635",
-    "/providers/microsoft.authorization/roleDefinitions/8bb6f106-b146-4ee6-a3f9-b9c5a96e0ae5",
-    "/providers/microsoft.authorization/roleDefinitions/5e93ba01-8f92-4c7a-b12a-801e3df23824"
-  ],
   "properties": {
-    "displayName": "Deploy Microsoft Defender for Cloud configuration",
+    "displayName": "Deploy Microsoft Defender for Cloud configuration Q1 2026",
     "description": "Deploy Microsoft Defender for Cloud configuration across the Aldi Nord Tenant",
-    "scope": "/providers/Microsoft.Management/managementGroups/mg-aldi",
+    "scope": "/providers/Microsoft.Management/managementGroups/dev-mg-aldi",
     "metadata": {
       "assignedBy": "Policy initiative assigned by Platform Team as part of Q1 2026 defender rollout"
     },
@@ -69,7 +59,7 @@
         "value": "DeployIfNotExists"
       },
       "ascForStorageIsOnUploadMalwareScanningEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForStorageCapGBPerMonthPerStorageAccount": {
         "value": 5000
@@ -81,7 +71,7 @@
         "value": "DeployIfNotExists"
       },
       "enableAscForAI": {
-        "value": "false"
+        "value": "Disabled"
       },
       "ascForAIIsAIPromptEvidenceEnabled": {
         "value": "false"
@@ -105,7 +95,7 @@
         "value": "mdeTvm"
       },
       "enableAscForCspm": {
-        "value": "false"
+        "value": "Disabled"
       },
       "ascForCspmIsSensitiveDataDiscoveryEnabled": {
         "value": "false"
@@ -128,7 +118,7 @@
     },
     "nonComplianceMessages": [
       {
-        "message": "Microsoft Defender for Cloud baseline must be deployed and configured across this management group."
+        "message": "Microsoft Defender for Cloud baseline must be deployed and configured across Aldi Nord environment"
       }
     ],
     "notScopes": []

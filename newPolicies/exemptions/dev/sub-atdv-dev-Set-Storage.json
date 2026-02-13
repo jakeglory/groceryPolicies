@@ -1,0 +1,17 @@
+{
+    "name": "sub-atdv-dev-Set-StorageSettings",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-aldi/providers/microsoft.authorization/policyassignments/set-storagesettings",
+        "displayName": "sub-atdv-dev - Set-StorageSettings",
+        "description": "ServiceNow: RITM0312933v",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-08-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "storage accounts should prevent shared key access"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/c51dec5c-d9e5-446f-b3b5-62bb6d7d16d1"
+    }
+}

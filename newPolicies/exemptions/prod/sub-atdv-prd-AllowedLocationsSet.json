@@ -1,0 +1,18 @@
+{
+    "name": "sub-atdv-prd-AllowedLocationsSet",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/mg-ALDI/providers/Microsoft.Authorization/policyAssignments/Allowed-Locations",
+        "displayName": "sub-atdv-prd - AllowedLocations",
+        "description": "ServiceNow Ticket: RITM0321974",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-07-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "Allowed locations",
+            "Allowed locations for resource groups"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/9e22c986-c5bb-461b-83e9-0168e2333d18"
+    }
+}
