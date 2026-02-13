@@ -24,6 +24,134 @@ if (-not $assignments -or $assignments.Count -eq 0) {
   return
 }
 
+function Get-PolicyNameFromDefinitionId {
+  param(
+    [string] $DefinitionId
+  )
+
+  if ([string]::IsNullOrWhiteSpace($DefinitionId)) { return '' }
+  $parts = $DefinitionId -split '/'
+  if (-not $parts -or $parts.Count -eq 0) { return '' }
+  return [string]$parts[-1]
+}
+
+function Convert-RoleDefinitionIdToGuid {
+  param(
+    [string] $RoleDefinitionId
+  )
+
+  if ([string]::IsNullOrWhiteSpace($RoleDefinitionId)) { return $null }
+
+  $value = [string]$RoleDefinitionId
+  if ($value -match '([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$') {
+    return $Matches[1].ToLowerInvariant()
+  }
+
+  return $null
+}
+
+function Get-RoleDefinitionIdsFromObject {
+  param(
+    [object] $InputObject
+  )
+
+  $collected = New-Object System.Collections.Generic.List[string]
+
+  function Invoke-TraverseRoleIds {
+    param(
+      [object] $Node,
+      [System.Collections.Generic.List[string]] $Sink
+    )
+
+    if ($null -eq $Node) { return }
+
+    if ($Node -is [System.Collections.IDictionary]) {
+      if ($Node.Contains('roleDefinitionIds') -and $Node['roleDefinitionIds']) {
+        foreach ($rid in @($Node['roleDefinitionIds'])) {
+          if (-not [string]::IsNullOrWhiteSpace([string]$rid)) {
+            $Sink.Add([string]$rid)
+          }
+        }
+      }
+
+      foreach ($value in $Node.Values) {
+        Invoke-TraverseRoleIds -Node $value -Sink $Sink
+      }
+      return
+    }
+
+    if (($Node -is [System.Collections.IEnumerable]) -and -not ($Node -is [string])) {
+      foreach ($item in $Node) {
+        Invoke-TraverseRoleIds -Node $item -Sink $Sink
+      }
+      return
+    }
+
+    if ($Node.PSObject -and $Node.PSObject.Properties) {
+      foreach ($property in $Node.PSObject.Properties) {
+        Invoke-TraverseRoleIds -Node $property.Value -Sink $Sink
+      }
+    }
+  }
+
+  Invoke-TraverseRoleIds -Node $InputObject -Sink $collected
+  return @($collected)
+}
+
+# Build local lookups once (used by both sequential and parallel execution)
+$policySetLookup = @{}
+$policyDefinitionDisplayLookup = @{}
+$policyDefinitionRoleLookup = @{}
+
+$policySetRoot = Join-Path $PSScriptRoot '../definitions/policySetDefinitions'
+$policyDefRoot = Join-Path $PSScriptRoot '../definitions/policyDefinitions'
+
+$policySetFiles = Get-ChildItem -Path $policySetRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
+foreach ($f in $policySetFiles) {
+  try {
+    $psObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
+    if (-not $psObj.name) { continue }
+
+    $includedPolicyNames = @()
+    if ($psObj.properties -and $psObj.properties.policyDefinitions) {
+      foreach ($psRef in @($psObj.properties.policyDefinitions)) {
+        $refId = [string]$psRef.policyDefinitionId
+        $refName = Get-PolicyNameFromDefinitionId -DefinitionId $refId
+        if (-not [string]::IsNullOrWhiteSpace($refName)) {
+          $includedPolicyNames += $refName
+        }
+      }
+    }
+
+    $policySetLookup[$psObj.name] = @{
+      displayName = if ($psObj.properties -and $psObj.properties.displayName) { [string]$psObj.properties.displayName } else { '' }
+      category = if ($psObj.properties -and $psObj.properties.metadata -and $psObj.properties.metadata.category) { [string]$psObj.properties.metadata.category } else { '' }
+      policyNames = @($includedPolicyNames)
+    }
+  } catch { }
+}
+
+$policyDefFiles = Get-ChildItem -Path $policyDefRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
+foreach ($f in $policyDefFiles) {
+  try {
+    $pdObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
+    if (-not $pdObj.name) { continue }
+
+    $policyDefinitionDisplayLookup[$pdObj.name] = if ($pdObj.properties -and $pdObj.properties.displayName) { [string]$pdObj.properties.displayName } else { '' }
+
+    $guids = @()
+    $rawRoleDefinitionIds = Get-RoleDefinitionIdsFromObject -InputObject $pdObj
+    foreach ($rid in $rawRoleDefinitionIds) {
+      $roleGuid = Convert-RoleDefinitionIdToGuid -RoleDefinitionId $rid
+      if (-not [string]::IsNullOrWhiteSpace($roleGuid)) {
+        $guids += $roleGuid
+      }
+    }
+
+    $policyDefinitionRoleLookup[$pdObj.name] = @($guids | Sort-Object -Unique)
+  } catch { }
+}
+
 $supportsParallel = ($PSVersionTable.PSVersion.Major -ge 7)
 if ($supportsParallel) {
   Write-Host "Parallel execution enabled with ThrottleLimit=$ThrottleLimit"
@@ -60,56 +188,39 @@ if ($supportsParallel) {
       $policyName = ($policyDefId -split '/')[-1]
     }
 
-  # Determine domain/category from local policy set JSON (preferred), then Azure, then fallback
+  # Resolve display metadata from lookup tables
   $domainForDisplay = ''
-    # Resolve display name of the policy or policy set from local repository (prefer policy set)
     $policyDisplayName = ''
-    try {
-      if ($isPolicySet) {
-  $policySetRoot = Join-Path $using:PSScriptRoot '../definitions/policySetDefinitions'
-        $psFiles = Get-ChildItem -Path $policySetRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $psFiles) {
-          try {
-            $psObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($psObj.name -and ($psObj.name -eq $policyName) -and $psObj.properties -and $psObj.properties.displayName) { $policyDisplayName = [string]$psObj.properties.displayName; break }
-          } catch { }
-        }
-      }
-      if (-not $isPolicySet -or -not $policyDisplayName) {
-        # try policy definition display name
-  $policyDefRoot = Join-Path $using:PSScriptRoot '../definitions/policyDefinitions'
-        $pdFiles = Get-ChildItem -Path $policyDefRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $pdFiles) {
-          try {
-            $pdObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($pdObj.name -and ($pdObj.name -eq $policyName) -and $pdObj.properties -and $pdObj.properties.displayName) { $policyDisplayName = [string]$pdObj.properties.displayName; break }
-          } catch { }
-        }
-      }
-    } catch { }
-
-    # 1) Try local policy set JSON repository lookup by name
-    if ($isPolicySet -and -not $domainForDisplay) {
-      try {
-  $policySetRoot = Join-Path $using:PSScriptRoot '../definitions/policySetDefinitions'
-        $psFiles = Get-ChildItem -Path $policySetRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $psFiles) {
-          try {
-            $psObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($psObj.name -and ($psObj.name -eq $policyName)) {
-              if ($psObj.properties -and $psObj.properties.metadata -and $psObj.properties.metadata.category) {
-                $domainForDisplay = [string]$psObj.properties.metadata.category
-                break
-              }
-            }
-          } catch { }
-        }
-      } catch { }
+    if ($isPolicySet -and $using:policySetLookup.ContainsKey($policyName)) {
+      $psInfo = $using:policySetLookup[$policyName]
+      if ($psInfo.displayName) { $policyDisplayName = [string]$psInfo.displayName }
+      if ($psInfo.category) { $domainForDisplay = [string]$psInfo.category }
     }
-  # No further fallback; do not override if missing
+    if (-not $policyDisplayName -and $using:policyDefinitionDisplayLookup.ContainsKey($policyName)) {
+      $policyDisplayName = [string]$using:policyDefinitionDisplayLookup[$policyName]
+    }
 
+    # Build effective roleDefinitionIds for assignment MI:
+    # - explicit roleDefinitionIds on assignment JSON
+    # - plus all roleDefinitionIds found in policy definitions included by the assigned policy set
     $roleIds = @()
-    if ($json.ContainsKey('roleDefinitionIds')) { $roleIds = $json.roleDefinitionIds }
+    if ($json.ContainsKey('roleDefinitionIds')) {
+      foreach ($rid in @($json.roleDefinitionIds)) {
+        $value = [string]$rid
+        if ($value -match '([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})$') {
+          $roleIds += $Matches[1].ToLowerInvariant()
+        }
+      }
+    }
+    if ($isPolicySet -and $using:policySetLookup.ContainsKey($policyName)) {
+      $psInfo = $using:policySetLookup[$policyName]
+      foreach ($includedPolicyName in @($psInfo.policyNames)) {
+        if ($using:policyDefinitionRoleLookup.ContainsKey($includedPolicyName)) {
+          $roleIds += @($using:policyDefinitionRoleLookup[$includedPolicyName])
+        }
+      }
+    }
+    $roleIds = @($roleIds | Sort-Object -Unique)
   # Build ARM parameter file shape
     $paramsArm = @{
       parameters = @{
@@ -186,55 +297,39 @@ if ($supportsParallel) {
       $policyName = ($policyDefId -split '/')[-1]
     }
 
-  # Determine domain/category from local policy set JSON (preferred), then Azure, then fallback
+  # Resolve display metadata from lookup tables
   $domainForDisplay = ''
-    # Resolve display name of the policy or policy set from local repository (prefer policy set)
     $policyDisplayName = ''
-    try {
-      if ($isPolicySet) {
-  $policySetRoot = Join-Path $PSScriptRoot '../definitions/policySetDefinitions'
-        $psFiles = Get-ChildItem -Path $policySetRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $psFiles) {
-          try {
-            $psObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($psObj.name -and ($psObj.name -eq $policyName) -and $psObj.properties -and $psObj.properties.displayName) { $policyDisplayName = [string]$psObj.properties.displayName; break }
-          } catch { }
-        }
-      }
-      if (-not $isPolicySet -or -not $policyDisplayName) {
-        # try policy definition display name
-  $policyDefRoot = Join-Path $PSScriptRoot '../definitions/policyDefinitions'
-        $pdFiles = Get-ChildItem -Path $policyDefRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $pdFiles) {
-          try {
-            $pdObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($pdObj.name -and ($pdObj.name -eq $policyName) -and $pdObj.properties -and $pdObj.properties.displayName) { $policyDisplayName = [string]$pdObj.properties.displayName; break }
-          } catch { }
-        }
-      }
-    } catch { }
-    # 1) Try local policy set JSON repository lookup by name
-    if ($isPolicySet -and -not $domainForDisplay) {
-      try {
-  $policySetRoot = Join-Path $PSScriptRoot '../definitions/policySetDefinitions'
-        $psFiles = Get-ChildItem -Path $policySetRoot -Recurse -Filter *.json -ErrorAction SilentlyContinue
-        foreach ($f in $psFiles) {
-          try {
-            $psObj = Get-Content -Raw -Path $f.FullName | ConvertFrom-Json -AsHashtable
-            if ($psObj.name -and ($psObj.name -eq $policyName)) {
-              if ($psObj.properties -and $psObj.properties.metadata -and $psObj.properties.metadata.category) {
-                $domainForDisplay = [string]$psObj.properties.metadata.category
-                break
-              }
-            }
-          } catch { }
-        }
-      } catch { }
+    if ($isPolicySet -and $policySetLookup.ContainsKey($policyName)) {
+      $psInfo = $policySetLookup[$policyName]
+      if ($psInfo.displayName) { $policyDisplayName = [string]$psInfo.displayName }
+      if ($psInfo.category) { $domainForDisplay = [string]$psInfo.category }
     }
-  # No further fallback; do not override if missing
+    if (-not $policyDisplayName -and $policyDefinitionDisplayLookup.ContainsKey($policyName)) {
+      $policyDisplayName = [string]$policyDefinitionDisplayLookup[$policyName]
+    }
 
+    # Build effective roleDefinitionIds for assignment MI:
+    # - explicit roleDefinitionIds on assignment JSON
+    # - plus all roleDefinitionIds found in policy definitions included by the assigned policy set
     $roleIds = @()
-    if ($json.ContainsKey('roleDefinitionIds')) { $roleIds = $json.roleDefinitionIds }
+    if ($json.ContainsKey('roleDefinitionIds')) {
+      foreach ($rid in @($json.roleDefinitionIds)) {
+        $roleGuid = Convert-RoleDefinitionIdToGuid -RoleDefinitionId ([string]$rid)
+        if (-not [string]::IsNullOrWhiteSpace($roleGuid)) {
+          $roleIds += $roleGuid
+        }
+      }
+    }
+    if ($isPolicySet -and $policySetLookup.ContainsKey($policyName)) {
+      $psInfo = $policySetLookup[$policyName]
+      foreach ($includedPolicyName in @($psInfo.policyNames)) {
+        if ($policyDefinitionRoleLookup.ContainsKey($includedPolicyName)) {
+          $roleIds += @($policyDefinitionRoleLookup[$includedPolicyName])
+        }
+      }
+    }
+    $roleIds = @($roleIds | Sort-Object -Unique)
     # Build ARM parameter file shape
     $paramsArm = @{
       parameters = @{
