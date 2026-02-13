@@ -98,10 +98,41 @@ function Get-RoleDefinitionIdsFromObject {
   return @($collected)
 }
 
+function Get-BuiltInPolicyRoleDefinitionIds {
+  param(
+    [string] $BuiltInPolicyId
+  )
+
+  $result = @()
+  if ([string]::IsNullOrWhiteSpace($BuiltInPolicyId)) { return $result }
+
+  $policyGuid = Convert-RoleDefinitionIdToGuid -RoleDefinitionId $BuiltInPolicyId
+  if ([string]::IsNullOrWhiteSpace($policyGuid)) { return $result }
+
+  try {
+    $policyJson = az policy definition show --name $policyGuid -o json 2>$null
+    if (-not [string]::IsNullOrWhiteSpace($policyJson)) {
+      $policyObj = $policyJson | ConvertFrom-Json -AsHashtable
+      $rawRoleIds = Get-RoleDefinitionIdsFromObject -InputObject $policyObj
+      foreach ($rid in @($rawRoleIds)) {
+        $roleGuid = Convert-RoleDefinitionIdToGuid -RoleDefinitionId ([string]$rid)
+        if (-not [string]::IsNullOrWhiteSpace($roleGuid)) {
+          $result += $roleGuid
+        }
+      }
+    }
+  } catch {
+    Write-Host "Warning: Could not resolve built-in policy definition '$BuiltInPolicyId' for role extraction."
+  }
+
+  return @($result | Sort-Object -Unique)
+}
+
 # Build local lookups once (used by both sequential and parallel execution)
 $policySetLookup = @{}
 $policyDefinitionDisplayLookup = @{}
 $policyDefinitionRoleLookup = @{}
+$builtInPolicyRoleLookup = @{}
 
 $policySetRoot = Join-Path $PSScriptRoot '../definitions/policySetDefinitions'
 $policyDefRoot = Join-Path $PSScriptRoot '../definitions/policyDefinitions'
@@ -113,9 +144,13 @@ foreach ($f in $policySetFiles) {
     if (-not $psObj.name) { continue }
 
     $includedPolicyNames = @()
+    $includedBuiltInPolicyIds = @()
     if ($psObj.properties -and $psObj.properties.policyDefinitions) {
       foreach ($psRef in @($psObj.properties.policyDefinitions)) {
         $refId = [string]$psRef.policyDefinitionId
+        if ($refId -match '^/providers/Microsoft\.Authorization/policyDefinitions/[0-9a-fA-F-]{36}$') {
+          $includedBuiltInPolicyIds += $refId
+        }
         $refName = Get-PolicyNameFromDefinitionId -DefinitionId $refId
         if (-not [string]::IsNullOrWhiteSpace($refName)) {
           $includedPolicyNames += $refName
@@ -127,6 +162,7 @@ foreach ($f in $policySetFiles) {
       displayName = if ($psObj.properties -and $psObj.properties.displayName) { [string]$psObj.properties.displayName } else { '' }
       category = if ($psObj.properties -and $psObj.properties.metadata -and $psObj.properties.metadata.category) { [string]$psObj.properties.metadata.category } else { '' }
       policyNames = @($includedPolicyNames)
+      builtInPolicyIds = @($includedBuiltInPolicyIds | Sort-Object -Unique)
     }
   } catch { }
 }
@@ -152,6 +188,18 @@ foreach ($f in $policyDefFiles) {
   } catch { }
 }
 
+# Resolve roleDefinitionIds for built-in policy definitions referenced by policy sets
+$allBuiltInPolicyIds = @()
+foreach ($ps in $policySetLookup.Values) {
+  if ($ps.builtInPolicyIds) {
+    $allBuiltInPolicyIds += @($ps.builtInPolicyIds)
+  }
+}
+
+foreach ($builtInPolicyId in @($allBuiltInPolicyIds | Sort-Object -Unique)) {
+  $builtInPolicyRoleLookup[$builtInPolicyId] = @(Get-BuiltInPolicyRoleDefinitionIds -BuiltInPolicyId $builtInPolicyId)
+}
+
 $supportsParallel = ($PSVersionTable.PSVersion.Major -ge 7)
 if ($supportsParallel) {
   Write-Host "Parallel execution enabled with ThrottleLimit=$ThrottleLimit"
@@ -160,7 +208,16 @@ if ($supportsParallel) {
 }
 
 if ($supportsParallel) {
-  $assignments | ForEach-Object -Parallel {
+  $assignments | ForEach-Object {
+    $policySetLookupLocal = $policySetLookup
+    $policyDefinitionDisplayLookupLocal = $policyDefinitionDisplayLookup
+    $policyDefinitionRoleLookupLocal = $policyDefinitionRoleLookup
+    $builtInPolicyRoleLookupLocal = $builtInPolicyRoleLookup
+    $managementGroupIdLocal = $ManagementGroupId
+    $customerNameLocal = $CustomerName
+    $locationLocal = $Location
+    $psScriptRootLocal = $PSScriptRoot
+
   # No filtering: process all assignment files
     $jsonText = Get-Content -Raw -Path $_.FullName
     $json = $jsonText | ConvertFrom-Json -AsHashtable
@@ -168,21 +225,12 @@ if ($supportsParallel) {
   # Resolve policy definition id, name, and whether it's a policy set (initiative)
     $policyDefId = [string]$json.properties.policyDefinitionId
     $isPolicySet = ($policyDefId -match '/policySetDefinitions/')
-    # Parse definition scope from the policyDefinitionId (mg/sub/tenant-root)
-    $defScopeType = 'tenant'
-    $defMgId = ''
-    $defSubId = ''
     $policyName = ''
     if ($policyDefId -match "/providers/Microsoft.Management/managementGroups/([^/]+)/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'mg'
-      $defMgId = $Matches[1]
       $policyName = $Matches[3]
     } elseif ($policyDefId -match "/subscriptions/([0-9a-fA-F-]{36})/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'sub'
-      $defSubId = $Matches[1]
       $policyName = $Matches[3]
     } elseif ($policyDefId -match "/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'tenant'
       $policyName = $Matches[2]
     } else {
       $policyName = ($policyDefId -split '/')[-1]
@@ -191,13 +239,13 @@ if ($supportsParallel) {
   # Resolve display metadata from lookup tables
   $domainForDisplay = ''
     $policyDisplayName = ''
-    if ($isPolicySet -and $using:policySetLookup.ContainsKey($policyName)) {
-      $psInfo = $using:policySetLookup[$policyName]
+    if ($isPolicySet -and $policySetLookupLocal.ContainsKey($policyName)) {
+      $psInfo = $policySetLookupLocal[$policyName]
       if ($psInfo.displayName) { $policyDisplayName = [string]$psInfo.displayName }
       if ($psInfo.category) { $domainForDisplay = [string]$psInfo.category }
     }
-    if (-not $policyDisplayName -and $using:policyDefinitionDisplayLookup.ContainsKey($policyName)) {
-      $policyDisplayName = [string]$using:policyDefinitionDisplayLookup[$policyName]
+    if (-not $policyDisplayName -and $policyDefinitionDisplayLookupLocal.ContainsKey($policyName)) {
+      $policyDisplayName = [string]$policyDefinitionDisplayLookupLocal[$policyName]
     }
 
     # Build effective roleDefinitionIds for assignment MI:
@@ -212,11 +260,16 @@ if ($supportsParallel) {
         }
       }
     }
-    if ($isPolicySet -and $using:policySetLookup.ContainsKey($policyName)) {
-      $psInfo = $using:policySetLookup[$policyName]
+    if ($isPolicySet -and $policySetLookupLocal.ContainsKey($policyName)) {
+      $psInfo = $policySetLookupLocal[$policyName]
       foreach ($includedPolicyName in @($psInfo.policyNames)) {
-        if ($using:policyDefinitionRoleLookup.ContainsKey($includedPolicyName)) {
-          $roleIds += @($using:policyDefinitionRoleLookup[$includedPolicyName])
+        if ($policyDefinitionRoleLookupLocal.ContainsKey($includedPolicyName)) {
+          $roleIds += @($policyDefinitionRoleLookupLocal[$includedPolicyName])
+        }
+      }
+      foreach ($builtInPolicyId in @($psInfo.builtInPolicyIds)) {
+        if ($builtInPolicyRoleLookupLocal.ContainsKey($builtInPolicyId)) {
+          $roleIds += @($builtInPolicyRoleLookupLocal[$builtInPolicyId])
         }
       }
     }
@@ -225,11 +278,11 @@ if ($supportsParallel) {
     $paramsArm = @{
       parameters = @{
         assignmentJson    = @{ value = $json }
-        managementGroupId = @{ value = $using:ManagementGroupId }
-        customerName      = @{ value = $using:CustomerName }
+        managementGroupId = @{ value = $managementGroupIdLocal }
+        customerName      = @{ value = $customerNameLocal }
         domain            = @{ value = $domainForDisplay }
         roleDefinitionIds = @{ value = $roleIds }
-        assignmentLocation = @{ value = $using:Location }
+        assignmentLocation = @{ value = $locationLocal }
   policyDisplayName = @{ value = $policyDisplayName }
       }
     }
@@ -238,23 +291,23 @@ if ($supportsParallel) {
     $paramsArm | ConvertTo-Json -Depth 100 | Set-Content -Path $tmp -Encoding UTF8
   # Determine scope from assignment JSON if provided
   $scope = $json.properties.scope
-    if ([string]::IsNullOrWhiteSpace($scope)) { $scope = "/providers/Microsoft.Management/managementGroups/$using:ManagementGroupId" }
+    if ([string]::IsNullOrWhiteSpace($scope)) { $scope = "/providers/Microsoft.Management/managementGroups/$managementGroupIdLocal" }
 
   if ($scope -match "/providers/Microsoft.Management/managementGroups/(.+)$") {
       $mgId = $Matches[1]
       az deployment mg create `
         --management-group-id $mgId `
         --name "assign-$($json.name)-$mgId" `
-        --location $using:Location `
-        --template-file "$using:PSScriptRoot/../infra/bicep/modules/policyAssignmentFromFile.bicep" `
+        --location $locationLocal `
+        --template-file "$psScriptRootLocal/../infra/bicep/modules/policyAssignmentFromFile.bicep" `
         --parameters @$tmp
   } elseif ($scope -match "/subscriptions/([0-9a-fA-F-]{36})($|/)") {
       $subId = $Matches[1]
       az deployment sub create `
         --subscription $subId `
         --name "assign-$($json.name)-$subId" `
-        --location $using:Location `
-        --template-file "$using:PSScriptRoot/../infra/bicep/modules/policyAssignmentFromFile.sub.bicep" `
+        --location $locationLocal `
+        --template-file "$psScriptRootLocal/../infra/bicep/modules/policyAssignmentFromFile.sub.bicep" `
         --parameters @$tmp
   } elseif ($scope -match "/subscriptions/([0-9a-fA-F-]{36})/resourceGroups/([^/]+)$") {
       $subId = $Matches[1]; $rg = $Matches[2]
@@ -262,12 +315,12 @@ if ($supportsParallel) {
         --subscription $subId `
         --resource-group $rg `
         --name "assign-$($json.name)-$rg" `
-        --template-file "$using:PSScriptRoot/../infra/bicep/modules/policyAssignmentFromFile.rg.bicep" `
+        --template-file "$psScriptRootLocal/../infra/bicep/modules/policyAssignmentFromFile.rg.bicep" `
         --parameters @$tmp
     } else {
       throw "Unsupported scope value: $scope"
     }
-  } -ThrottleLimit $ThrottleLimit
+  }
 } else {
   foreach ($file in $assignments) {
   # No filtering: process all assignment files
@@ -277,21 +330,12 @@ if ($supportsParallel) {
   # Resolve policy definition id, name, and whether it's a policy set (initiative)
     $policyDefId = [string]$json.properties.policyDefinitionId
     $isPolicySet = ($policyDefId -match '/policySetDefinitions/')
-    # Parse definition scope from the policyDefinitionId (mg/sub/tenant-root)
-    $defScopeType = 'tenant'
-    $defMgId = ''
-    $defSubId = ''
     $policyName = ''
     if ($policyDefId -match "/providers/Microsoft.Management/managementGroups/([^/]+)/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'mg'
-      $defMgId = $Matches[1]
       $policyName = $Matches[3]
     } elseif ($policyDefId -match "/subscriptions/([0-9a-fA-F-]{36})/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'sub'
-      $defSubId = $Matches[1]
       $policyName = $Matches[3]
     } elseif ($policyDefId -match "/providers/Microsoft.Authorization/(policySetDefinitions|policyDefinitions)/([^/]+)$") {
-      $defScopeType = 'tenant'
       $policyName = $Matches[2]
     } else {
       $policyName = ($policyDefId -split '/')[-1]
@@ -326,6 +370,11 @@ if ($supportsParallel) {
       foreach ($includedPolicyName in @($psInfo.policyNames)) {
         if ($policyDefinitionRoleLookup.ContainsKey($includedPolicyName)) {
           $roleIds += @($policyDefinitionRoleLookup[$includedPolicyName])
+        }
+      }
+      foreach ($builtInPolicyId in @($psInfo.builtInPolicyIds)) {
+        if ($builtInPolicyRoleLookup.ContainsKey($builtInPolicyId)) {
+          $roleIds += @($builtInPolicyRoleLookup[$builtInPolicyId])
         }
       }
     }
