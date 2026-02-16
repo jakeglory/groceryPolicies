@@ -41,7 +41,7 @@
         "value": "DeployIfNotExists"
       },
       "ascForArmSubPlan": {
-        "value": "PerApiCall"
+        "value": "PerSubscription"
       },
       "enableAscForOssDb": {
         "value": "DeployIfNotExists"
@@ -53,7 +53,7 @@
         "value": "DeployIfNotExists"
       },
       "ascForKeyVaultSubPlan": {
-        "value": "PerTransaction"
+        "value": "PerKeyVault"
       },
       "enableAscForStorage": {
         "value": "DeployIfNotExists"
@@ -71,10 +71,13 @@
         "value": "DeployIfNotExists"
       },
       "enableAscForAI": {
-        "value": "Disabled"
+        "value": "DeployIfNotExists"
       },
       "ascForAIIsAIPromptEvidenceEnabled": {
-        "value": "false"
+        "value": "true"
+      },
+      "ascForAIIsAIPromptSharingWithPurviewEnabled": {
+        "value": "true"
       },
       "enableAscForServers": {
         "value": "DeployIfNotExists"
@@ -83,7 +86,7 @@
         "value": "P2"
       },
       "ascForServersIsAgentlessVmScanningEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForServersIsMdeDesignatedSubscriptionEnabled": {
         "value": "false"
@@ -104,10 +107,10 @@
         "value": "false"
       },
       "ascForCspmIsAgentlessDiscoveryForKubernetesEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForCspmIsAgentlessVmScanningEnabled": {
-        "value": "true"
+        "value": "false"
       },
       "ascForCspmIsEntraPermissionsManagementEnabled": {
         "value": "true"

@@ -244,6 +244,18 @@
         ],
         "defaultValue": "true"
       },
+      "ascForAIIsAIPromptSharingWithPurviewEnabled": {
+        "type": "String",
+        "metadata": {
+          "displayName": "AI Prompt Sharing with Pureview  Enabled",
+          "description": "Enable or disable the AI Prompt Sharing feature"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "true"
+      },
       "enableAscForServers": {
         "type": "String",
         "allowedValues": [
@@ -585,6 +597,9 @@
           },
           "isAIPromptEvidenceEnabled": {
             "value": "[parameters('ascForAIIsAIPromptEvidenceEnabled')]"
+          },
+           "isAIPromptSharingWithPurviewEnabled": {
+            "value": "[parameters('ascForAIIsAIPromptSharingWithPurviewEnabled')]"
           }
         },
         "groupNames": []
