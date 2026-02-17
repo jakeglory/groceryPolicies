@@ -659,5 +659,6 @@
       }
     ],
     "policyDefinitionGroups": []
-  }
+  },
+  "type": "Microsoft.Authorization/policySetDefinitions"
 }
