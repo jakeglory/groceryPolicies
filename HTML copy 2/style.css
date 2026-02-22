@@ -1,0 +1,134 @@
+body {
+    background-image: url("jordan.jpg");
+    background-size: cover;
+    background-position: center;
+}
+
+ul {
+    float: left;
+    list-style: none;
+}
+li a {
+display: block; 
+width: 300px; 
+height: 30px ;
+font-size: 1em;
+text-align: center; 
+text-decoration: none;
+text-decoration-color: #717171;
+background-color: #cc0066; 
+padding: 5px 10px;
+margin: 0px 0px 10px 0px;
+border-radius: 4px;
+box-shadow: 3px 3px 3рx #3a3838;
+}
+li a:hover {
+background-color: #0000FF; 
+box-shadow: Оpx Оpx Оpx;
+}
+#naglowek {
+text-align: center;
+font-size: 100px;
+background-color: rgba(245, 245, 220, 0.412);
+}
+#naglowek2 {
+text-align: center;
+font-size: 80px;
+background-color: rgba(245, 245, 220, 0.412);
+margin-bottom: 50px;
+}
+#naglowek3 {
+text-align: center;
+font-size: 70px;
+margin-bottom: 50px;
+background: #e0dee255; 
+background-size: cover;
+}
+#tresc {
+clear: both;
+background: #e0dee255; 
+text-align: center; 
+min-height: 500px;
+margin-top: 30px;
+}
+#modele {
+float: left; 
+width: 20%;
+}
+#informacje {
+float: right;
+position: absolute;
+right: 50px;
+width: 250px;
+background: #8e148b;
+padding: 20px;
+margin: 5px 5px 5px 5px;
+min-height: 2000;
+}
+#tresc2 {
+clear: both;
+background: #e0dee255; 
+float: right;
+width: 800px;
+gap: 40px;
+padding: 40px;
+margin-left: 40;
+margin-right: auto;
+max-width: none;
+}
+#obrazki
+{
+float: left;
+width: 300px;
+}
+
+#ciekawostki {
+float: center;
+position: absolute;
+width: 450px;
+background: #8e148b;
+padding: 40px;
+margin: -35px 5px 5px 450px;
+min-height: 1800;
+max-width: 1800;
+}
+
+span::before {
+    content: " ";
+    animation: animate infinite 50s;
+}
+@keyframes animate {
+    0%{
+        content: "Logo Jumpman zadebiutowało na butach Air Jordan 3 i od tamtej pory stało się synonimem marki. ";
+    }
+    10%{
+        content: "Jordan 2 (1986): jedyne z wstawkami z imitacji skóry jaszczurki, szyte we Włoszech, bez Swoosha Nike.";
+    }
+    20%{
+        content: "Jordan 1 “Banned” (czarno-czerwone) naprawdę zbanowano w NBA za kolor – Nike płaciło 5 tys. USD kary za mecz, zarabiając miliony na hype.";
+    }
+    30%{
+        content: "Nike podpisało z Jordanem kontrakt w 1984 za 2,5 mln USD, ryzykując na rookiego; Spike Lee w reklamie “Mars on Jupiter” zrobił z nich gwiazdę.";
+    }
+    40%{
+        content: "Jordan 3 (1988): pierwszy z “elephant print” i widocznym systemem Air ";
+    }
+    50%{
+        content: "Model Air Jordan 4 został wydany w 1989 roku przez legendarnego projektanta Tinkera Hatfielda, który zaprojektował również model Jordan 3";
+    }
+    60%{
+        content: "Produkcję butów Air Jordan rozpoczęto w latach 80. na wyłączność dla legendarnego amerykańskiego koszykarza Michaela Jordana. ";
+    }
+    70%{
+        content: "W 1985 roku światło dzienne ujrzały pierwsze buty sygnowane nazwiskiem Michaela Jordana – Air Jordan 1, produkowane przez koncern Nike. ";
+    }
+    80%{
+        content: "Popularność Nike Air Jordan 1 jest tak ogromna, że marka wielokrotnie decydowała się na wznowienia nie tylko modelu noszonego przez Michaela Jordana, ale również innych wersji kolorystycznych.";
+    }
+    90%{
+        content: "Legendarny koszykarz zagrał w swoich kultowych butach w debiutanckim sezonie w Chicago Bulls. Cena wywoławcza za nie w internetowej aukcji w Sotheby wynosiła 150 tys. dolarów.";
+    }
+    100%{
+        content: " Premiery butów Michaela Jordana często wiązały się z zamieszkami między osobami oczekującymi na ich zakup przed sklepem. W latach 80. każdy chciał posiadać Jordany, a chodzenie w nich było jednocześnie satysfakcjonujące i niebezpieczne.";
+    }
+}
