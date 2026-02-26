@@ -1,0 +1,179 @@
+{
+    "properties": {
+        "displayName": "DINE-FrontDoor-ResourceLogs",
+        "policyType": "Custom",
+        "mode": "Indexed",
+        "description": "Deploy diagnostic settings for Microsoft.Cdn/profiles and configure selected Front Door resource log categories.",
+        "metadata": {
+            "category": "Monitoring",
+            "version": "1.0.1"
+        },
+        "parameters": {
+            "effect": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Effect",
+                    "description": "Enable or disable policy execution."
+                },
+                "allowedValues": [
+                    "DeployIfNotExists",
+                    "Disabled"
+                ],
+                "defaultValue": "DeployIfNotExists"
+            },
+            "diagnosticSettingName": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Diagnostic setting name",
+                    "description": "Name of diagnostic setting to create on CDN profiles."
+                },
+                "defaultValue": "setbypolicy"
+            },
+            "logAnalyticsWorkspaceId": {
+                "type": "String",
+                "metadata": {
+                    "displayName": "Log Analytics workspace resource ID",
+                    "description": "Resource ID of the Log Analytics workspace to send logs to.",
+                    "strongType": "omsWorkspace"
+                }
+            },
+            "enableFrontDoorAccessLog": {
+                "type": "Boolean",
+                "metadata": {
+                    "displayName": "Enable FrontDoorAccessLog",
+                    "description": "Enable FrontDoorAccessLog category."
+                },
+                "defaultValue": false
+            },
+            "enableFrontDoorWebApplicationFirewallLog": {
+                "type": "Boolean",
+                "metadata": {
+                    "displayName": "Enable FrontDoorWebApplicationFirewallLog",
+                    "description": "Enable FrontDoorWebApplicationFirewallLog category."
+                },
+                "defaultValue": true
+            },
+            "enableFrontDoorHealthProbeLog": {
+                "type": "Boolean",
+                "metadata": {
+                    "displayName": "Enable FrontDoorHealthProbeLog",
+                    "description": "Enable FrontDoorHealthProbeLog category."
+                },
+                "defaultValue": false
+            }
+        },
+        "policyRule": {
+            "if": {
+                "field": "type",
+                "equals": "Microsoft.Cdn/profiles"
+            },
+            "then": {
+                "effect": "[parameters('effect')]",
+                "details": {
+                    "type": "Microsoft.Insights/diagnosticSettings",
+                    "name": "[parameters('diagnosticSettingName')]",
+                    "existenceCondition": {
+                        "allOf": [
+                            {
+                                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                                "equals": "[parameters('logAnalyticsWorkspaceId')]"
+                            }
+                        ]
+                    },
+                    "roleDefinitionIds": [
+                        "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+                    ],
+                    "deployment": {
+                        "properties": {
+                            "mode": "incremental",
+                            "template": {
+                                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                                "contentVersion": "1.0.0.0",
+                                "parameters": {
+                                    "resourceName": {
+                                        "type": "string"
+                                    },
+                                    "location": {
+                                        "type": "string"
+                                    },
+                                    "diagnosticSettingName": {
+                                        "type": "string"
+                                    },
+                                    "logAnalyticsWorkspaceId": {
+                                        "type": "string"
+                                    },
+                                    "enableFrontDoorAccessLog": {
+                                        "type": "bool"
+                                    },
+                                    "enableFrontDoorWebApplicationFirewallLog": {
+                                        "type": "bool"
+                                    },
+                                    "enableFrontDoorHealthProbeLog": {
+                                        "type": "bool"
+                                    }
+                                },
+                                "resources": [
+                                    {
+                                        "type": "Microsoft.Cdn/profiles/providers/diagnosticSettings",
+                                        "apiVersion": "2021-05-01-preview",
+                                        "name": "[concat(parameters('resourceName'), '/Microsoft.Insights/', parameters('diagnosticSettingName'))]",
+                                        "properties": {
+                                            "workspaceId": "[parameters('logAnalyticsWorkspaceId')]",
+                                            "logs": [
+                                                {
+                                                    "category": "FrontDoorAccessLog",
+                                                    "enabled": "[parameters('enableFrontDoorAccessLog')]"
+                                                },
+                                                {
+                                                    "category": "FrontDoorWebApplicationFirewallLog",
+                                                    "enabled": "[parameters('enableFrontDoorWebApplicationFirewallLog')]"
+                                                },
+                                                {
+                                                    "category": "FrontDoorHealthProbeLog",
+                                                    "enabled": "[parameters('enableFrontDoorHealthProbeLog')]"
+                                                }
+                                            ],
+                                            "metrics": [
+                                                {
+                                                    "category": "AllMetrics",
+                                                    "enabled": false
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            },
+                            "parameters": {
+                                "resourceName": {
+                                    "value": "[field('name')]"
+                                },
+                                "location": {
+                                    "value": "[field('location')]"
+                                },
+                                "diagnosticSettingName": {
+                                    "value": "[parameters('diagnosticSettingName')]"
+                                },
+                                "logAnalyticsWorkspaceId": {
+                                    "value": "[parameters('logAnalyticsWorkspaceId')]"
+                                },
+                                "enableFrontDoorAccessLog": {
+                                    "value": "[parameters('enableFrontDoorAccessLog')]"
+                                },
+                                "enableFrontDoorWebApplicationFirewallLog": {
+                                    "value": "[parameters('enableFrontDoorWebApplicationFirewallLog')]"
+                                },
+                                "enableFrontDoorHealthProbeLog": {
+                                    "value": "[parameters('enableFrontDoorHealthProbeLog')]"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "versions": [
+            "1.0.0"
+        ]
+    },
+    "type": "Microsoft.Authorization/policyDefinitions"
+}

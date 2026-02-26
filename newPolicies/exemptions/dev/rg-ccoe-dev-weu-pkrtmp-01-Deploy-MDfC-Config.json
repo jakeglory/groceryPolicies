@@ -1,0 +1,19 @@
+{
+    "name": "rg-ccoe-dev-weu-pkrtmp-01-Deploy-MDfC-Config",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/dev-mg-aldi/providers/microsoft.authorization/policyassignments/deploy-mdfc-config",
+        "displayName": "rg-ccoe-dev-weu-pkrtmp-01 Deploy MDfC Config",
+        "description": "SNOW Ticket: SCTASK0402091",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2027-02-20T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "defenderForVM",
+            "vulnerabilityForVM",
+            "defenderForStorageAccounts"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/690ada73-bd84-4293-aa0a-a2feb6488f18/resourcegroups/rg-ccoe-dev-weu-pkrtmp-01"
+    }
+}
