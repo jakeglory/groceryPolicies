@@ -1,4 +1,5 @@
 {
+    "name": "Deploy-ResourceLogsFrontDoor",
     "properties": {
         "displayName": "DINE-FrontDoor-ResourceLogs",
         "policyType": "Custom",

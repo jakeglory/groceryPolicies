@@ -1,0 +1,408 @@
+{
+  "name": "Deploy-Diagnostics-Firewall",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "displayName": "Deploy Diagnostic Settings selected Categories and all Metrics for Firewall to Log Analytics workspace",
+    "description": "Deploys the diagnostic settings for Firewall to stream to a Log Analytics workspace when any Firewall which is missing this diagnostic settings is created or updated.",
+    "metadata": {
+      "version": "2.0.0",
+      "category": "Monitoring"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "AuditIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      },
+      "diagnosticSettingName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Diagnostic Setting Name",
+          "description": "Diagnostic Setting Name"
+        },
+        "defaultValue": "setbypolicy"
+      },
+      "AZFWNetworkRule": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall Network Rule",
+          "description": "Whether to enable Azure Firewall Network Rule logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWApplicationRule": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall Application Rule",
+          "description": "Whether to enable Azure Firewall Application Rule logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWNatRule": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall NAT Rule",
+          "description": "Whether to enable Azure Firewall NAT Rule logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWThreatIntel": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall Threat Intelligence",
+          "description": "Whether to enable Azure Firewall Threat Intelligence logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWIdpsSignature": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure IDPS Signature",
+          "description": "Whether to enable Azure IDPS Signature logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWDnsQuery": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure DNS Query",
+          "description": "Whether to enable Azure DNS Query logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWFqdnResolveFailure": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure FQDN Resolve Failure",
+          "description": "Whether to enable Azure FQDN Resolve Failure logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWApplicationRuleAggregation": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall Application Rule Aggregation",
+          "description": "Whether to enable Azure Firewall Application Rule Aggregation logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWNetworkRuleAggregation": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall Network Rule Aggregation",
+          "description": "Whether to enable Azure Firewall Network Rule Aggregation logs"
+        },
+        "defaultValue": true
+      },
+      "AZFWNatRuleAggregation": {
+        "type": "Boolean",
+        "metadata": {
+          "displayName": "Azure Firewall NAT Rule Aggregation",
+          "description": "Whether to enable Azure Firewall NAT Rule Aggregation logs"
+        },
+        "defaultValue": true
+      },
+      "resourceLocationList": {
+        "type": "Array",
+        "metadata": {
+          "displayName": "Resource Location List",
+          "description": "Resource Location List to send logs to nearby Log Analytics. A single entry \"*\" selects all locations (default)."
+        },
+        "defaultValue": [
+          "*"
+        ]
+      },
+      "logAnalytics": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Log Analytics Workspace",
+          "description": "Log Analytics Workspace",
+          "strongType": "omsWorkspace",
+          "assignPermissions": true
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "microsoft.network/azurefirewalls"
+          },
+          {
+            "anyOf": [
+              {
+                "value": "[first(parameters('resourceLocationList'))]",
+                "equals": "*"
+              },
+              {
+                "field": "location",
+                "in": "[parameters('resourceLocationList')]"
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Insights/diagnosticSettings",
+          "evaluationDelay": "AfterProvisioning",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/workspaceId",
+                "equals": "[parameters('logAnalytics')]"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallNetworkRule"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallApplicationRule"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallNatRule"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallDnsQuery"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallFqdnResolveLog"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallThreatIntel"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallIDPSLog"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallApplicationRuleAggregation"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallNetworkRuleAggregation"
+              },
+              {
+                "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                "equals": "AzureFirewallNatRuleAggregation"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                    "notEquals": "AzureFirewallFatFlowLog"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                    "equals": false
+                  }
+                ]
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].category",
+                    "notEquals": "AzureFirewallFlowTraceLog"
+                  },
+                  {
+                    "field": "Microsoft.Insights/diagnosticSettings/logs[*].enabled",
+                    "equals": false
+                  }
+                ]
+              }
+            ]
+          },
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "http://schema.management.azure.com/schemas/2019-08-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "diagnosticSettingName": {
+                    "type": "string"
+                  },
+                  "logAnalytics": {
+                    "type": "string"
+                  },
+                  "resourceName": {
+                    "type": "string"
+                  },
+                  "AZFWApplicationRule": {
+                    "type": "bool"
+                  },
+                  "AZFWNetworkRule": {
+                    "type": "bool"
+                  },
+                  "AZFWNatRule": {
+                    "type": "bool"
+                  },
+                  "AZFWThreatIntel": {
+                    "type": "bool"
+                  },
+                  "AZFWIdpsSignature": {
+                    "type": "bool"
+                  },
+                  "AZFWDnsQuery": {
+                    "type": "bool"
+                  },
+                  "AZFWFqdnResolveFailure": {
+                    "type": "bool"
+                  },
+                  "AZFWApplicationRuleAggregation": {
+                    "type": "bool"
+                  },
+                  "AZFWNetworkRuleAggregation": {
+                    "type": "bool"
+                  },
+                  "AZFWNatRuleAggregation": {
+                    "type": "bool"
+                  }
+                },
+                "variables": {},
+                "resources": [
+                  {
+                    "type": "microsoft.network/azurefirewalls/providers/diagnosticSettings",
+                    "apiVersion": "2021-05-01-preview",
+                    "name": "[concat(parameters('resourceName'), '/', 'Microsoft.Insights/', parameters('diagnosticSettingName'))]",
+                    "properties": {
+                      "workspaceId": "[parameters('logAnalytics')]",
+                      "logAnalyticsDestinationType": "Dedicated",
+                      "logs": [
+                        {
+                          "category": "AzureFirewallApplicationRule",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallNetworkRule",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallNatRule",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallThreatIntel",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallIDPSLog",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallDnsQuery",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallFqdnResolveLog",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallApplicationRuleAggregation",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallNetworkRuleAggregation",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallNatRuleAggregation",
+                          "enabled": true
+                        },
+                        {
+                          "category": "AzureFirewallFatFlowLog",
+                          "enabled": false
+                        },
+                        {
+                          "category": "AzureFirewallFlowTraceLog",
+                          "enabled": false
+                        }
+                      ],
+                      "metrics": [
+                        {
+                          "categoryGroup": "allMetrics",
+                          "enabled": true
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "outputs": {
+                  "policy": {
+                    "type": "string",
+                    "value": "[concat('Diagnostic setting ', parameters('diagnosticSettingName'), ' for type Firewalls (microsoft.network/azurefirewalls), resourceName ', parameters('resourceName'), ' to Log Analytics ', parameters('logAnalytics'), ' configured')]"
+                  }
+                }
+              },
+              "parameters": {
+                "diagnosticSettingName": {
+                  "value": "[parameters('diagnosticSettingName')]"
+                },
+                "logAnalytics": {
+                  "value": "[parameters('logAnalytics')]"
+                },
+                "resourceName": {
+                  "value": "[field('name')]"
+                },
+                "AZFWApplicationRule": {
+                  "value": "[parameters('AZFWApplicationRule')]"
+                },
+                "AZFWNetworkRule": {
+                  "value": "[parameters('AZFWNetworkRule')]"
+                },
+                "AZFWNatRule": {
+                  "value": "[parameters('AZFWNatRule')]"
+                },
+                "AZFWThreatIntel": {
+                  "value": "[parameters('AZFWThreatIntel')]"
+                },
+                "AZFWIdpsSignature": {
+                  "value": "[parameters('AZFWIdpsSignature')]"
+                },
+                "AZFWDnsQuery": {
+                  "value": "[parameters('AZFWDnsQuery')]"
+                },
+                "AZFWFqdnResolveFailure": {
+                  "value": "[parameters('AZFWFqdnResolveFailure')]"
+                },
+                "AZFWApplicationRuleAggregation": {
+                  "value": "[parameters('AZFWApplicationRuleAggregation')]"
+                },
+                "AZFWNetworkRuleAggregation": {
+                  "value": "[parameters('AZFWNetworkRuleAggregation')]"
+                },
+                "AZFWNatRuleAggregation": {
+                  "value": "[parameters('AZFWNatRuleAggregation')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+

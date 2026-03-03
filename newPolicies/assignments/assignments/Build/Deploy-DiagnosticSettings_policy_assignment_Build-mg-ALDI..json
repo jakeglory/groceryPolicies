@@ -1,0 +1,96 @@
+{
+  "name": "Deploy-DiagSettings-LAW",
+  "properties": {
+    "description": "Ensures that Azure resources are configured to forward diagnostic logs and metrics to an Azure Log Analytics workspace.",
+    "displayName": "Deploy-DiagSettings-LAW",
+    "enforcementMode": "DoNotEnforce",
+    "notScopes": [],
+    "parameters": {
+      "logAnalytics": {
+        "value": "placeholder"
+      },
+      "ApplicationGatewayLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "ExpressRouteLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "FirewallLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "FrontDoorLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "IotHubLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "VNetGWLogAnalyticsEffect": {
+        "value": "DeployIfNotExists"
+      },
+      "profileName": {
+        "value": "setbypolicy"
+      },
+      "diagnosticSettingName": {
+        "value": "setbypolicy"
+      },
+      "metricsEnabled": {
+        "value": "True"
+      },
+      "logsEnabled": {
+        "value": "True"
+      },
+      "AZFWNetworkRule": {
+        "value": true
+      },
+      "AZFWApplicationRule": {
+        "value": true
+      },
+      "AZFWNatRule": {
+        "value": true
+      },
+      "AZFWThreatIntel": {
+        "value": true
+      },
+      "AZFWIdpsSignature": {
+        "value": true
+      },
+      "AZFWDnsQuery": {
+        "value": true
+      },
+      "AZFWFqdnResolveFailure": {
+        "value": true
+      },
+      "AZFWApplicationRuleAggregation": {
+        "value": true
+      },
+      "AZFWNetworkRuleAggregation": {
+        "value": true
+      },
+      "AZFWNatRuleAggregation": {
+        "value": true
+      },
+      "resourceLocationList": {
+        "value": [
+          "*"
+        ]
+      },
+      "enableFrontDoorAccessLog": {
+        "value": false
+      },
+      "enableFrontDoorWebApplicationFirewallLog": {
+        "value": true
+      },
+      "enableFrontDoorHealthProbeLog": {
+        "value": false
+      }
+    },
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deploy-Logs-LAW",
+    "roleDefinitionIds": [
+      "/providers/microsoft.authorization/roleDefinitions/92aaf0da-9dab-42b6-94a3-d43ce8d16293",
+      "/providers/microsoft.authorization/roleDefinitions/749f88d5-cbae-40b8-bcfc-e573ddc772fa",
+      "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
+    ]
+  },
+  "scope": "/providers/Microsoft.Management/managementGroups/build-mg-aldi",
+  "type": "Microsoft.Authorization/policyAssignments"
+}
