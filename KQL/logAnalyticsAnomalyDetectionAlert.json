@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "alertName": {
+      "value": "la-anomaly-detection-alert-prod"
+    },
+    "workspaceResourceId": {
+      "value": "/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.OperationalInsights/workspaces/<workspace-name>"
+    },
+    "severity": {
+      "value": 2
+    },
+    "evaluationFrequency": {
+      "value": "PT15M"
+    },
+    "windowSize": {
+      "value": "PT1H"
+    },
+    "enabled": {
+      "value": true
+    },
+    "actionGroupResourceIds": {
+      "value": [
+        "/subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.Insights/actionGroups/<action-group-name>"
+      ]
+    },
+    "customProperties": {
+      "value": {
+        "source": "policy-as-code",
+        "alertType": "LogAnalyticsAnomalyDetection"
+      }
+    }
+  }
+}
