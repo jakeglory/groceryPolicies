@@ -117,6 +117,7 @@
           "azureAcrDataPrivateDnsZoneId": "{regionName}.data.privatelink.azurecr.io",
           "azureAppPrivateDnsZoneId": "privatelink.azconfig.io",
           "azureAppServicesPrivateDnsZoneId": "privatelink.azurewebsites.net",
+          "azureContainerAppsPrivateDnsZoneId": "privatelink.{regionName}.azurecontainerapps.io",
           "azureArcGuestconfigurationPrivateDnsZoneId": "privatelink.guestconfiguration.azure.com",
           "azureArcHybridResourceProviderPrivateDnsZoneId": "privatelink.his.arc.azure.com",
           "azureArcKubernetesConfigurationPrivateDnsZoneId": "privatelink.dp.kubernetesconfiguration.azure.com",
@@ -306,6 +307,9 @@
         "value": ""
       },
       "azureAppServicesPrivateDnsZoneId": {
+        "value": ""
+      },
+      "azureContainerAppsPrivateDnsZoneId": {
         "value": ""
       },
       "azureEventGridTopicsPrivateDnsZoneId": {
