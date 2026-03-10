@@ -1,17 +1,14 @@
 {
+  "name": "dine-containerapp-privateDNS",
   "properties": {
-    "displayName": "Configure Container Apps to use private DNS zones",
+    "displayName": "Configure Container Apps to use Private DNS zones",
     "policyType": "Custom",
-    "mode": "All",
-    "description": "",
+    "mode": "Indexed",
+    "description": "Deploy private DNS zone group for Container Apps managed environment private endpoints.",
     "metadata": {
       "category": "Container App",
-      "createdBy": "9030e2a5-f083-4410-8b02-e859b0ce78f3",
-      "createdOn": "2025-11-18T13:38:59.8415619Z",
-      "updatedBy": null,
-      "updatedOn": null
+      "version": "1.0.0"
     },
-    "version": "1.0.0",
     "parameters": {
       "privateDnsZoneId": {
         "type": "String",
@@ -119,20 +116,7 @@
           }
         }
       }
-    },
-    "versions": [
-      "1.0.0"
-    ]
+    }
   },
-  "id": "/providers/microsoft.management/managementgroups/mg-aldi/providers/Microsoft.Authorization/policyDefinitions/6d32386d1e0c46eaa274d015",
-  "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "6d32386d1e0c46eaa274d015",
-  "systemData": {
-    "createdBy": "X000752@aldi-nord.com",
-    "createdByType": "User",
-    "createdAt": "2025-11-18T13:38:59.7682647Z",
-    "lastModifiedBy": "X000752@aldi-nord.com",
-    "lastModifiedByType": "User",
-    "lastModifiedAt": "2025-11-18T13:38:59.7682647Z"
-  }
+  "type": "Microsoft.Authorization/policyDefinitions"
 }
