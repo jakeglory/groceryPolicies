@@ -140,6 +140,7 @@
                 "azureAcrDataPrivateDnsZoneId": "{regionName}.data.privatelink.azurecr.io",
                 "azureAppPrivateDnsZoneId": "privatelink.azconfig.io",
                 "azureAppServicesPrivateDnsZoneId": "privatelink.azurewebsites.net",
+                "azureContainerAppsPrivateDnsZoneId": "privatelink.{regionName}.azurecontainerapps.io",
                 "azureArcGuestconfigurationPrivateDnsZoneId": "privatelink.guestconfiguration.azure.com",
                 "azureArcHybridResourceProviderPrivateDnsZoneId": "privatelink.his.arc.azure.com",
                 "azureArcKubernetesConfigurationPrivateDnsZoneId": "privatelink.dp.kubernetesconfiguration.azure.com",
@@ -694,6 +695,15 @@
             "defaultValue": "",
             "metadata": {
                 "displayName": "azureBotServicePrivateDnsZoneId",
+                "strongType": "Microsoft.Network/privateDnsZones",
+                "description": "Private DNS Zone Identifier"
+            }
+        },
+        "azureContainerAppsPrivateDnsZoneId": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "displayName": "azureContainerAppsPrivateDnsZoneId",
                 "strongType": "Microsoft.Network/privateDnsZones",
                 "description": "Private DNS Zone Identifier"
             }
@@ -1419,6 +1429,19 @@
             "parameters": {
                 "privateDnsZoneId": {
                     "value": "[if(equals(parameters('dnsZoneSubscriptionId'), ''), parameters('azureAppServicesPrivateDnsZoneId'), format('/subscriptions/{0}/resourceGroups/{1}/providers/{2}/{3}', parameters('dnsZoneSubscriptionId'), toLower(parameters('dnsZoneResourceGroupName')), parameters('dnsZoneResourceType'), replace(replace(parameters('dnsZoneNames').azureAppServicesPrivateDnsZoneId, '{regionName}', parameters('dnsZoneRegion')), '{regionCode}', parameters('dnzZoneRegionShortNames')[parameters('dnsZoneRegion')])))]"
+                },
+                "effect": {
+                    "value": "[parameters('effect')]"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-ContainerApps",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/${tenantRootMgId}/providers/Microsoft.Authorization/policyDefinitions/dine-containerapp-privateDNS",
+            "parameters": {
+                "privateDnsZoneId": {
+                    "value": "[if(equals(parameters('dnsZoneSubscriptionId'), ''), parameters('azureContainerAppsPrivateDnsZoneId'), format('/subscriptions/{0}/resourceGroups/{1}/providers/{2}/{3}', parameters('dnsZoneSubscriptionId'), toLower(parameters('dnsZoneResourceGroupName')), parameters('dnsZoneResourceType'), replace(replace(parameters('dnsZoneNames').azureContainerAppsPrivateDnsZoneId, '{regionName}', parameters('dnsZoneRegion')), '{regionCode}', parameters('dnzZoneRegionShortNames')[parameters('dnsZoneRegion')])))]"
                 },
                 "effect": {
                     "value": "[parameters('effect')]"
