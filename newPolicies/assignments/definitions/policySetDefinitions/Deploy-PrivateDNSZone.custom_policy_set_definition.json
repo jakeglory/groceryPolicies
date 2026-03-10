@@ -1030,23 +1030,6 @@
             "groupNames": []
         },
         {
-            "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-Databricks-Browser-AuthN",
-            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/0eddd7f3-3d9b-4927-a07a-806e8ac9486c",
-            "definitionVersion": "1.*.*",
-            "parameters": {
-                "privateDnsZoneId": {
-                    "value": "[if(equals(parameters('dnsZoneSubscriptionId'), ''), parameters('azureDatabricksPrivateDnsZoneId'), format('/subscriptions/{0}/resourceGroups/{1}/providers/{2}/{3}', parameters('dnsZoneSubscriptionId'), toLower(parameters('dnsZoneResourceGroupName')), parameters('dnsZoneResourceType'), replace(replace(parameters('dnsZoneNames').azureDatabricksPrivateDnsZoneId, '{regionName}', parameters('dnsZoneRegion')), '{regionCode}', parameters('dnzZoneRegionShortNames')[parameters('dnsZoneRegion')])))]"
-                },
-                "groupId": {
-                    "value": "browser_authentication"
-                },
-                "effect": {
-                    "value": "[parameters('effect')]"
-                }
-            },
-            "groupNames": []
-        },
-        {
             "policyDefinitionReferenceId": "DINE-Private-DNS-Azure-HDInsight",
             "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/43d6e3bd-fc6a-4b44-8b4d-2151d8736a11",
             "definitionVersion": "1.*.*",
