@@ -1,0 +1,138 @@
+{
+  "properties": {
+    "displayName": "Configure Container Apps to use private DNS zones",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "",
+    "metadata": {
+      "category": "Container App",
+      "createdBy": "9030e2a5-f083-4410-8b02-e859b0ce78f3",
+      "createdOn": "2025-11-18T13:38:59.8415619Z",
+      "updatedBy": null,
+      "updatedOn": null
+    },
+    "version": "1.0.0",
+    "parameters": {
+      "privateDnsZoneId": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Private DNS Zone Id",
+          "description": "The private DNS zone to deploy in a new private DNS zone group and link to the private endpoint",
+          "strongType": "Microsoft.Network/privateDnsZones"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": [
+          "DeployIfNotExists",
+          "Disabled"
+        ],
+        "defaultValue": "DeployIfNotExists"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Network/privateEndpoints"
+          },
+          {
+            "count": {
+              "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*]",
+              "where": {
+                "allOf": [
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].privateLinkServiceId",
+                    "contains": "Microsoft.App/managedEnvironments"
+                  },
+                  {
+                    "field": "Microsoft.Network/privateEndpoints/privateLinkServiceConnections[*].groupIds[*]",
+                    "equals": "managedEnvironments"
+                  }
+                ]
+              }
+            },
+            "greaterOrEquals": 1
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+          "roleDefinitionIds": [
+            "/providers/Microsoft.Authorization/roleDefinitions/4d97b98b-1d4f-4787-a291-c67834d212e7"
+          ],
+          "deployment": {
+            "properties": {
+              "mode": "incremental",
+              "template": {
+                "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+                "contentVersion": "1.0.0.0",
+                "parameters": {
+                  "privateDnsZoneId": {
+                    "type": "string"
+                  },
+                  "privateEndpointName": {
+                    "type": "string"
+                  },
+                  "location": {
+                    "type": "string"
+                  }
+                },
+                "resources": [
+                  {
+                    "name": "[concat(parameters('privateEndpointName'), '/deployedByPolicy')]",
+                    "type": "Microsoft.Network/privateEndpoints/privateDnsZoneGroups",
+                    "apiVersion": "2023-04-01",
+                    "location": "[parameters('location')]",
+                    "properties": {
+                      "privateDnsZoneConfigs": [
+                        {
+                          "name": "containerApps-privateDnsZone",
+                          "properties": {
+                            "privateDnsZoneId": "[parameters('privateDnsZoneId')]"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "parameters": {
+                "privateDnsZoneId": {
+                  "value": "[parameters('privateDnsZoneId')]"
+                },
+                "privateEndpointName": {
+                  "value": "[field('name')]"
+                },
+                "location": {
+                  "value": "[field('location')]"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "versions": [
+      "1.0.0"
+    ]
+  },
+  "id": "/providers/microsoft.management/managementgroups/mg-aldi/providers/Microsoft.Authorization/policyDefinitions/6d32386d1e0c46eaa274d015",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "6d32386d1e0c46eaa274d015",
+  "systemData": {
+    "createdBy": "X000752@aldi-nord.com",
+    "createdByType": "User",
+    "createdAt": "2025-11-18T13:38:59.7682647Z",
+    "lastModifiedBy": "X000752@aldi-nord.com",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2025-11-18T13:38:59.7682647Z"
+  }
+}
