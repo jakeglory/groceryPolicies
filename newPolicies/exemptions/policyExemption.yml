@@ -7,6 +7,7 @@ variables:
   BuildServiceConnection: "serviceconnection-AN-Azure-ControlRepo-build-mg-aldi"
   DevServiceConnection: "serviceconnection-AN-Azure-ControlRepo-dev-mg-aldi"
   ProdServiceConnection: "serviceconnection-AN-Azure-ControlRepo-prod-mg-aldi"
+  ManualApprovalNotifyUsers: ""
   vmImage: ""
   agentPoolName: "vmss-agents-prd-mgmt-win-002"
 
@@ -237,6 +238,8 @@ stages:
                 }
 
                 $failed = @()
+                $skippedExpiresOn = @()
+                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -278,6 +281,17 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
+                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                      Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
+                      $skippedExpiresOn += [PSCustomObject]@{
+                        File = $file.Name
+                        Exemption = $exemptionName
+                        Scope = $scope
+                        Reason = $reason
+                      }
+                      continue
+                    }
+
                     Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
                     $failed += [PSCustomObject]@{
                       File = $file.Name
@@ -285,6 +299,13 @@ stages:
                       Scope = $scope
                       Reason = $reason
                     }
+                  }
+                }
+
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment skipped $($skippedExpiresOn.Count) file(s) due to non-future ExpiresOn."
+                  foreach ($warning in $skippedExpiresOn) {
+                    Write-Host "SKIPPED | File=$($warning.File) | Exemption=$($warning.Exemption) | Scope=$($warning.Scope) | Reason=$($warning.Reason)"
                   }
                 }
 
@@ -296,7 +317,12 @@ stages:
                   throw "One or more policy exemptions failed in build stage."
                 }
 
-                Write-Host "Policy exemption deployment completed successfully for all files in build stage."
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with warnings in build stage."
+                }
+                else {
+                  Write-Host "Policy exemption deployment completed successfully for all files in build stage."
+                }
 
   - stage: Approval
     dependsOn: WhatIf
@@ -309,6 +335,7 @@ stages:
           - task: ManualValidation@0
             timeoutInMinutes: 1440
             inputs:
+              notifyUsers: $(ManualApprovalNotifyUsers)
               instructions: |
                 Review the WhatIf output for policy exemptions.
                 Approve this step to continue with Build, Dev, and Prod exemption deployments.
@@ -339,6 +366,8 @@ stages:
                 }
 
                 $failed = @()
+                $skippedExpiresOn = @()
+                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -380,6 +409,17 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
+                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                      Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
+                      $skippedExpiresOn += [PSCustomObject]@{
+                        File = $file.Name
+                        Exemption = $exemptionName
+                        Scope = $scope
+                        Reason = $reason
+                      }
+                      continue
+                    }
+
                     Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
                     $failed += [PSCustomObject]@{
                       File = $file.Name
@@ -387,6 +427,13 @@ stages:
                       Scope = $scope
                       Reason = $reason
                     }
+                  }
+                }
+
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment skipped $($skippedExpiresOn.Count) file(s) due to non-future ExpiresOn."
+                  foreach ($warning in $skippedExpiresOn) {
+                    Write-Host "SKIPPED | File=$($warning.File) | Exemption=$($warning.Exemption) | Scope=$($warning.Scope) | Reason=$($warning.Reason)"
                   }
                 }
 
@@ -398,7 +445,12 @@ stages:
                   throw "One or more policy exemptions failed in dev stage."
                 }
 
-                Write-Host "Policy exemption deployment completed successfully for all files in dev stage."
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with warnings in dev stage."
+                }
+                else {
+                  Write-Host "Policy exemption deployment completed successfully for all files in dev stage."
+                }
 
   - stage: Prod
     dependsOn: Approval
@@ -426,6 +478,8 @@ stages:
                 }
 
                 $failed = @()
+                $skippedExpiresOn = @()
+                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -467,6 +521,17 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
+                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                      Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
+                      $skippedExpiresOn += [PSCustomObject]@{
+                        File = $file.Name
+                        Exemption = $exemptionName
+                        Scope = $scope
+                        Reason = $reason
+                      }
+                      continue
+                    }
+
                     Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
                     $failed += [PSCustomObject]@{
                       File = $file.Name
@@ -474,6 +539,13 @@ stages:
                       Scope = $scope
                       Reason = $reason
                     }
+                  }
+                }
+
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment skipped $($skippedExpiresOn.Count) file(s) due to non-future ExpiresOn."
+                  foreach ($warning in $skippedExpiresOn) {
+                    Write-Host "SKIPPED | File=$($warning.File) | Exemption=$($warning.Exemption) | Scope=$($warning.Scope) | Reason=$($warning.Reason)"
                   }
                 }
 
@@ -485,4 +557,9 @@ stages:
                   throw "One or more policy exemptions failed in prod stage."
                 }
 
-                Write-Host "Policy exemption deployment completed successfully for all files in prod stage."
+                if ($skippedExpiresOn.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with warnings in prod stage."
+                }
+                else {
+                  Write-Host "Policy exemption deployment completed successfully for all files in prod stage."
+                }
