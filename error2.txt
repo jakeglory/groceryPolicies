@@ -1,0 +1,53 @@
+Starting: AzureCLI
+==============================================================================
+Task         : Azure CLI
+Description  : Run Azure CLI commands against an Azure subscription in a PowerShell Core/Shell script when running on Linux agent or PowerShell/PowerShell Core/Batch script when running on Windows agent.
+Version      : 2.270.0
+Author       : Microsoft Corporation
+Help         : https://docs.microsoft.com/azure/devops/pipelines/tasks/deploy/azure-cli
+==============================================================================
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" version"
+{
+  "azure-cli": "2.79.0",
+  "azure-cli-core": "2.79.0",
+  "azure-cli-telemetry": "1.1.0",
+  "extensions": {
+    "azure-devops": "1.0.2"
+  }
+}
+Setting AZURE_CONFIG_DIR env variable to: C:\a\_temp\.azclitask
+Setting active cloud to: AzureCloud
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" cloud set -n AzureCloud"
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" login --service-principal -u *** --tenant 52290a28-dcec-4da1-9252-57f67fc9ba1b --allow-no-subscriptions --federated-token *** --output none"
+C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command ". 'C:\a\_temp\azureclitaskscript1773397385514.ps1'"
+Deploying exemption. File=rg-ccoe-dev-weu-pkrtmp-01-Deploy-MDfC-Config.json; Name=rg-ccoe-dev-weu-pkrtmp-01-Deploy-Defender; Scope=subscriptions/690ada73-bd84-4293-aa0a-a2feb6488f18/resourcegroups/rg-ccoe-dev-weu-pkrtmp-01
+SUCCESS | File=rg-ccoe-dev-weu-pkrtmp-01-Deploy-MDfC-Config.json | Exemption=rg-ccoe-dev-weu-pkrtmp-01-Deploy-Defender
+Deploying exemption. File=sub-app-dev-fe-001-newTLS.json; Name=sub-app-dev-fe-001-newTLS; Scope=subscriptions/1a8a8a2c-4370-4f4a-9496-acfef3002fb4
+ERROR | File=sub-app-dev-fe-001-newTLS.json | Exemption=sub-app-dev-fe-001-newTLS | Scope=subscriptions/1a8a8a2c-4370-4f4a-9496-acfef3002fb4 | Reason=ERROR: (InvalidPolicyExemptionExpiration) The policy exemption 'sub-app-dev-fe-001-newTLS' request is invalid. 'ExpiresOn' property value must be a date (time) in the future.
+Deploying exemption. File=sub-atdv-dev-Set-Storage.json; Name=sub-atdv-dev-Set-StorageSettings; Scope=subscriptions/c51dec5c-d9e5-446f-b3b5-62bb6d7d16d1
+SUCCESS | File=sub-atdv-dev-Set-Storage.json | Exemption=sub-atdv-dev-Set-StorageSettings
+Deploying exemption. File=sub-ccde-dev-AllowedLocationsSet.json; Name=sub-ccde-dev-AllowedLocationsSet; Scope=subscriptions/f7c68333-91ee-4e1e-a566-64ea62ed100b
+SUCCESS | File=sub-ccde-dev-AllowedLocationsSet.json | Exemption=sub-ccde-dev-AllowedLocationsSet
+Deploying exemption. File=sub-ccoe-dev-imaging-DenyNATGW.json; Name=sub-ccoe-dev-imaging-DenyNATGW; Scope=subscriptions/690ada73-bd84-4293-aa0a-a2feb6488f18
+SUCCESS | File=sub-ccoe-dev-imaging-DenyNATGW.json | Exemption=sub-ccoe-dev-imaging-DenyNATGW
+Deploying exemption. File=sub-ccoecnct-dev-AllowedLocationsSet copy.json; Name=sub-ccoecnct-dev-AllowedLocationsSet; Scope=subscriptions/0251c54f-27e7-4944-860d-979fae5b9734
+SUCCESS | File=sub-ccoecnct-dev-AllowedLocationsSet copy.json | Exemption=sub-ccoecnct-dev-AllowedLocationsSet
+Deploying exemption. File=sub-ims-dev-corp-Deny-NetworkResources.json; Name=sub-ims-dev-Deny-NetRes; Scope=subscriptions/fa242f3b-1932-4dc2-aff4-40150f082664
+SUCCESS | File=sub-ims-dev-corp-Deny-NetworkResources.json | Exemption=sub-ims-dev-Deny-NetRes
+Deploying exemption. File=sub-mlf-dev-AllowedLocationsSet.json; Name=sub-mlf-dev-AllowedLocationsSet; Scope=subscriptions/38513dae-0c2f-476a-b4cc-2d78f5d29b02
+SUCCESS | File=sub-mlf-dev-AllowedLocationsSet.json | Exemption=sub-mlf-dev-AllowedLocationsSet
+Deploying exemption. File=sub-msp-dev-PlatformManagedTags.json; Name=sub-msp-dev-EnforcePlatformTags; Scope=subscriptions/b8da003a-2233-42bf-be1e-54adc8fb9136
+SUCCESS | File=sub-msp-dev-PlatformManagedTags.json | Exemption=sub-msp-dev-EnforcePlatformTags
+Policy exemption deployment completed with 1 failure(s).
+FAILED | File=sub-app-dev-fe-001-newTLS.json | Exemption=sub-app-dev-fe-001-newTLS | Scope=subscriptions/1a8a8a2c-4370-4f4a-9496-acfef3002fb4 | Reason=ERROR: (InvalidPolicyExemptionExpiration) The policy exemption 'sub-app-dev-fe-001-newTLS' request is invalid. 'ExpiresOn' property value must be a date (time) in the future.
+One or more policy exemptions failed in dev stage.
+At C:\a\_temp\azureclitaskscript1773397385513_inlinescript.ps1:65 char:3
++   throw "One or more policy exemptions failed in dev stage."
++   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (One or more pol...d in dev stage.:String) [], RuntimeException
+    + FullyQualifiedErrorId : One or more policy exemptions failed in dev stage.
+ 
+
+##[error]Script failed with exit code: 1
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" account clear"
+Finishing: AzureCLI
