@@ -1,0 +1,50 @@
+// Marketplace Managed Applications
+let managedApps =
+resources
+| where type =~ "microsoft.solutions/applications"
+| project
+    name,
+    resourceGroup,
+    subscriptionId,
+    location,
+    resourceType = type,
+    marketplaceType = "Managed Application",
+    publisher = tostring(properties.publisher),
+    offer = tostring(properties.product);
+
+// SaaS Marketplace subscriptions
+let saasApps =
+resources
+| where type =~ "microsoft.saas/resources"
+| project
+    name,
+    resourceGroup,
+    subscriptionId,
+    location,
+    resourceType = type,
+    marketplaceType = "SaaS Subscription",
+    publisher = tostring(properties.publisherId),
+    offer = tostring(properties.offerId);
+
+// Virtual Machines from marketplace images
+let marketplaceVMs =
+resources
+| where type =~ "microsoft.compute/virtualmachines"
+| extend
+    publisher = tostring(properties.storageProfile.imageReference.publisher),
+    offer = tostring(properties.storageProfile.imageReference.offer),
+    sku = tostring(properties.storageProfile.imageReference.sku)
+| where isnotempty(publisher)
+| project
+    name,
+    resourceGroup,
+    subscriptionId,
+    location,
+    resourceType = type,
+    marketplaceType = "Marketplace VM Image",
+    publisher,
+    offer;
+
+// Combine results
+union managedApps, saasApps, marketplaceVMs
+| order by marketplaceType asc
