@@ -27,26 +27,58 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
-                try {
-                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/build" -Filter *.json
-                  if ($files.Count -eq 0) {
-                    Write-Output "No files found in the build directory."
-                  } else {
-                    foreach ($file in $files) {
-                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                      $exemptionName = $jsonContent.name
-                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                      $exemptionCategory = $jsonContent.properties.exemptionCategory
-                      $scope = $jsonContent.scope.subscriptionId
-                      $expiresOn = $jsonContent.properties.expiresOn
-                      $description = $jsonContent.properties.description
-                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                      Write-Output "Will create or update following policy exemptions in Build environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
+                $ErrorActionPreference = "Stop"
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/build" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No files found in the build directory."
+                  exit 0
+                }
+
+                $invalid = @()
+
+                foreach ($file in $files) {
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "WHATIF ERROR | File=$($file.Name) | Name=$exemptionName | Scope=$scope | Reason=$reason"
+                    $invalid += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
                     }
                   }
-                } catch {
-                  Write-Output "An error occurred: $_"
                 }
+
+                if ($invalid.Count -gt 0) {
+                  Write-Host "WhatIf build validation found $($invalid.Count) invalid file(s)."
+                  foreach ($issue in $invalid) {
+                    Write-Host "INVALID | File=$($issue.File) | Exemption=$($issue.Exemption) | Scope=$($issue.Scope) | Reason=$($issue.Reason)"
+                  }
+                  throw "WhatIf build validation failed."
+                }
+
+                Write-Host "WhatIf build validation passed for all files."
       - job: WhatIfDevEnvironment
         pool:
           ${{ if ne(variables.vmImage, '') }}:
@@ -61,26 +93,58 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
-                try {
-                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/dev" -Filter *.json
-                  if ($files.Count -eq 0) {
-                    Write-Output "No files found in the dev directory."
-                  } else {
-                    foreach ($file in $files) {
-                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                      $exemptionName = $jsonContent.name
-                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                      $exemptionCategory = $jsonContent.properties.exemptionCategory
-                      $scope = $jsonContent.scope.subscriptionId
-                      $expiresOn = $jsonContent.properties.expiresOn
-                      $description = $jsonContent.properties.description
-                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                      Write-Output "Will create or update following policy exemptions in Dev environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
+                $ErrorActionPreference = "Stop"
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/dev" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No files found in the dev directory."
+                  exit 0
+                }
+
+                $invalid = @()
+
+                foreach ($file in $files) {
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "WHATIF ERROR | File=$($file.Name) | Name=$exemptionName | Scope=$scope | Reason=$reason"
+                    $invalid += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
                     }
                   }
-                } catch {
-                  Write-Output "An error occurred: $_"
                 }
+
+                if ($invalid.Count -gt 0) {
+                  Write-Host "WhatIf dev validation found $($invalid.Count) invalid file(s)."
+                  foreach ($issue in $invalid) {
+                    Write-Host "INVALID | File=$($issue.File) | Exemption=$($issue.Exemption) | Scope=$($issue.Scope) | Reason=$($issue.Reason)"
+                  }
+                  throw "WhatIf dev validation failed."
+                }
+
+                Write-Host "WhatIf dev validation passed for all files."
       - job: WhatIfProdEnvironment
         pool:
           ${{ if ne(variables.vmImage, '') }}:
@@ -95,29 +159,61 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
-                try {
-                  $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/prod" -Filter *.json
-                  if ($files.Count -eq 0) {
-                    Write-Output "No files found in the prod directory."
-                  } else {
-                    foreach ($file in $files) {
-                      $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                      $exemptionName = $jsonContent.name
-                      $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                      $exemptionCategory = $jsonContent.properties.exemptionCategory
-                      $scope = $jsonContent.scope.subscriptionId
-                      $expiresOn = $jsonContent.properties.expiresOn
-                      $description = $jsonContent.properties.description
-                      $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                      Write-Output "Will create or update following policy exemptions in Prod environment: Name=$exemptionName, Scope=$scope, PolicyAssignmentId=$policyAssignmentId, ExpiresOn=$expiresOn"
-                    }
-                  }
-                } catch {
-                  Write-Output "An error occurred: $_"
+                $ErrorActionPreference = "Stop"
+                $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/prod" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No files found in the prod directory."
+                  exit 0
                 }
 
+                $invalid = @()
+
+                foreach ($file in $files) {
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "WHATIF ERROR | File=$($file.Name) | Name=$exemptionName | Scope=$scope | Reason=$reason"
+                    $invalid += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
+                    }
+                  }
+                }
+
+                if ($invalid.Count -gt 0) {
+                  Write-Host "WhatIf prod validation found $($invalid.Count) invalid file(s)."
+                  foreach ($issue in $invalid) {
+                    Write-Host "INVALID | File=$($issue.File) | Exemption=$($issue.Exemption) | Scope=$($issue.Scope) | Reason=$($issue.Reason)"
+                  }
+                  throw "WhatIf prod validation failed."
+                }
+
+                Write-Host "WhatIf prod validation passed for all files."
+
   - stage: Build
-    dependsOn: WhatIf
+    dependsOn: Approval
     jobs:
       - job: ExemptionsDeploymentBuild
         pool:
@@ -133,26 +229,93 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
+                $ErrorActionPreference = "Stop"
                 $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/build" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No policy exemption files found in build directory."
+                  exit 0
+                }
+
+                $failed = @()
+
                 foreach ($file in $files) {
-                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                  $exemptionName = $jsonContent.name
-                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                  $exemptionCategory = $jsonContent.properties.exemptionCategory
-                  $scope = $jsonContent.scope.subscriptionId
-                  $expiresOn = $jsonContent.properties.expiresOn
-                  $description = $jsonContent.properties.description
-                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                  az policy exemption create --name $exemptionName `
-                    --scope $scope `
-                    --policy-assignment $policyAssignmentId `
-                    --exemption-category $exemptionCategory `
-                    --expires-on $expiresOn `
-                    --description $description `
-                    --policy-definition-reference-ids $policyDefinitionReferenceIds  --verbose}
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $description = $jsonContent.properties.description
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "Deploying exemption. File=$($file.Name); Name=$exemptionName; Scope=$scope"
+
+                    $azOutput = az policy exemption create --name $exemptionName `
+                      --scope $scope `
+                      --policy-assignment $policyAssignmentId `
+                      --exemption-category $exemptionCategory `
+                      --expires-on $expiresOn `
+                      --description $description `
+                      --policy-definition-reference-ids $policyDefinitionReferenceIds `
+                      --only-show-errors 2>&1 | Out-String
+
+                    if ($LASTEXITCODE -ne 0) {
+                      throw "Azure CLI failed with exit code $LASTEXITCODE. Details: $azOutput"
+                    }
+
+                    Write-Host "SUCCESS | File=$($file.Name) | Exemption=$exemptionName"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
+                    $failed += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
+                    }
+                  }
+                }
+
+                if ($failed.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with $($failed.Count) failure(s)."
+                  foreach ($failure in $failed) {
+                    Write-Host "FAILED | File=$($failure.File) | Exemption=$($failure.Exemption) | Scope=$($failure.Scope) | Reason=$($failure.Reason)"
+                  }
+                  throw "One or more policy exemptions failed in build stage."
+                }
+
+                Write-Host "Policy exemption deployment completed successfully for all files in build stage."
+
+  - stage: Approval
+    dependsOn: WhatIf
+    jobs:
+      - job: ManualApproval
+        displayName: Manual approval before deployments
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: 1440
+            inputs:
+              instructions: |
+                Review the WhatIf output for policy exemptions.
+                Approve this step to continue with Build, Dev, and Prod exemption deployments.
+              onTimeout: reject
 
   - stage: Dev
-    dependsOn: WhatIf
+    dependsOn: Approval
     jobs:
       - job: ExemptionsDeploymentDev
         pool:
@@ -168,26 +331,77 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
+                $ErrorActionPreference = "Stop"
                 $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/dev" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No policy exemption files found in dev directory."
+                  exit 0
+                }
+
+                $failed = @()
+
                 foreach ($file in $files) {
-                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                  $exemptionName = $jsonContent.name
-                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                  $exemptionCategory = $jsonContent.properties.exemptionCategory
-                  $scope = $jsonContent.scope.subscriptionId
-                  $expiresOn = $jsonContent.properties.expiresOn
-                  $description = $jsonContent.properties.description
-                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                  az policy exemption create --name $exemptionName `
-                    --scope $scope `
-                    --policy-assignment $policyAssignmentId `
-                    --exemption-category $exemptionCategory `
-                    --expires-on $expiresOn `
-                    --description $description `
-                    --policy-definition-reference-ids $policyDefinitionReferenceIds --verbose}
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $description = $jsonContent.properties.description
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "Deploying exemption. File=$($file.Name); Name=$exemptionName; Scope=$scope"
+
+                    $azOutput = az policy exemption create --name $exemptionName `
+                      --scope $scope `
+                      --policy-assignment $policyAssignmentId `
+                      --exemption-category $exemptionCategory `
+                      --expires-on $expiresOn `
+                      --description $description `
+                      --policy-definition-reference-ids $policyDefinitionReferenceIds `
+                      --only-show-errors 2>&1 | Out-String
+
+                    if ($LASTEXITCODE -ne 0) {
+                      throw "Azure CLI failed with exit code $LASTEXITCODE. Details: $azOutput"
+                    }
+
+                    Write-Host "SUCCESS | File=$($file.Name) | Exemption=$exemptionName"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
+                    $failed += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
+                    }
+                  }
+                }
+
+                if ($failed.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with $($failed.Count) failure(s)."
+                  foreach ($failure in $failed) {
+                    Write-Host "FAILED | File=$($failure.File) | Exemption=$($failure.Exemption) | Scope=$($failure.Scope) | Reason=$($failure.Reason)"
+                  }
+                  throw "One or more policy exemptions failed in dev stage."
+                }
+
+                Write-Host "Policy exemption deployment completed successfully for all files in dev stage."
 
   - stage: Prod
-    dependsOn: WhatIf
+    dependsOn: Approval
     jobs:
       - job: ExemptionsDeploymentProd
         pool:
@@ -204,20 +418,71 @@ stages:
               visibleAzLogin: false
               scriptLocation: "inlineScript"
               inlineScript: |
+                $ErrorActionPreference = "Stop"
                 $files = Get-ChildItem -Path "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/prod" -Filter *.json
+                if ($files.Count -eq 0) {
+                  Write-Host "No policy exemption files found in prod directory."
+                  exit 0
+                }
+
+                $failed = @()
+
                 foreach ($file in $files) {
-                  $jsonContent = Get-Content -Path $file.FullName | ConvertFrom-Json
-                  $exemptionName = $jsonContent.name
-                  $policyAssignmentId = $jsonContent.properties.policyAssignmentId
-                  $exemptionCategory = $jsonContent.properties.exemptionCategory
-                  $scope = $jsonContent.scope.subscriptionId
-                  $expiresOn = $jsonContent.properties.expiresOn
-                  $description = $jsonContent.properties.description
-                  $policyDefinitionReferenceIds = $jsonContent.properties.policyDefinitionReferenceIds
-                  az policy exemption create --name $exemptionName `
-                    --scope $scope `
-                    --policy-assignment $policyAssignmentId `
-                    --exemption-category $exemptionCategory `
-                    --expires-on $expiresOn `
-                    --description $description `
-                    --policy-definition-reference-ids $policyDefinitionReferenceIds --verbose}
+                  $exemptionName = ""
+                  $scope = ""
+
+                  try {
+                    $jsonContent = Get-Content -Path $file.FullName -Raw | ConvertFrom-Json
+                    $exemptionName = $jsonContent.name
+                    $policyAssignmentId = $jsonContent.properties.policyAssignmentId
+                    $exemptionCategory = $jsonContent.properties.exemptionCategory
+                    $scope = $jsonContent.scope.subscriptionId
+                    $expiresOn = $jsonContent.properties.expiresOn
+                    $description = $jsonContent.properties.description
+                    $policyDefinitionReferenceIds = @($jsonContent.properties.policyDefinitionReferenceIds)
+
+                    if ([string]::IsNullOrWhiteSpace($exemptionName)) { throw "Missing required field: name" }
+                    if ([string]::IsNullOrWhiteSpace($scope)) { throw "Missing required field: scope.subscriptionId" }
+                    if ([string]::IsNullOrWhiteSpace($policyAssignmentId)) { throw "Missing required field: properties.policyAssignmentId" }
+                    if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
+                    if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
+                    if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    Write-Host "Deploying exemption. File=$($file.Name); Name=$exemptionName; Scope=$scope"
+
+                    $azOutput = az policy exemption create --name $exemptionName `
+                      --scope $scope `
+                      --policy-assignment $policyAssignmentId `
+                      --exemption-category $exemptionCategory `
+                      --expires-on $expiresOn `
+                      --description $description `
+                      --policy-definition-reference-ids $policyDefinitionReferenceIds `
+                      --only-show-errors 2>&1 | Out-String
+
+                    if ($LASTEXITCODE -ne 0) {
+                      throw "Azure CLI failed with exit code $LASTEXITCODE. Details: $azOutput"
+                    }
+
+                    Write-Host "SUCCESS | File=$($file.Name) | Exemption=$exemptionName"
+                  }
+                  catch {
+                    $reason = $_.Exception.Message
+                    Write-Host "ERROR | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Reason=$reason"
+                    $failed += [PSCustomObject]@{
+                      File = $file.Name
+                      Exemption = $exemptionName
+                      Scope = $scope
+                      Reason = $reason
+                    }
+                  }
+                }
+
+                if ($failed.Count -gt 0) {
+                  Write-Host "Policy exemption deployment completed with $($failed.Count) failure(s)."
+                  foreach ($failure in $failed) {
+                    Write-Host "FAILED | File=$($failure.File) | Exemption=$($failure.Exemption) | Scope=$($failure.Scope) | Reason=$($failure.Reason)"
+                  }
+                  throw "One or more policy exemptions failed in prod stage."
+                }
+
+                Write-Host "Policy exemption deployment completed successfully for all files in prod stage."
