@@ -1,0 +1,17 @@
+{
+    "name": "sub-ims-dev-Deny-NetRes",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/Microsoft.Management/managementGroups/dev-mg-corp/providers/Microsoft.Authorization/policyAssignments/deny-networkresources",
+        "displayName": "sub-ims-dev-corp Deny-NetworkResources",
+        "description": "ServiceNow Ticket: RITM0335299",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-06-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "DenyLoadBalancerPublicIP"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/fa242f3b-1932-4dc2-aff4-40150f082664"
+    }
+}

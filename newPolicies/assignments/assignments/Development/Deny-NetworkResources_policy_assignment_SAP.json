@@ -8,7 +8,7 @@
     "description": "Blocks deployment of selected public network edge services (load balancers with public IPs, Azure Firewall, NAT gateway and Site to Site VPN) in the target management group.",
     "displayName": "Block public network edge services",
     "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deny-NetworkResources",
-    "enforcementMode": "DoNotEnforce",
+    "enforcementMode": "Default",
     "nonComplianceMessages": [
       {
         "message": "Deployment of load balancers (excluding LB named kubernetes) with public IP frontends is blocked by the Network Edge security policy. Please remove the public IP configuration or request an exemption.",

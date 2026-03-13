@@ -1,0 +1,17 @@
+{
+    "name": "sub-ccoe-prd-imaging-DenyNATGW",
+    "type": "Microsoft.Authorization/policyExemption",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-management/providers/microsoft.authorization/policyassignments/deny-networkresources",
+        "displayName": "sub-ccoe-prd-imaging-DenyNATGW",
+        "description": "SNOW Ticket: RITM0330628",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-10-01T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "DenyNatGateway"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "subscriptions/2a908d0e-8d21-458e-9d21-cb676e9568e5"
+    }
+}

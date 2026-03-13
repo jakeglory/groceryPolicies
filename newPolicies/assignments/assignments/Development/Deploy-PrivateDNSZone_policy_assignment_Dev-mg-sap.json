@@ -9,13 +9,13 @@
   "properties": {
     "displayName": "Configure Azure PaaS services to use private DNS zones",
     "description": "Assign initiative to configure private DNS zone integration for Azure PaaS private endpoints",
-    "scope": "/providers/Microsoft.Management/managementGroups/build-mg-corp",
+    "scope": "/providers/Microsoft.Management/managementGroups/dev-mg-sap",
     "metadata": {
       "assignedBy": "Policy initiative assigned by Platform Team as part of Q1 2026 private DNS zone rollout"
     },
     "enforcementMode": "Default",
     "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deploy-PrivateDNSZone",
-    "parameters": {
+   "parameters": {
       "dnsZoneSubscriptionId": {
         "value": "8406eed5-3171-437f-90bf-184f698e5fd7"
       },

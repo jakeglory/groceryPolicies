@@ -13,7 +13,7 @@
     "metadata": {
       "assignedBy": "Policy initiative assigned by Platform Team as part of Q1 2026 private DNS zone rollout"
     },
-    "enforcementMode": "DoNotEnforce",
+    "enforcementMode": "Default",
     "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/52290a28-dcec-4da1-9252-57f67fc9ba1b/providers/Microsoft.Authorization/policySetDefinitions/Deploy-PrivateDNSZone",
    "parameters": {
       "dnsZoneSubscriptionId": {

@@ -57,7 +57,7 @@ parameters:
 
 variables:
   vmImage: ""
-  agentPoolName: "ccoe-vmss-prod-win"
+  agentPoolName: "vmss-agents-prd-mgmt-win-002"
 
 stages:
   - stage: BuildRemediation

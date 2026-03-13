@@ -1,13 +1,22 @@
 {
-  "name": "Deploy-DiagSettings-LAW",
+  "name": "Deploy-DiagSet-LAW",
   "properties": {
-    "description": "Ensures that Azure resources are configured to forward diagnostic logs and metrics to an Azure Log Analytics workspace.",
-    "displayName": "Deploy-DiagSettings-LAW",
-    "enforcementMode": "DoNotEnforce",
+    "description": "Ensures that Azure resources are configured to forward diagnostic logs to an Azure Log Analytics workspace.",
+    "displayName": "Deploy Resource Log collection to Central Log Analytics",
+    "metadata": {
+      "assignedBy": "Policy initiative assigned by Platform Team"
+    },
+    "enforcementMode": "Default",
+     "nonComplianceMessages": [
+      {
+        "message": "Ensure that Azure resources are configured to forward diagnostic logs to an Azure Log Analytics workspace."
+      }
+    ],
     "notScopes": [],
+    "scope": "/providers/Microsoft.Management/managementGroups/build-mg-aldi",
     "parameters": {
       "logAnalytics": {
-        "value": "placeholder"
+        "value": "/subscriptions/ac084e26-de58-47e4-92d4-0da6414956d8/resourcegroups/rg-logmanagementworkspace-prod/providers/microsoft.operationalinsights/workspaces/log-we-prod-logmanagementworkspace"
       },
       "ApplicationGatewayLogAnalyticsEffect": {
         "value": "DeployIfNotExists"
@@ -91,6 +100,5 @@
       "/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"
     ]
   },
-  "scope": "/providers/Microsoft.Management/managementGroups/build-mg-aldi",
   "type": "Microsoft.Authorization/policyAssignments"
 }
