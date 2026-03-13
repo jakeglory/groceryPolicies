@@ -57,6 +57,14 @@ stages:
                     if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
                     if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
 
+                    $parsedExpiresOn = [DateTimeOffset]::MinValue
+                    if (-not [DateTimeOffset]::TryParse($expiresOn, [ref]$parsedExpiresOn)) {
+                      throw "Invalid properties.expiresOn format: '$expiresOn'"
+                    }
+                    if ($parsedExpiresOn -le [DateTimeOffset]::UtcNow) {
+                      throw "Invalid properties.expiresOn: '$expiresOn' is not a future date/time"
+                    }
+
                     Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
                   }
                   catch {
@@ -123,6 +131,14 @@ stages:
                     if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
                     if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
 
+                    $parsedExpiresOn = [DateTimeOffset]::MinValue
+                    if (-not [DateTimeOffset]::TryParse($expiresOn, [ref]$parsedExpiresOn)) {
+                      throw "Invalid properties.expiresOn format: '$expiresOn'"
+                    }
+                    if ($parsedExpiresOn -le [DateTimeOffset]::UtcNow) {
+                      throw "Invalid properties.expiresOn: '$expiresOn' is not a future date/time"
+                    }
+
                     Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
                   }
                   catch {
@@ -188,6 +204,14 @@ stages:
                     if ([string]::IsNullOrWhiteSpace($exemptionCategory)) { throw "Missing required field: properties.exemptionCategory" }
                     if ([string]::IsNullOrWhiteSpace($expiresOn)) { throw "Missing required field: properties.expiresOn" }
                     if ($policyDefinitionReferenceIds.Count -eq 0) { throw "Missing required field: properties.policyDefinitionReferenceIds" }
+
+                    $parsedExpiresOn = [DateTimeOffset]::MinValue
+                    if (-not [DateTimeOffset]::TryParse($expiresOn, [ref]$parsedExpiresOn)) {
+                      throw "Invalid properties.expiresOn format: '$expiresOn'"
+                    }
+                    if ($parsedExpiresOn -le [DateTimeOffset]::UtcNow) {
+                      throw "Invalid properties.expiresOn: '$expiresOn' is not a future date/time"
+                    }
 
                     Write-Host "WHATIF OK | File=$($file.Name) | Name=$exemptionName | Scope=$scope | PolicyAssignmentId=$policyAssignmentId | ExpiresOn=$expiresOn"
                   }
