@@ -263,7 +263,7 @@ stages:
 
                 $failed = @()
                 $skippedExpiresOn = @()
-                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
+                $expiresOnFuturePattern = "InvalidPolicyExemptionExpiration|ExpiresOn.*future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -305,7 +305,7 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
-                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                    if ($reason -match $expiresOnFuturePattern) {
                       Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
                       $skippedExpiresOn += [PSCustomObject]@{
                         File = $file.Name
@@ -391,7 +391,7 @@ stages:
 
                 $failed = @()
                 $skippedExpiresOn = @()
-                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
+                $expiresOnFuturePattern = "InvalidPolicyExemptionExpiration|ExpiresOn.*future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -433,7 +433,7 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
-                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                    if ($reason -match $expiresOnFuturePattern) {
                       Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
                       $skippedExpiresOn += [PSCustomObject]@{
                         File = $file.Name
@@ -503,7 +503,7 @@ stages:
 
                 $failed = @()
                 $skippedExpiresOn = @()
-                $expiresOnFutureMessage = "'ExpiresOn' property value must be a date (time) in the future"
+                $expiresOnFuturePattern = "InvalidPolicyExemptionExpiration|ExpiresOn.*future"
 
                 foreach ($file in $files) {
                   $exemptionName = ""
@@ -545,7 +545,7 @@ stages:
                   }
                   catch {
                     $reason = $_.Exception.Message
-                    if ($reason -match [regex]::Escape($expiresOnFutureMessage)) {
+                    if ($reason -match $expiresOnFuturePattern) {
                       Write-Host "WARNING | File=$($file.Name) | Exemption=$exemptionName | Scope=$scope | Action=Skipped | Reason=$reason"
                       $skippedExpiresOn += [PSCustomObject]@{
                         File = $file.Name
