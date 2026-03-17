@@ -43,29 +43,17 @@ parameters:
     displayName: 'Dry run only'
     type: boolean
     default: false
-  - name: requireManualValidation
-    displayName: 'Require manual validation before deletion'
-    type: boolean
-    default: false
-  - name: manualValidationNotifyUsers
-    displayName: 'Manual validation notify users'
-    type: string
-    default: ''
-  - name: approvalTimeoutInMinutes
-    displayName: 'Manual validation timeout in minutes'
-    type: number
-    default: 1440
 
 variables:
   vmImage: ""
   agentPoolName: "vmss-agents-prd-mgmt-win-002"
 
 stages:
-  - stage: DryRunBuild
-    displayName: 'Dry Run Build Exemptions'
+  - stage: PolicyExemptionCleanup
+    displayName: 'Policy Exemption Cleanup'
     jobs:
-      - job: DryRunBuildExpiredExemptions
-        displayName: 'Validate Build Exemptions Expired More Than 30 Days'
+      - job: RunPolicyExemptionCleanup
+        displayName: 'Dry run and cleanup expired policy exemptions'
         pool:
           ${{ if ne(variables.vmImage, '') }}:
             vmImage: $(vmImage)
@@ -86,21 +74,9 @@ stages:
                   -Scope "${{ parameters.buildScope }}" `
                   -EnvironmentName "Build" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$true
+                  -DryRun:$true `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/build-dryrun-summary.json"
 
-  - stage: DryRunDev
-    displayName: 'Dry Run Dev Exemptions'
-    dependsOn: DryRunBuild
-    jobs:
-      - job: DryRunDevExpiredExemptions
-        displayName: 'Validate Dev Exemptions Expired More Than 30 Days'
-        pool:
-          ${{ if ne(variables.vmImage, '') }}:
-            vmImage: $(vmImage)
-          ${{ if ne(variables.agentPoolName, '') }}:
-            name: $(agentPoolName)
-        steps:
-          - checkout: self
           - task: AzureCLI@2
             displayName: 'Dry run dev policy exemption cleanup'
             inputs:
@@ -114,21 +90,9 @@ stages:
                   -Scope "${{ parameters.devScope }}" `
                   -EnvironmentName "Dev" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$true
+                  -DryRun:$true `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/dev-dryrun-summary.json"
 
-  - stage: DryRunProd
-    displayName: 'Dry Run Prod Exemptions'
-    dependsOn: DryRunDev
-    jobs:
-      - job: DryRunProdExpiredExemptions
-        displayName: 'Validate Prod Exemptions Expired More Than 30 Days'
-        pool:
-          ${{ if ne(variables.vmImage, '') }}:
-            vmImage: $(vmImage)
-          ${{ if ne(variables.agentPoolName, '') }}:
-            name: $(agentPoolName)
-        steps:
-          - checkout: self
           - task: AzureCLI@2
             displayName: 'Dry run prod policy exemption cleanup'
             inputs:
@@ -142,46 +106,12 @@ stages:
                   -Scope "${{ parameters.prodScope }}" `
                   -EnvironmentName "Prod" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$true
+                  -DryRun:$true `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/prod-dryrun-summary.json"
 
-  - stage: ManualValidation
-    displayName: 'Manual Validation'
-    dependsOn: DryRunProd
-    condition: and(succeeded('DryRunProd'), ${{ eq(parameters.requireManualValidation, true) }}, ${{ ne(parameters.dryRun, true) }})
-    jobs:
-      - job: WaitForValidation
-        displayName: 'Review dry run results before deletion'
-        pool: server
-        timeoutInMinutes: 4320
-        steps:
-          - task: ManualValidation@0
-            timeoutInMinutes: ${{ parameters.approvalTimeoutInMinutes }}
-            inputs:
-              notifyUsers: '${{ parameters.manualValidationNotifyUsers }}'
-              instructions: |
-                Review the dry run output for Build, Dev, and Prod policy exemption cleanup.
-                Approve only if the listed exemptions should be deleted.
-                Cleanup will remove exemptions whose expiresOn date is older than ${{ parameters.retentionDaysAfterExpiry }} days.
-              onTimeout: 'reject'
-
-  - stage: CleanupBuild
-    displayName: 'Cleanup Build Exemptions'
-    dependsOn:
-      - DryRunProd
-      - ManualValidation
-    condition: and(succeeded('DryRunProd'), ${{ ne(parameters.dryRun, true) }}, or(${{ ne(parameters.requireManualValidation, true) }}, succeeded('ManualValidation')))
-    jobs:
-      - job: CleanupBuildExpiredExemptions
-        displayName: 'Remove Build Exemptions Expired More Than 30 Days'
-        pool:
-          ${{ if ne(variables.vmImage, '') }}:
-            vmImage: $(vmImage)
-          ${{ if ne(variables.agentPoolName, '') }}:
-            name: $(agentPoolName)
-        steps:
-          - checkout: self
           - task: AzureCLI@2
             displayName: 'Cleanup expired build policy exemptions'
+            condition: and(succeeded(), ${{ ne(parameters.dryRun, true) }})
             inputs:
               azureSubscription: '${{ parameters.buildServiceConnection }}'
               scriptType: 'pscore'
@@ -193,24 +123,12 @@ stages:
                   -Scope "${{ parameters.buildScope }}" `
                   -EnvironmentName "Build" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$false
+                  -DryRun:$false `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/build-cleanup-summary.json"
 
-  - stage: CleanupDev
-    displayName: 'Cleanup Dev Exemptions'
-    dependsOn: CleanupBuild
-    condition: succeeded('CleanupBuild')
-    jobs:
-      - job: CleanupDevExpiredExemptions
-        displayName: 'Remove Dev Exemptions Expired More Than 30 Days'
-        pool:
-          ${{ if ne(variables.vmImage, '') }}:
-            vmImage: $(vmImage)
-          ${{ if ne(variables.agentPoolName, '') }}:
-            name: $(agentPoolName)
-        steps:
-          - checkout: self
           - task: AzureCLI@2
             displayName: 'Cleanup expired dev policy exemptions'
+            condition: and(succeeded(), ${{ ne(parameters.dryRun, true) }})
             inputs:
               azureSubscription: '${{ parameters.devServiceConnection }}'
               scriptType: 'pscore'
@@ -222,24 +140,12 @@ stages:
                   -Scope "${{ parameters.devScope }}" `
                   -EnvironmentName "Dev" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$false
+                  -DryRun:$false `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/dev-cleanup-summary.json"
 
-  - stage: CleanupProd
-    displayName: 'Cleanup Prod Exemptions'
-    dependsOn: CleanupDev
-    condition: succeeded('CleanupDev')
-    jobs:
-      - job: CleanupProdExpiredExemptions
-        displayName: 'Remove Prod Exemptions Expired More Than 30 Days'
-        pool:
-          ${{ if ne(variables.vmImage, '') }}:
-            vmImage: $(vmImage)
-          ${{ if ne(variables.agentPoolName, '') }}:
-            name: $(agentPoolName)
-        steps:
-          - checkout: self
           - task: AzureCLI@2
             displayName: 'Cleanup expired prod policy exemptions'
+            condition: and(succeeded(), ${{ ne(parameters.dryRun, true) }})
             inputs:
               azureSubscription: '${{ parameters.prodServiceConnection }}'
               scriptType: 'pscore'
@@ -251,4 +157,72 @@ stages:
                   -Scope "${{ parameters.prodScope }}" `
                   -EnvironmentName "Prod" `
                   -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
-                  -DryRun:$false
+                  -DryRun:$false `
+                  -SummaryOutputPath "$(Build.ArtifactStagingDirectory)/summaries/prod-cleanup-summary.json"
+
+          - task: PowerShell@2
+            displayName: 'Combine cleanup summaries'
+            condition: always()
+            inputs:
+              targetType: 'inline'
+              pwsh: true
+              script: |
+                $summaryDirectory = "$(Build.ArtifactStagingDirectory)/summaries"
+                $combinedSummaryPath = Join-Path $summaryDirectory 'policy-exemption-cleanup-summary.json'
+                New-Item -ItemType Directory -Path $summaryDirectory -Force | Out-Null
+
+                $summaryFiles = Get-ChildItem -Path $summaryDirectory -Filter '*-summary.json' -File -ErrorAction SilentlyContinue | Sort-Object Name
+                $entries = @()
+
+                foreach ($summaryFile in $summaryFiles) {
+                  try {
+                    $entries += Get-Content -Path $summaryFile.FullName -Raw | ConvertFrom-Json
+                  }
+                  catch {
+                    $entries += [PSCustomObject]@{
+                      generatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+                      status = 'Failed'
+                      message = "Failed to parse summary file '$($summaryFile.Name)': $($_.Exception.Message)"
+                      sourceFile = $summaryFile.Name
+                    }
+                  }
+                }
+
+                $expectedFiles = @(
+                  'build-dryrun-summary.json',
+                  'dev-dryrun-summary.json',
+                  'prod-dryrun-summary.json'
+                )
+
+                if ('${{ parameters.dryRun }}' -ne 'true') {
+                  $expectedFiles += @(
+                    'build-cleanup-summary.json',
+                    'dev-cleanup-summary.json',
+                    'prod-cleanup-summary.json'
+                  )
+                }
+
+                $foundFileNames = @($summaryFiles | ForEach-Object { $_.Name })
+                $missingFiles = @($expectedFiles | Where-Object { $_ -notin $foundFileNames })
+
+                $combinedSummary = [ordered]@{
+                  generatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+                  pipelineName = 'Platform Policy Exemption Cleanup'
+                  runId = '$(Build.BuildId)'
+                  dryRunOnly = '${{ parameters.dryRun }}' -eq 'true'
+                  retentionDaysAfterExpiry = ${{ parameters.retentionDaysAfterExpiry }}
+                  summaryFilesFound = $foundFileNames
+                  summaryFilesMissing = $missingFiles
+                  summaries = $entries
+                }
+
+                $combinedSummary | ConvertTo-Json -Depth 20 | Set-Content -Path $combinedSummaryPath -Encoding UTF8
+                Write-Host "Combined summary written to $combinedSummaryPath"
+
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish combined cleanup summary'
+            condition: always()
+            inputs:
+              targetPath: '$(Build.ArtifactStagingDirectory)/summaries/policy-exemption-cleanup-summary.json'
+              artifact: 'policy-exemption-cleanup-summary'
+              publishLocation: 'pipeline'

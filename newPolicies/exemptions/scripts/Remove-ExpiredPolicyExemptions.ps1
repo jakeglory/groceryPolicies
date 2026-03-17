@@ -11,7 +11,10 @@ param(
     [int]$RetentionDaysAfterExpiry = 30,
 
     [Parameter()]
-    [bool]$DryRun = $false
+    [bool]$DryRun = $false,
+
+    [Parameter()]
+    [string]$SummaryOutputPath = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -48,6 +51,66 @@ function Get-GraphScopeArguments {
     throw "Unsupported scope format: '$ScopeResourceId'. Use a management group or subscription resource ID."
 }
 
+function Write-CleanupSummary {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Status,
+
+        [Parameter(Mandatory = $true)]
+        [string]$Message,
+
+        [Parameter()]
+        [AllowNull()]
+        [string]$Cutoff,
+
+        [Parameter(Mandatory = $true)]
+        [object[]]$EligibleExemptions,
+
+        [Parameter(Mandatory = $true)]
+        [object[]]$DeletedExemptions,
+
+        [Parameter(Mandatory = $true)]
+        [object[]]$FailedExemptions
+    )
+
+    if ([string]::IsNullOrWhiteSpace($Path)) {
+        return
+    }
+
+    $directory = Split-Path -Path $Path -Parent
+    if (-not [string]::IsNullOrWhiteSpace($directory)) {
+        New-Item -ItemType Directory -Path $directory -Force | Out-Null
+    }
+
+    $summary = [ordered]@{
+        generatedAtUtc = (Get-Date).ToUniversalTime().ToString('o')
+        environmentName = $EnvironmentName
+        scope = $Scope
+        retentionDaysAfterExpiry = $RetentionDaysAfterExpiry
+        dryRun = $DryRun
+        status = $Status
+        message = $Message
+        cutoffUtc = $Cutoff
+        eligibleExemptions = $EligibleExemptions
+        deletedExemptions = $DeletedExemptions
+        failedExemptions = $FailedExemptions
+        eligibleCount = @($EligibleExemptions).Count
+        deletedCount = @($DeletedExemptions).Count
+        failedCount = @($FailedExemptions).Count
+    }
+
+    $summary | ConvertTo-Json -Depth 10 | Set-Content -Path $Path -Encoding UTF8
+    Write-Host "Summary written to: $Path"
+}
+
+$expiredExemptions = @()
+$deleted = New-Object System.Collections.Generic.List[object]
+$failed = New-Object System.Collections.Generic.List[object]
+$cutoffText = $null
+
 Write-Host "Starting policy exemption cleanup for environment '$EnvironmentName'."
 Write-Host "Scope: $Scope"
 Write-Host "RetentionDaysAfterExpiry: $RetentionDaysAfterExpiry"
@@ -82,14 +145,31 @@ resources
 Write-Host "Looking for policy exemptions with expiresOn older than $cutoffText ..."
 $graphResponseText = Invoke-AzCli -Arguments (@('graph', 'query', '-q', $query, '--first', '1000', '--only-show-errors', '-o', 'json') + $graphScopeArguments)
 $graphResponse = $graphResponseText | ConvertFrom-Json
-$expiredExemptions = @($graphResponse.data)
+$responsePropertyNames = @($graphResponse.PSObject.Properties.Name)
 
-if (($graphResponse.totalRecords | ForEach-Object { [int]$_ }) -gt $expiredExemptions.Count) {
-    Write-Warning "Query returned only the first $($expiredExemptions.Count) records out of $($graphResponse.totalRecords). Increase paging support if this becomes a real scenario."
+if ($responsePropertyNames -contains 'data') {
+    $expiredExemptions = @($graphResponse.data)
+}
+else {
+    $expiredExemptions = @($graphResponse)
+}
+
+$totalRecords = $null
+if ($responsePropertyNames -contains 'totalRecords') {
+    $totalRecords = [int]$graphResponse.totalRecords
+}
+elseif ($responsePropertyNames -contains 'count') {
+    $totalRecords = [int]$graphResponse.count
+}
+
+if ($null -ne $totalRecords -and $totalRecords -gt $expiredExemptions.Count) {
+    Write-Warning "Query returned only the first $($expiredExemptions.Count) records out of $totalRecords. Increase paging support if this becomes a real scenario."
 }
 
 if ($expiredExemptions.Count -eq 0) {
-    Write-Host "No policy exemptions found that expired more than $RetentionDaysAfterExpiry days ago."
+    Write-Host "SUCCESS | No policy exemptions found that expired more than $RetentionDaysAfterExpiry days ago."
+    Write-Host "Policy exemption cleanup completed successfully for environment '$EnvironmentName'. Nothing to remove."
+    Write-CleanupSummary -Path $SummaryOutputPath -Status 'Succeeded' -Message 'Nothing to remove.' -Cutoff $cutoffText -EligibleExemptions @() -DeletedExemptions @() -FailedExemptions @()
     return
 }
 
@@ -97,9 +177,6 @@ Write-Host "Found $($expiredExemptions.Count) expired policy exemption(s) eligib
 foreach ($exemption in $expiredExemptions) {
     Write-Host "MATCH | Name=$($exemption.name) | Id=$($exemption.id) | ExpiresOn=$($exemption.expiresOnText)"
 }
-
-$deleted = New-Object System.Collections.Generic.List[object]
-$failed = New-Object System.Collections.Generic.List[object]
 
 foreach ($exemption in $expiredExemptions) {
     try {
@@ -145,10 +222,12 @@ if ($DryRun) {
             Write-Host "DRYRUN-FAILED | Name=$($failure.Name) | Id=$($failure.Id) | ExpiresOn=$($failure.ExpiresOn) | Reason=$($failure.Reason)"
         }
 
+        Write-CleanupSummary -Path $SummaryOutputPath -Status 'Failed' -Message "Dry run detected $($failed.Count) policy exemption validation error(s)." -Cutoff $cutoffText -EligibleExemptions @($expiredExemptions) -DeletedExemptions @($deleted) -FailedExemptions @($failed)
         throw "Dry run detected $($failed.Count) policy exemption validation error(s) in environment '$EnvironmentName'."
     }
 
     Write-Host "Dry run completed successfully. No exemptions were deleted."
+    Write-CleanupSummary -Path $SummaryOutputPath -Status 'Succeeded' -Message 'Dry run completed successfully.' -Cutoff $cutoffText -EligibleExemptions @($expiredExemptions) -DeletedExemptions @($deleted) -FailedExemptions @($failed)
     return
 }
 
@@ -157,7 +236,9 @@ if ($failed.Count -gt 0) {
         Write-Host "FAILED | Name=$($failure.Name) | Id=$($failure.Id) | ExpiresOn=$($failure.ExpiresOn) | Reason=$($failure.Reason)"
     }
 
+    Write-CleanupSummary -Path $SummaryOutputPath -Status 'Failed' -Message "Policy exemption cleanup failed for $($failed.Count) exemption(s)." -Cutoff $cutoffText -EligibleExemptions @($expiredExemptions) -DeletedExemptions @($deleted) -FailedExemptions @($failed)
     throw "Policy exemption cleanup failed for $($failed.Count) exemption(s) in environment '$EnvironmentName'."
 }
 
 Write-Host "Policy exemption cleanup completed successfully for environment '$EnvironmentName'."
+Write-CleanupSummary -Path $SummaryOutputPath -Status 'Succeeded' -Message 'Cleanup completed successfully.' -Cutoff $cutoffText -EligibleExemptions @($expiredExemptions) -DeletedExemptions @($deleted) -FailedExemptions @($failed)
