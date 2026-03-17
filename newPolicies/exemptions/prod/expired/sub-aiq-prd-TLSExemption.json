@@ -1,0 +1,23 @@
+{
+    "name": "sub-aiq-prd-newTLS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl-q225",
+        "displayName": "sub-aiq-prd TLS Exempion",
+        "description": "ServiceNow Ticket: CHG0038961",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "webappservicehttpseffect",
+            "deny-appservice-apps-https",
+            "appservicehttpeffect"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/ac39ca94-c8c3-4a5c-955b-02dfef3040f6/resourcegroups/appsvc_linux_westeurope_basic"
+    }
+}
+
+
+
+

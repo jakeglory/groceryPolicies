@@ -1,0 +1,22 @@
+{
+    "name": "sub-de-ohg-ats-inf-tea-prd-newTLS",
+    "type": "Microsoft.Authorization/policyExemptions",
+    "properties": {
+        "policyAssignmentId": "/providers/microsoft.management/managementgroups/mg-landing-zones/providers/microsoft.authorization/policyassignments/enforce-tls-ssl-q225",
+        "displayName": "sub-de-ohg-ats-inf-tea-prd TLS Exempion",
+        "description": "ServiceNow Ticket: CHG0038961",
+        "exemptionCategory": "Waiver",
+        "expiresOn": "2026-01-31T10:00:00Z",
+        "policyDefinitionReferenceIds": [
+            "deny-functionapp-https",
+            "appservicehttpeffect"
+        ]
+    },
+    "scope": {
+        "subscriptionId": "/subscriptions/e829c089-7473-48cc-82b9-b9bb3b28d8eb/resourcegroups/teams-spo-lifecycle-provisioning-prd"
+    }
+}
+
+
+
+
