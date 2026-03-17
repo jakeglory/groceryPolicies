@@ -1,0 +1,254 @@
+name: Platform Policy Exemption Cleanup - $(Build.SourceBranchName) - $(date:yyyyMMdd)
+
+trigger: none
+
+schedules:
+  - cron: "0 2 * * *"
+    displayName: "Daily 02:00 UTC"
+    branches:
+      include:
+        - main
+    always: true
+
+parameters:
+  - name: buildScope
+    displayName: 'Build cleanup scope'
+    type: string
+    default: '/providers/Microsoft.Management/managementGroups/build-mg-aldi'
+  - name: buildServiceConnection
+    displayName: 'Build Azure Service Connection'
+    type: string
+    default: 'serviceconnection-AN-Azure-ControlRepo-build-mg-aldi'
+  - name: devScope
+    displayName: 'Dev cleanup scope'
+    type: string
+    default: '/providers/Microsoft.Management/managementGroups/dev-mg-ALDI'
+  - name: devServiceConnection
+    displayName: 'Dev Azure Service Connection'
+    type: string
+    default: 'serviceconnection-AN-Azure-ControlRepo-dev-mg-aldi'
+  - name: prodScope
+    displayName: 'Prod cleanup scope'
+    type: string
+    default: '/providers/Microsoft.Management/managementGroups/mg-ALDI'
+  - name: prodServiceConnection
+    displayName: 'Prod Azure Service Connection'
+    type: string
+    default: 'serviceconnection-AN-Azure-ControlRepo-prod-mg-aldi'
+  - name: retentionDaysAfterExpiry
+    displayName: 'Days after expiry before deletion'
+    type: number
+    default: 30
+  - name: dryRun
+    displayName: 'Dry run only'
+    type: boolean
+    default: false
+  - name: requireManualValidation
+    displayName: 'Require manual validation before deletion'
+    type: boolean
+    default: false
+  - name: manualValidationNotifyUsers
+    displayName: 'Manual validation notify users'
+    type: string
+    default: ''
+  - name: approvalTimeoutInMinutes
+    displayName: 'Manual validation timeout in minutes'
+    type: number
+    default: 1440
+
+variables:
+  vmImage: ""
+  agentPoolName: "vmss-agents-prd-mgmt-win-002"
+
+stages:
+  - stage: DryRunBuild
+    displayName: 'Dry Run Build Exemptions'
+    jobs:
+      - job: DryRunBuildExpiredExemptions
+        displayName: 'Validate Build Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Dry run build policy exemption cleanup'
+            inputs:
+              azureSubscription: '${{ parameters.buildServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.buildScope }}" `
+                  -EnvironmentName "Build" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$true
+
+  - stage: DryRunDev
+    displayName: 'Dry Run Dev Exemptions'
+    dependsOn: DryRunBuild
+    jobs:
+      - job: DryRunDevExpiredExemptions
+        displayName: 'Validate Dev Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Dry run dev policy exemption cleanup'
+            inputs:
+              azureSubscription: '${{ parameters.devServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.devScope }}" `
+                  -EnvironmentName "Dev" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$true
+
+  - stage: DryRunProd
+    displayName: 'Dry Run Prod Exemptions'
+    dependsOn: DryRunDev
+    jobs:
+      - job: DryRunProdExpiredExemptions
+        displayName: 'Validate Prod Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Dry run prod policy exemption cleanup'
+            inputs:
+              azureSubscription: '${{ parameters.prodServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.prodScope }}" `
+                  -EnvironmentName "Prod" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$true
+
+  - stage: ManualValidation
+    displayName: 'Manual Validation'
+    dependsOn: DryRunProd
+    condition: and(succeeded('DryRunProd'), ${{ eq(parameters.requireManualValidation, true) }}, ${{ ne(parameters.dryRun, true) }})
+    jobs:
+      - job: WaitForValidation
+        displayName: 'Review dry run results before deletion'
+        pool: server
+        timeoutInMinutes: 4320
+        steps:
+          - task: ManualValidation@0
+            timeoutInMinutes: ${{ parameters.approvalTimeoutInMinutes }}
+            inputs:
+              notifyUsers: '${{ parameters.manualValidationNotifyUsers }}'
+              instructions: |
+                Review the dry run output for Build, Dev, and Prod policy exemption cleanup.
+                Approve only if the listed exemptions should be deleted.
+                Cleanup will remove exemptions whose expiresOn date is older than ${{ parameters.retentionDaysAfterExpiry }} days.
+              onTimeout: 'reject'
+
+  - stage: CleanupBuild
+    displayName: 'Cleanup Build Exemptions'
+    dependsOn:
+      - DryRunProd
+      - ManualValidation
+    condition: and(succeeded('DryRunProd'), ${{ ne(parameters.dryRun, true) }}, or(${{ ne(parameters.requireManualValidation, true) }}, succeeded('ManualValidation')))
+    jobs:
+      - job: CleanupBuildExpiredExemptions
+        displayName: 'Remove Build Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Cleanup expired build policy exemptions'
+            inputs:
+              azureSubscription: '${{ parameters.buildServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.buildScope }}" `
+                  -EnvironmentName "Build" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$false
+
+  - stage: CleanupDev
+    displayName: 'Cleanup Dev Exemptions'
+    dependsOn: CleanupBuild
+    condition: succeeded('CleanupBuild')
+    jobs:
+      - job: CleanupDevExpiredExemptions
+        displayName: 'Remove Dev Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Cleanup expired dev policy exemptions'
+            inputs:
+              azureSubscription: '${{ parameters.devServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.devScope }}" `
+                  -EnvironmentName "Dev" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$false
+
+  - stage: CleanupProd
+    displayName: 'Cleanup Prod Exemptions'
+    dependsOn: CleanupDev
+    condition: succeeded('CleanupDev')
+    jobs:
+      - job: CleanupProdExpiredExemptions
+        displayName: 'Remove Prod Exemptions Expired More Than 30 Days'
+        pool:
+          ${{ if ne(variables.vmImage, '') }}:
+            vmImage: $(vmImage)
+          ${{ if ne(variables.agentPoolName, '') }}:
+            name: $(agentPoolName)
+        steps:
+          - checkout: self
+          - task: AzureCLI@2
+            displayName: 'Cleanup expired prod policy exemptions'
+            inputs:
+              azureSubscription: '${{ parameters.prodServiceConnection }}'
+              scriptType: 'pscore'
+              visibleAzLogin: false
+              scriptLocation: 'inlineScript'
+              inlineScript: |
+                $PSVersionTable.PSVersion
+                & "$(System.DefaultWorkingDirectory)/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExemptions.ps1" `
+                  -Scope "${{ parameters.prodScope }}" `
+                  -EnvironmentName "Prod" `
+                  -RetentionDaysAfterExpiry ${{ parameters.retentionDaysAfterExpiry }} `
+                  -DryRun:$false
