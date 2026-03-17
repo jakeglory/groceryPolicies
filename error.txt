@@ -1,0 +1,25 @@
+Setting AZURE_CONFIG_DIR env variable to: C:\a\_temp\.azclitask
+Setting active cloud to: AzureCloud
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" cloud set -n AzureCloud"
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" login --service-principal -u *** --tenant 52290a28-dcec-4da1-9252-57f67fc9ba1b --allow-no-subscriptions --federated-token *** --output none"
+"C:\Program Files\PowerShell\7\pwsh.exe" -NoLogo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command ". 'C:\a\_temp\azureclitaskscript1773747458119.ps1'"
+
+Major  Minor  Patch  PreReleaseLabel BuildLabel
+-----  -----  -----  --------------- ----------
+7      4      13                     
+Starting policy exemption cleanup for environment 'Build'.
+Scope: /providers/Microsoft.Management/managementGroups/build-mg-aldi
+RetentionDaysAfterExpiry: 30
+DryRun: True
+Azure CLI resource-graph extension not found. Installing it now.
+Looking for policy exemptions with expiresOn older than 2026-02-15T11:38:26Z ...
+C:\a\1\s\newPolicies\exemptions\scripts\Remove-ExpiredPolicyExemptions.ps1 : The property 'totalRecords' cannot be found on this object. Verify that the property exists.
+At C:\a\_temp\azureclitaskscript1773747458116_inlinescript.ps1:2 char:1
++ & "C:\a\1\s/newPolicies/exemptions/scripts/Remove-ExpiredPolicyExempt …
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ CategoryInfo          : NotSpecified: (:) [Remove-ExpiredPolicyExemptions.ps1], PropertyNotFoundException
++ FullyQualifiedErrorId : PropertyNotFoundStrict,Remove-ExpiredPolicyExemptions.ps1
+
+##[error]Script failed with exit code: 1
+C:\Windows\system32\cmd.exe /D /S /C ""C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin\az.cmd" account clear"
+Finishing: Dry run build policy exemption cleanup
